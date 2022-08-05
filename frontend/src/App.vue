@@ -1,28 +1,36 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <Main msg="Welcome to Your Vue.js App"/>
+<v-app>
+  <MenuBar/>
+  <div style="margin-top:50px;">
+  <router-view></router-view>
   </div>
+</v-app>
 </template>
 
 <script>
-import Main from './components/Main.vue'
+import MenuBar from './components/MenuBar';
 
 export default {
   name: 'App',
-  components: {
-    Main
-  }
-}
-</script>
 
+  components: {
+    MenuBar
+  },
+
+  data: () => ({
+    //
+  }),
+};
+</script>
 <style>
+@font-face {
+  font-family: "S-CoreDream-5Medium";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_six@1.2/S-CoreDream-5Medium.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  font-family: "S-CoreDream-5Medium";
 }
 </style>
