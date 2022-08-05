@@ -1,15 +1,10 @@
 server:
-<<<<<<< HEAD
   port: ${SPRINGBOOT_SERVER_PORT:8081}
 
 spring:
   application:
     name: matching
-=======
-  port: ${PRODUCT_PORT:8081}
 
-spring:
->>>>>>> b2dc3aba1d40934e129f3b471d7976a935cd4957
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://169.56.100.104:32350/demo?useUnicode=true&characterEncoding=utf-8
@@ -20,7 +15,6 @@ spring:
       validation-timeout: 1000
       maximum-pool-size: 30
       minimum-idle: 2
-<<<<<<< HEAD
       connection-test-query: SELECT 1
   mvc:
     pathmatch:
@@ -32,6 +26,3 @@ mybatis:
     map-underscore-to-camel-case: true
     default-fetch-size: 100
     default-statement-timeout: 30    
-=======
-      connection-test-query: SELECT 1  
->>>>>>> b2dc3aba1d40934e129f3b471d7976a935cd4957
