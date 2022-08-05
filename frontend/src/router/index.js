@@ -1,8 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Main from '../components/Main'
-import FaceSelect from '../views/face-matching/FaceSelect'
-import FaceFinal from '../views/face-matching/FaceFinal'
+import FaceSelect from '../components/face-matching/FaceSelect'
+import FaceFinal from '../components/face-matching/FaceFinal'
 
 Vue.use(VueRouter);
 

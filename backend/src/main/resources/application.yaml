@@ -7,9 +7,9 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://169.56.100.104:32350/demo?useUnicode=true&characterEncoding=utf-8
-    username: ${DB_USERNAME:user00}
-    password: ${DB_PASSWORD:admin1234}
+    url: jdbc:mysql://user08.169.56.100.104.nip.io:30503/matching?useUnicode=true&characterEncoding=utf-8
+    username: ${DB_USERNAME:admin}
+    password: ${DB_PASSWORD:passw0rd}
     hikari:
       connection-timeout: 5000
       validation-timeout: 1000
@@ -26,3 +26,5 @@ mybatis:
     map-underscore-to-camel-case: true
     default-fetch-size: 100
     default-statement-timeout: 30    
+
+#Parameter
