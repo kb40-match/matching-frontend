@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: matching
+  labels:
+    app: matching
+spec:
+  replicas: 2
+  #replicas: 1
+  selector:
+    matchLabels:
+      app: matching
+  template:
+    metadata:
+      labels:
+        app: matching
+    spec:
+      containers:
+      - name: matching
+        image: rmsdud2435/kb40-matching:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8081
+        env:
+        - name: DB_SERVER
+          valueFrom:
+            configMapKeyRef:
+              name: matching-config
+              key: DB_SERVER
+        - name: DB_PORT
+          valueFrom:
+            configMapKeyRef:
+              name: matching-config
+              key: DB_PORT
+        - name: DB_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              name: matching-config
+              key: DB_USERNAME
+        - name: DB_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: matching-config
+              key: DB_PASSWORD
+        - name: SERVLET_CONTEXT_PATH
+          valueFrom:
+            configMapKeyRef:
+              name: matching-config
+              key: SERVLET_CONTEXT_PATH

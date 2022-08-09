@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: matching-config
+data:
+  SERVLET_CONTEXT_PATH: "/match"
+# MYSQL DB
+  DB_SERVER: mysql.mysql
+  DB_PORT: "30503"
+  DB_USERNAME: admin
+  DB_PASSWORD: passw0rd

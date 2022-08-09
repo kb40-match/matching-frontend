@@ -2,12 +2,12 @@
   <v-container>
     
     <v-col>
-      <v-row id="match">
+      <v-row id="match" @click="goFaceMatching">
         <div style="width:35%"><img src="../assets/logo.png" /></div>
         <div style="width:65%;text-align: center; font-size: 30px;font-weight:bold">외모로 연결</div>
       </v-row>
     
-      <v-row id="match">
+      <v-row id="match" @click="goMindMatching">
         <div style="width:65%;text-align: center; font-size: 30px;font-weight:bold">마음으로 연결</div>
         <div style="width:35%"><img src="../assets/logo.png"/></div>
       </v-row>
@@ -35,7 +35,15 @@ export default {
   name: 'Main',
   data: () => ({
     
-  })
+  }),
+  methods: {
+        goFaceMatching() {
+            this.$router.push("/faceSelect").catch(() => {});
+        },
+        goMindMatching() {
+            this.$router.push("/mindQuestion").catch(() => {});
+        }
+    }
 };
 </script>
 
