@@ -7,8 +7,9 @@
 - Password: bootcamp0718@
 
 ## Jenkins 정보
-- webhook URL: http://169.56.100.99:8080/project/matching
+- Webhook URL: http://169.56.100.99:8080/project/matching
 - Token: 003fdaa60ee585c3026a184683321c65
+- Pipeline name: matching
 
 ## Back-end
 
