@@ -1,7 +1,5 @@
 # matching
 
-Jenkins Test
-
 ## Server OS
 - IP: 169.56.100.99
 - Namespace: matching
