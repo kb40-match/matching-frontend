@@ -4,13 +4,13 @@
         <div class="quiz-main" v-for="(element, index) in questions.slice(a,b)" :key="index">
             <div id="steps">
                 <v-avatar v-if="a >= 1" color="#DDDDDD" style="margin-right:10px;"> <v-icon dark> mdi-check </v-icon></v-avatar>
-                <v-avatar v-else id="step1" color="#FEBC0E" style="margin-right:10px;">1</v-avatar>
+                <v-avatar v-else id="step1" color="#845ef7" style="margin-right:10px;">1</v-avatar>
 
                 <v-avatar v-if="a >= 2" color="#DDDDDD" style="margin-right:10px;"> <v-icon dark> mdi-check </v-icon></v-avatar>
-                <v-avatar v-else id="step2" color="#FEBC0E" style="margin-right:10px;">2</v-avatar>
+                <v-avatar v-else id="step2" color="#845ef7" style="margin-right:10px;">2</v-avatar>
 
                 <v-avatar v-if="a >= 3" color="#DDDDDD" style="margin-right:10px;"> <v-icon dark> mdi-check </v-icon></v-avatar>
-                <v-avatar v-else id="step3" color="#FEBC0E" style="margin-right:10px;">3</v-avatar>
+                <v-avatar v-else id="step3" color="#845ef7" style="margin-right:10px;">3</v-avatar>
             </div>
 
             <h1 id="guideText">매칭 전 몇 가지만 확인할게요!</h1>
@@ -25,7 +25,7 @@
         </div>
         
         <div style="text-align: center;"> 
-            <v-btn block id="nextBtn" @click="goNextQuestion" color="#FEBC0E" rounded >다음</v-btn>
+            <v-btn block id="nextBtn" @click="goNextQuestion" color="#7048e8" rounded >다음</v-btn>
         </div>
         
     </div>
@@ -92,7 +92,9 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@use '../../styles/constants/colors.scss';
+
 #steps {
     padding-top:50px;
     padding-left:10px;
@@ -122,7 +124,7 @@ export default {
     height:180px;
     list-style: none;
     line-height: 2;
-    border: 1px solid #DDDDDD;
+    border: 1px solid colors.$GRAY0;
     margin-bottom: 20px;
     border-radius: 15px;
 }

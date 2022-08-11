@@ -1,14 +1,14 @@
 <template>
     <div>
         <div style="text-align: center;"> 
-                <v-btn block id="retryBtn" @click="retry" color="#FEBC0E" rounded style="margin-top: 50px">다시하기(500원)</v-btn>
+                <v-btn block id="retryBtn" @click="retry" color="#7048e8" rounded style="margin-top: 50px">다시하기(500원)</v-btn>
         </div>
 
         <v-container fluid>
             <v-row dense id="main">
             <v-col v-for="(person, index) in people.slice(0,1)" :key="index" cols="12" xs="12">
-                <v-card id="mainCard" class="pa-3" outlined v-on:click="goDetailPage" style="border:5px solid #FEBC0E;" color="#C4C4C4">
-                <div rounded style="background-color: #FEBC0E; border-radius: 0px;" >100% match</div>
+                <v-card id="mainCard" class="pa-3" outlined v-on:click="goDetailPage" style="border:5px solid #7048e8;" color="#C4C4C4">
+                <div rounded style="background-color: #7048e8; border-radius: 0px;" >100% match</div>
                 <img id="personImage" src="../../assets/logo.png"/>
                 <v-spacer></v-spacer>
                 {{person.name}}, {{person.age}}세
@@ -18,8 +18,8 @@
            
             <v-row dense id="sub">
             <v-col v-for="(person, index) in people.slice(1)" :key="index" cols="6" xs="6">
-                <v-card id="subCard" class="pa-3" outlined v-on:click="goDetailPage" style=" border:5px solid #FEBC0E; " color="#C4C4C4">
-                <div rounded style="background-color: #FEBC0E; border-radius: 0px;">100% match</div>
+                <v-card id="subCard" class="pa-3" outlined v-on:click="goDetailPage" style=" border:5px solid #7048e8; " color="#C4C4C4">
+                <div rounded style="background-color: #7048e8; border-radius: 0px;">100% match</div>
                 <img id="personImage" src="../../assets/logo.png"/>
                 <v-spacer></v-spacer>
                 {{person.name}}, {{person.age}}세
