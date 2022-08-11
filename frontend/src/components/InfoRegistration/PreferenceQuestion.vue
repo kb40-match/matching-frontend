@@ -1,34 +1,25 @@
 <template>
     <div>
-
         <div class="quiz-main" v-for="(element, index) in questions.slice(a,b)" :key="index">
-            <div id="steps">
-                <v-avatar v-if="a >= 1" color="#DDDDDD" style="margin-right:10px;"> <v-icon dark> mdi-check </v-icon></v-avatar>
-                <v-avatar v-else id="step1" color="#FEBC0E" style="margin-right:10px;">1</v-avatar>
 
-                <v-avatar v-if="a >= 2" color="#DDDDDD" style="margin-right:10px;"> <v-icon dark> mdi-check </v-icon></v-avatar>
-                <v-avatar v-else id="step2" color="#FEBC0E" style="margin-right:10px;">2</v-avatar>
-
-                <v-avatar v-if="a >= 3" color="#DDDDDD" style="margin-right:10px;"> <v-icon dark> mdi-check </v-icon></v-avatar>
-                <v-avatar v-else id="step3" color="#FEBC0E" style="margin-right:10px;">3</v-avatar>
-            </div>
-
-            <h1 id="guideText">매칭 전 몇 가지만 확인할게요!</h1>
-            
-            <div class="box-question">
+            <v-progress-linear id="progressBar" rounded v-model="percentage" height="30" color="#FEBC0E" >
+                <strong style="color: white;"> {{ percentage }}%</strong>
+            </v-progress-linear>
+                
+            <div class="box-question" style="margin: 20px">
                 <h1 id="questionText"> {{ element.question }}</h1>
             </div>
             <div id="box-answers" style="padding-bottom: 50px;">
                 <v-btn id="box-answer" v-on:click="selectLeftAnswer" v-bind:color="clickedLeft ? '#666666' : '#F3F4F6'" > {{ element.suggestions[0].suggestion }} </v-btn>
-                <v-btn id="box-answer" v-on:click="selectRightAnswer" v-bind:color="clickedRight ? '#666666' : '#F3F4F6'" > {{ element.suggestions[1].suggestion }} </v-btn>
+                <v-btn id="box-answer" v-on:click="selectRightAnswer" v-bind:color="clickedRight ? '#666666' : '#F3F4F6'" > {{ element.suggestions[1].suggestion }} </v-btn>                
             </div>
         </div>
-        
+
         <div style="text-align: center;"> 
-            <v-btn block id="nextBtn" @click="goNextQuestion" color="#FEBC0E" rounded >다음</v-btn>
+            <v-btn block id="nextBtn" @click="goNextQuestion" color="#FEBC0E" rounded style="height: 50px">다음</v-btn>
         </div>
-        
     </div>
+
 </template>
 
 <script>
@@ -37,14 +28,15 @@ export default {
         return {
             a: 0,
             b: 1,
+            initial: 0,
             clickedLeft: false,
             clickedRight: false,
             questions: [
                 {
-                    question: "question 1",
+                    question: "당신은 당신의 반려동물과 모르는 사람 중 하나만 살릴 수 있다. 당신은 누구를 살릴 것인가? ",
                     suggestions: [
-                        { suggestion: "a1"},
-                        { suggestion: "b1"}
+                        { suggestion: "반려동물"},
+                        { suggestion: "모르는 사람"}
                     ]
                 },
                 {
@@ -77,40 +69,36 @@ export default {
                 this.clickedLeft = !this.clickedLeft
             }
         },
-
         goNextQuestion() {
             this.clickedLeft = false
             this.clickedRight = false
-            if(this.b >= 3) {
-                this.$router.push("/mindMatchingList").catch(() => {});
+            if(this.b >= this.questions.length) {
+                this.$router.push("/faceFinal").catch(() => {}); // FIXME: path change
             } else {
                 this.a++;
                 this.b++;
             }
+        }
+    },
+    computed: {
+        percentage: function () {
+            return parseInt(this.a / this.questions.length * 100);
         }
     }
 }
 </script>
 
 <style scoped>
-#steps {
-    padding-top:50px;
-    padding-left:10px;
-    padding-bottom:50px;
-    font-size: 16px;
-    color: white;
-}
 
-#guideText{
-    text-align: center;
-    font-weight: normal;
-    font-size: 20px;
-    padding-bottom:50px;
+#progressBar {
+    margin-top: 80px;
 }
 
 #questionText{
     text-align: center;
+    margin-top: 50px;
     padding-bottom:50px;
+    font-size: 24px;
 }
 
 #box-answers {
@@ -118,13 +106,17 @@ export default {
 }
 
 #box-answer {
-    width:160px;
-    height:180px;
+    width:180px;
+    height:200px;
     list-style: none;
     line-height: 2;
     border: 1px solid #DDDDDD;
-    margin-bottom: 20px;
     border-radius: 15px;
+    cursor: pointer;
+}
+
+#nextBtn {
+    margin-top: 50px;
 }
 
 </style>

@@ -6,18 +6,18 @@
         <div id="user-info">
             <div style="display:flex; align-items:center;">
                 <div style="width:180px;">
-                <div style="font-size:20px;">이재인, 20세</div>
-                <div style="font-size:15px;"><v-icon small style="color:pink;">mdi-map-marker</v-icon>서울시 여의도</div>
+                <div style="font-size:20px;">{{user.name}}, {{user.age}}세</div>
+                <div style="font-size:15px;"><v-icon small style="color:black;">mdi-map-marker</v-icon>{{user.addr}}</div>
                 </div>
                 <div id="chat" @click="goChat">
-                        <v-icon large style="color:black">mdi-chat</v-icon>
+                    <v-icon large style="color:white">mdi-chat-outline</v-icon>
                 </div>
             </div>
         </div>
     </div>
     <div style="text-align:center">
-        <v-btn rounded text large @click="displayDetail" style="font-size:15px;">상세 정보 보기</v-btn>
-        <v-btn rounded text large @click="reMatching" style="font-size:15px;">다시하기(500원)</v-btn>
+        <v-btn text rounded large dark @click="displayDetail" style="font-size:15px;margin-right: 15px;">상세 정보 보기</v-btn>
+        <v-btn rounded text large dark @click="reMatching" style="font-size:15px;margin-left: 15px;">다시하기(500원)</v-btn>
     </div>
 </div>
 </v-container>
@@ -26,9 +26,15 @@
 
 <script>
 export default {
+    data(){
+        return{
+            userId : this.$route.params.userId,
+            user : {name:"이재인", age:20, addr:"서울시 여의도"}
+        }
+    },
     methods: {
         displayDetail() {
-            console.log("displayDetail")
+            this.$router.push(`/matchDetail/${this.userId}`);
         },
         reMatching() {
             this.$router.push("/faceSelect").catch(() => {});
@@ -43,15 +49,14 @@ export default {
 
 <style scoped>
 button {
-    background:rgb(248, 212, 89);
+    /* background:rgb(248, 212, 89); */
+    background: #8452f7;
     width:40%;
-    margin-right: 10px;
-    margin-left: 10px;
     font-size:15px;
 }
 
 #user{
-    border : 1px solid;
+    border : 2px solid #8452f7;
     border-radius: 30px;
     margin : 20px;
     height : 450px;
@@ -63,21 +68,23 @@ button {
     align-items: center;
 }
 #user-info{
-    border : 1px solid;
+    /* border : 1px solid; */
     border-radius: 30px;
     height:100px;
     margin:20px;
     padding:20px;
     align-items: center;
     display:flex;
+    background-color:#f3f0ff;
 }
 #chat{
-    width:45px; 
-    height:45px; 
+    width:50px; 
+    height:50px; 
     display:flex; 
     align-items:center; 
     justify-content:center; 
-    border:1px solid; 
     border-radius:100%;
+    background-color:#8452f7;
+    border:none;
 }
 </style>

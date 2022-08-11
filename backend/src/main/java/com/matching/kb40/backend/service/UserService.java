@@ -1,30 +1,19 @@
 package com.matching.kb40.backend.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.matching.kb40.backend.dto.MydataDto;
+import com.matching.kb40.backend.dto.UserDto;
 
-import com.matching.kb40.backend.model.User;
-import com.matching.kb40.backend.repository.UserRepository;
+import java.util.List;
 
-import lombok.extern.slf4j.Slf4j;
+public interface UserService {
 
-@Slf4j
-@Service
-public class UserService {
-    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
+    public UserDto find(String userId) throws Exception;
 
-    @Autowired
-	private UserRepository userRepository;
+    public List<UserDto> findAll() throws Exception;
 
-    /**
-	 * 유저 샘플
-	 * @param 
-	 * @result User
-	 */
-    public User userTest() {
-        User user = new User();
-		return userRepository.userTest();
-	}
+    public void modify(UserDto user) throws Exception;
+
+    public void remove(String userId) throws Exception;
+
+    public MydataDto findMydata(String userId) throws Exception;
 }

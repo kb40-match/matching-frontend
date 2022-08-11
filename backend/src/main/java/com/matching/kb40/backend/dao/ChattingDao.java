@@ -1,7 +1,8 @@
-package com.matching.kb40.backend.service;
+package com.matching.kb40.backend.dao;
 
 import com.matching.kb40.backend.model.Chatting;
 
-public interface ChattingService {
+public interface ChattingDao {
+
     public Chatting chattingTest();
 }

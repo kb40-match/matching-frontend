@@ -42,18 +42,18 @@
         color="white"
         elevate-on-scroll
         flat
-        style="padding-top:10px;"
+        style="padding-top:10px;height:73px !important"
     >
-      <v-container :class="{ 'px-0': !$vuetify.breakpoint.smAndUp }">
+      <v-container :class="{ 'px-0': !$vuetify.breakpoint.smAndUp }" style="border-bottom:1px solid gray">
         <v-row
             :no-gutters="!$vuetify.breakpoint.smAndUp"
             align="center"
             justify="space-between"
+           
         >
-        <!-- <v-icon style="color:black;margin:10px;">mdi-keyboard-backspace</v-icon> -->
         <div style="margin-left:15px;display: flex; align-items: center;">
-        <img style="width:40px;height:40px;border-radius:100%;border:1px solid; margin-right:10px;" src="../assets/logo.png"/>
-        <div>이재인 님</div>
+        <img style="width:40px;height:40px;border-radius:100%;border:1px solid; margin-right:10px;" :src=getImg(user.profile) />
+        <div>{{user.name}} 님</div>
         </div>
           <v-col class="d-flex align-center" style="justify-content: flex-end;">
           <v-icon style="color:black">mdi-bell</v-icon>
@@ -112,6 +112,7 @@
 export default {
   name: 'MenuBar',
   data: () => ({
+    user:{name:"이재인", profile:"logo.png"},
     drawer: null,
     btnItems: [
       {
@@ -145,5 +146,10 @@ export default {
       },
     ],
   }),
+  methods:{
+    getImg(filename){
+      return require("@/assets/"+filename)
+    }
+  }
 };
 </script>

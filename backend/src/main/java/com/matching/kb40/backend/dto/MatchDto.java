@@ -9,6 +9,9 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class ChattingDto {
-    private int sampleData;     
+public class MatchDto {
+    private Long matchId;   // auto_increment
+    private String sender;
+    private String receiver;
+    private String activeFlag;
 }

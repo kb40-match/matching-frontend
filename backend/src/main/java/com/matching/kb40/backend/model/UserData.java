@@ -1,15 +1,15 @@
-package com.matching.kb40.backend.dto;
+package com.matching.kb40.backend.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@NoArgsConstructor
 @Getter
 @Setter
 @ToString
-public class UserDto {
+@NoArgsConstructor
+public class UserData {
     private String userId;
     private String mydataId;
     private String job;
@@ -24,5 +24,13 @@ public class UserDto {
     private String petPrefer;
     private String nickname;
     private String agreeFlag;
-    private String hobby;
+    private String name;
+    private String gender;
+    private Integer age;
+    private String address;
+    private String assets;
+    private String consumePtn1;
+    private String consumePtn2;
+    private String consumePtn3;
+    private String investProp;
 }

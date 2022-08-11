@@ -1,7 +1,7 @@
 <template>
 <v-app>
   <MenuBar/>
-  <div style="margin-top:50px;">
+  <div style="margin-top:50px; padding-top:20px;">
   <router-view></router-view>
   </div>
 </v-app>

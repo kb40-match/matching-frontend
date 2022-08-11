@@ -15,7 +15,7 @@
       <v-row id="sub">
         <v-col id="chat">
           <div class="d-flex mb-2" style="justify-content: center;">
-          <img id="img2" src="../assets/logo.png"/><div id="chat-count">5</div>
+          <div style="width:25px;height:25px;"></div><img id="img2" src="../assets/logo.png"/><div id="chat-count">5</div>
           </div>
           <div style="font-size:25px;font-weight:bold">대화하기</div>
         </v-col>
@@ -27,6 +27,21 @@
         </v-col>
       </v-row>
     </v-col>
+    <div class="bottom_menu">
+		<div>
+      <v-icon large>mdi-home-variant</v-icon>
+		</div>
+		<div>
+			<v-icon large>mdi-chat</v-icon>
+		</div>
+		<div>
+			<v-icon large>mdi-list-box</v-icon>
+		</div>
+		<div>
+			<v-icon large>mdi-account</v-icon>
+		</div>
+		
+	</div>
   </v-container>
 </template>
 
@@ -54,12 +69,13 @@ export default {
   padding: 13px;
   margin : 10px;
   display : flex;
-  align-items:center
+  align-items:center;
 }
 #sub{
   margin : 10px;
   display : flex;
-  align-items:center
+  align-items:center;
+  margin-top:30px;
 }
 
 #chat{
@@ -97,4 +113,10 @@ img{
   width:25px;
   height:25px;
 }
+
+.bottom_menu { position: fixed; bottom: 0px; left: 0px; width: 100%; height: 80px; z-index:100; border-top: 1px solid gray; background-color: white }
+.bottom_menu > div { float: left; width: 25%; height: 100%; display:flex; text-align: center; justify-content: center;
+/* padding-top: 13px;  */
+}
+	
 </style>
