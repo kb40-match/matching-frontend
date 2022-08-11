@@ -35,13 +35,16 @@
                 <!-- <span><h1>입니다.</h1></span> -->
             <!-- </div> -->
             <div>
-                <v-btn text rounded dark large style="background-color:#8452f7; width:60%; font-size:20px;">다음</v-btn>
+                <v-btn text rounded dark large @click="goPre" style="background-color:#8452f7; width:40%; font-size:20px;">이전</v-btn>
+                <v-btn text rounded dark large @click="goNext" class="ml-2" style="background-color:#8452f7; width:40%; font-size:20px;">다음</v-btn>
             </div>
         </div>
     </v-container>
 </template>
 
 <script>
+// import axios from 'axios'
+
 export default {
     data() {
         return{
@@ -62,7 +65,19 @@ export default {
         }
     },
     methods:{
-        
+        goPre(){
+
+        },
+        goNext(){
+            this.$axios
+                .get(`/user/user1`)
+                .then((response) => {
+                    console.log(response.data)
+                })
+                .catch((err) => {
+                console.log(err.response);
+                });
+        }
     }
 }
 </script>

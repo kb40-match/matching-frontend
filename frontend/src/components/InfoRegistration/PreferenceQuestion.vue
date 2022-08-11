@@ -121,10 +121,12 @@ export default {
 }
 
 #box-answer {
-    width:180px;
-    height:200px;
+    width:160px;
+    height:180px;
     list-style: none;
     line-height: 2;
+    margin-left: 10px;
+    margin-right: 10px;
     border: 1px solid #DDDDDD;
     border-radius: 15px;
     cursor: pointer;

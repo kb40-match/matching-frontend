@@ -1,7 +1,7 @@
 <template>
     <div>
 
-        <div class="quiz-main" v-for="(element, index) in questions.slice(a,b)" :key="index">
+        <div class="quiz-main" v-for="(element, index) in questionList.slice(a,b)" :key="index">
             <div id="steps">
                 <v-avatar v-if="a >= 1" color="#DDDDDD" style="margin-right:10px;"> <v-icon dark> mdi-check </v-icon></v-avatar>
                 <v-avatar v-else id="step1" color="#845ef7" style="margin-right:10px;">1</v-avatar>
@@ -16,11 +16,11 @@
             <h1 id="guideText">매칭 전 몇 가지만 확인할게요!</h1>
             
             <div class="box-question">
-                <h1 id="questionText"> {{ element.question }}</h1>
+                <h1 id="questionText" style="font-size: 24px"> {{ element.questionContent }}</h1>
             </div>
             <div id="box-answers" style="padding-bottom: 50px;">
-                <v-btn id="box-answer" v-on:click="selectLeftAnswer" v-bind:color="clickedLeft ? '#666666' : '#F3F4F6'" > {{ element.suggestions[0].suggestion }} </v-btn>
-                <v-btn id="box-answer" v-on:click="selectRightAnswer" v-bind:color="clickedRight ? '#666666' : '#F3F4F6'" > {{ element.suggestions[1].suggestion }} </v-btn>
+                <v-btn id="box-answer" v-on:click="selectLeftAnswer" v-bind:color="clickedLeft ? '#666666' : '#F3F4F6'" > {{ element.answerContent1 }} </v-btn>
+                <v-btn id="box-answer" v-on:click="selectRightAnswer" v-bind:color="clickedRight ? '#666666' : '#F3F4F6'" > {{ element.answerContent2 }} </v-btn>
             </div>
         </div>
         
@@ -39,29 +39,7 @@ export default {
             b: 1,
             clickedLeft: false,
             clickedRight: false,
-            questions: [
-                {
-                    question: "question 1",
-                    suggestions: [
-                        { suggestion: "a1"},
-                        { suggestion: "b1"}
-                    ]
-                },
-                {
-                    question: "question 2",
-                    suggestions: [
-                        { suggestion: "a2"},
-                        { suggestion: "b2"}
-                    ]
-                },
-                {
-                    question: "question 3",
-                    suggestions: [
-                        { suggestion: "a3"},
-                        { suggestion: "b3"}
-                    ]
-                },
-            ]
+            questionList: [],
         }
     },
     methods: {
@@ -88,6 +66,18 @@ export default {
                 this.b++;
             }
         }
+    },
+    beforeMount() {
+        this.$axios
+                .get(`/question/findAll`)
+                .then((response) => {
+                    this.questionList = response.data
+                    console.log(response.data)
+                    
+                })
+                .catch((err) => {
+                console.log(err.response);
+                });
     }
 }
 </script>
@@ -124,6 +114,8 @@ export default {
     height:180px;
     list-style: none;
     line-height: 2;
+    margin-left: 10px;
+    margin-right: 10px;
     border: 1px solid colors.$GRAY0;
     margin-bottom: 20px;
     border-radius: 15px;
