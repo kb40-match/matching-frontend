@@ -1,7 +1,11 @@
 package com.matching.kb40.backend.service;
 
-import com.matching.kb40.backend.model.Chatting;
+import org.springframework.kafka.support.Acknowledgment;
 
 public interface ChattingService {
-    public Chatting chattingTest();
+
+	public void  receiveChat(String message, Acknowledgment ack) throws Exception;
+
+    public void  updateChat(String message, Acknowledgment ack) throws Exception;
+
 }

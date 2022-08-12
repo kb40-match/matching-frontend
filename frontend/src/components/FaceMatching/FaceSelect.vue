@@ -31,6 +31,7 @@ export default {
             round : 0,
             isTop : false,
             isBottom : false,
+            // users : [],
             users : [
                 {user_id:"user1", nickname: "이니이니1", profile_filename : "jaein1.png"},
                 {user_id:"user2", nickname: "이니이니2", profile_filename : "jaein2.png"},
@@ -109,6 +110,14 @@ export default {
     },
     mounted(){
         this.setIdx()
+    },
+    created(){
+        this.$axios.get(`/user/getsixteen/${this.store.myData.gender}`) // path 수정하기!!!!!
+        .then((response)=>{
+            this.users = response.data
+        }).catch((err)=>{
+            console.log(err.response)
+        })
     }
 }
 </script>

@@ -105,7 +105,7 @@
         class="white--text"
         block
         color="#7048e8"
-        v-on:click="store.setUser(user)"
+        v-on:click="goNextPage"
         style="height: 60px; font-size: 18px"
         >동의하고 시작</v-btn
       >
@@ -116,12 +116,10 @@
 <script>
 
 import { useAppStore } from '../../store/userState'
-import { loadUser } from '../../worker/user';
-
 
 export default {
   setup() {
-        const store = useAppStore();
+        const store = useAppStore()
         return { store }
   },
   data() {
@@ -133,18 +131,16 @@ export default {
   },
   methods: {
     selectAgree() {
-      this.isAgreed = !this.isAgreed;
+      this.isAgreed = !this.isAgreed
     },
     displayAgreeText() {
-      this.dialog = !this.dialog;
+      this.dialog = !this.dialog
     },
     goNextPage() {
-        this.updateAgreeFlag()
-        this.$router.push("/").catch(() => {});
+      this.store.user.agreeFlag = "F"
+      // this.$router.push("/basicInfoList").catch(() => {});
+      this.$router.push("/preferenceQuestion").catch(() => {}); // TODO: change path into "/basicInfoList"
     }
-  },
-  mounted() {
-    loadUser("user1")
   }
 };
 </script>

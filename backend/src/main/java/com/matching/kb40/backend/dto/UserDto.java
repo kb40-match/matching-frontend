@@ -17,12 +17,10 @@ public class UserDto {
     private String mbtiRecog;
     private String mbtiJudge;
     private String mbtiTactics;
-    private String profileOriname;
-    private String profileFilename;
-    private String profileUrl;
     private Integer userPoint;
     private String petPrefer;
     private String nickname;
     private String agreeFlag;
     private String hobby;
+    private String profileFilename;
 }

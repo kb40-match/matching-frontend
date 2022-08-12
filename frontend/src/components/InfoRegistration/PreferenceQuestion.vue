@@ -10,8 +10,8 @@
                 <h1 id="questionText"> {{ element.question }}</h1>
             </div>
             <div id="box-answers" style="padding-bottom: 50px;">
-                <v-btn id="box-answer" v-on:click="selectLeftAnswer" v-bind:color="clickedLeft ? '#666666' : '#F3F4F6'" > {{ element.suggestions[0].suggestion }} </v-btn>
-                <v-btn id="box-answer" v-on:click="selectRightAnswer" v-bind:color="clickedRight ? '#666666' : '#F3F4F6'" > {{ element.suggestions[1].suggestion }} </v-btn>                
+                <v-btn id="box-answer" v-on:click="selectLeftAnswer(element)" v-bind:color="clickedLeft ? '#666666' : '#F3F4F6'" > {{ element.suggestions[0].suggestion }} </v-btn>
+                <v-btn id="box-answer" v-on:click="selectRightAnswer(element)" v-bind:color="clickedRight ? '#666666' : '#F3F4F6'" > {{ element.suggestions[1].suggestion }} </v-btn>                
             </div>
         </div>
 
@@ -23,7 +23,14 @@
 </template>
 
 <script>
+import { useAppStore } from '../../store/userState'
+import { setUser } from '../../worker/user';
+
 export default {
+    setup() {
+        const store = useAppStore();
+        return { store }
+    },
     data() {
         return {
             a: 0,
@@ -37,57 +44,71 @@ export default {
                     suggestions: [
                         { suggestion: "반려동물"},
                         { suggestion: "모르는 사람"}
-                    ]
+                    ],
+                    userTableColName: "petPrefer"
                 },
                 {
                     question: "당신은 외향형 입니까? 내향형 입니까?",
                     suggestions: [
-                        { suggestion: "외향형"},
-                        { suggestion: "내향형"}
-                    ]
+                        { suggestion: "E"},
+                        { suggestion: "I"}
+                    ],
+                    userTableColName: "mbtiMind"
                 },
                 {
                     question: "당신은 외향형 입니까? 내향형 입니까?",
                     suggestions: [
-                        { suggestion: "외향형"},
-                        { suggestion: "내향형"}
-                    ]
+                        { suggestion: "S"},
+                        { suggestion: "N"}
+                    ],
+                    userTableColName: "mbtiRecog"
                 },
                 {
                     question: "당신은 외향형 입니까? 내향형 입니까?",
                     suggestions: [
-                        { suggestion: "외향형"},
-                        { suggestion: "내향형"}
-                    ]
+                        { suggestion: "T"},
+                        { suggestion: "F"}
+                    ],
+                    userTableColName: "mbtiJudge"
                 },
                 {
                     question: "당신은 외향형 입니까? 내향형 입니까?",
                     suggestions: [
-                        { suggestion: "외향형"},
-                        { suggestion: "내향형"}
-                    ]
+                        { suggestion: "J"},
+                        { suggestion: "P"}
+                    ],
+                    userTableColName: "mbtiTactics"
                 }
             ]
         }
     },
     methods: {
-        selectLeftAnswer() {
+        selectLeftAnswer(object) {
+            // toggle event
             this.clickedLeft = !this.clickedLeft
             if(this.clickedRight) {
                 this.clickedRight = !this.clickedRight
             }
+
+            // update value in user object
+            this.store.user[object.userTableColName] = object.suggestions[0].suggestion
         },
-        selectRightAnswer() {
+        selectRightAnswer(object) {
+            // toggle event
             this.clickedRight = !this.clickedRight
             if(this.clickedLeft) {
                 this.clickedLeft = !this.clickedLeft
             }
+
+            // update value in user object
+            this.store.user[object.userTableColName] = object.suggestions[1].suggestion
         },
         goNextQuestion() {
             this.clickedLeft = false
             this.clickedRight = false
             if(this.b >= this.questions.length) {
-                this.$router.push("/").catch(() => {}); // FIXME: path change
+                this.$router.push("/").catch(() => {});
+                setUser("user1")
             } else {
                 this.a++;
                 this.b++;

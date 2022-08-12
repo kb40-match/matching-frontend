@@ -8,7 +8,8 @@
 </template>
 
 <script>
-import MenuBar from "./components/MenuBar";
+import MenuBar from "./components/MenuBar"
+import { loadUser, loadMydata } from './worker/user'
 
 export default {
   name: "App",
@@ -20,6 +21,10 @@ export default {
   data: () => ({
     //
   }),
+  created() {
+    loadUser('user1')
+    loadMydata("user1")
+  }
 };
 </script>
 <style>

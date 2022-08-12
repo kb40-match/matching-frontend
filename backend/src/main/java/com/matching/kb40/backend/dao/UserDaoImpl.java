@@ -28,6 +28,11 @@ public class UserDaoImpl implements UserDao{
 	}
 
 	@Override
+	public List<UserDto> retrieveRandom(String gender) throws SQLException {
+		return sqlSessionTemplate.selectList(ns.concat("selectRandom"), gender);
+	}
+
+	@Override
 	public void update(UserDto user) throws SQLException {
 		sqlSessionTemplate.update(ns.concat("updateByUserId"), user);
 	}

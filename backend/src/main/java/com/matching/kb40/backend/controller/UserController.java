@@ -3,8 +3,6 @@ package com.matching.kb40.backend.controller;
 import com.matching.kb40.backend.dto.MydataDto;
 import com.matching.kb40.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.matching.kb40.backend.dto.UserDto;
@@ -35,6 +33,13 @@ public class UserController {
 	@GetMapping("/findAll")
 	public List<UserDto> findAll() throws Exception {
 		List<UserDto> userList = userService.findAll();
+
+		return userList;
+	}
+
+	@GetMapping("/findRandom/{gender}")
+	public List<UserDto> findRandom(@PathVariable String gender) throws Exception {
+		List<UserDto> userList = userService.findRandom(gender);
 
 		return userList;
 	}

@@ -14,6 +14,13 @@
         FROM matching.tb_user u
     </select>
 
+    <select id="selectRandom" resultType="com.matching.kb40.backend.dto.UserDto">
+        SELECT u.*
+          FROM matching.tb_user u LEFT JOIN matching.tb_mydata m ON u.mydata_id = m.mydata_id
+         WHERE m.gender != #{gender}
+         ORDER BY rand() limit 16
+    </select>
+
     <update id="updateByUserId" parameterType="com.matching.kb40.backend.dto.UserDto">
         UPDATE matching.tb_user
            SET job = #{job}
