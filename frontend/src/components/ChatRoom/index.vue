@@ -97,7 +97,7 @@ export default {
 
       const socket = new SockJS("http://10.214.3.43:8081/match/chatSocket");
 
-      console.log("sucess");
+      console.log("constructed socket");
 
       this.stompClient = Stomp.over(socket);
 
@@ -110,24 +110,25 @@ export default {
           // 서버의 메시지 전송 endpoint를 구독합니다.
           // 이런형태를 pub sub 구조라고 합니다.
           // console.log(this.teamId)
-          this.stompClient.subscribe(
-            "/chatSocket/" + this.teamId,
-            (res) => {
-              // console.log('구독으로 받은 메시지 입니다.', res.body);
-              // 받은 데이터를 json으로 파싱하고 리스트에 넣어줍니다.
-              // console.log(JSON.parse(res.body));
-              this.recvList.push(JSON.parse(res.body));
-              this.scrolltoBottom();
-            },
-          );
+          this.stompClient.subscribe("/chatSocket/" + this.teamId, (res) => {
+            // console.log('구독으로 받은 메시지 입니다.', res.body);
+            // 받은 데이터를 json으로 파싱하고 리스트에 넣어줍니다.
+            // console.log(JSON.parse(res.body));
+            this.recvList.push(JSON.parse(res.body));
+            this.scrolltoBottom();
+          });
+          console.log("success");
         },
         // on error
         () => {
+          console.log("failed");
           // 소켓 연결 실패
           // console.log('소켓 연결 실패', error);
           this.connected = false;
         },
       );
+
+      console.log("success");
 
       // socket.on("connect", () => {
       //   console.log("connecting");
