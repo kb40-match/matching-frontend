@@ -15,7 +15,7 @@ export const fetchMyData = async (userId) => {
 
 export const loadUser = async (userId) => {
   const store = useUserStore();
-  
+
   store.user = await fetchUser(userId);
   store.mydata = await fetchMyData(userId);
 };

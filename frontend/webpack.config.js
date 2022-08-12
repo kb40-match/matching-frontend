@@ -15,4 +15,17 @@ module.exports = {
       },
     ],
   },
+  devServer: {
+    proxy: {
+      "http://matching.169.56.100.104.nip.io/match": {
+        target: "http://matching.169.56.100.104.nip.io/match`",
+        changeOrigin: true,
+      },
+      "http://10.214.3.43:8081/match": {
+        target: "http://10.214.3.43:8081/match",
+        // secure: false,
+        changeOrigin: true,
+      },
+    },
+  },
 };
