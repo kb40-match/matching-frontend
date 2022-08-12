@@ -47,3 +47,11 @@ spec:
             configMapKeyRef:
               name: matching-config
               key: SERVLET_CONTEXT_PATH
+              
+          volumeMounts:
+            - name: my-volume
+              mountPath: /opt/app/img
+      volumes:
+        - name: my-volume
+          persistentVolumeClaim:
+            claimName: matching-pvc

@@ -12,8 +12,8 @@
 
              <div style="margin:20px; display:flex;align-items:center;">
                 <div style="width:250px;">
-                    <div style="font-size:20px;font-weight:bold;">{{user.name}}, {{user.age}}세</div>
-                    <div style="font-size:15px;"><v-icon small style="color:black;">mdi-map-marker</v-icon>{{user.addr}}</div>
+                    <div style="font-size:20px;font-weight:bold;">{{user.nickname}}, {{mydata.age}}세</div>
+                    <div style="font-size:15px;"><v-icon small style="color:black;">mdi-map-marker</v-icon>{{mydata.address}}</div>
                 </div>
                 <div id="chat" @click="goChat">
                     <v-icon large style="color:white">mdi-chat-outline</v-icon>
@@ -32,18 +32,18 @@
                         <p>투자성향</p> 
                     </div>
                     <div>
-                        <p>개발자</p> 
-                        <p>ESFJ</p> 
-                        <p>선호</p> 
-                        <p>1.식비 2.학원비 3.월세</p> 
-                        <p>1,000,000,000 원</p> 
-                        <p>공격적</p>
+                        <p>{{user.job}}</p> 
+                        <p>{{user.mbti_mind}}{{user.mbti_recog}}{{user.mbti_judge}}{{user.mbti_tactics}}</p> 
+                        <p v-if="user.pet_prefer=='Y'">선호</p> <p v-else>비선호</p>
+                        <p>1.{{mydata.consume_ptn1}} 2.{{mydata.consume_ptn2}} 3.{{mydata.consume_ptn3}}</p> 
+                        <p>{{addComma(mydata.assets)}} 원</p> 
+                        <p>{{mydata.invest_prop}}</p>
                     </div>
                 </div>
                 <div style="margin-top:20px;">
                     <h3><v-icon class="mr-2" color=black>mdi-heart-box-outline</v-icon>Interest</h3>
                     <div style="margin-top:5px; display:flex;" >
-                        <v-chip class="mr-2" small color="#7950f2" dark v-for="(value, index) in user.interests" :key="value">{{user.interests[index]}}</v-chip>
+                        <v-chip class="mr-2" small color="#7950f2" dark v-for="(value, index) in user.hobby" :key="value">{{user.hobby[index]}}</v-chip>
                     </div>
                 </div>
              </div>
@@ -55,14 +55,26 @@
 export default {
     data() {
         return{
-            userId : this.$route.params.userId,
-            user:{name:"이재인", age:20, addr:"서울시 여의도", interests:["맛집탐방", "코딩", "피아노"]}
+            
+        }
+    },
+    props:{
+        user:{
+            type: Object
+        },
+        mydata:{
+            type: Object
         }
     },
     methods :{
         goChat(){
             console.log(this.userId)
-        }
+        },
+        addComma(price) {
+            price = price + ""
+            var regexp = /\B(?=(\d{3})+(?!\d))/g
+            return price.toString().replace(regexp, ',')
+        },
     }
 }
 </script>

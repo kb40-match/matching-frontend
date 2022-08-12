@@ -26,9 +26,10 @@ export default new VueRouter({
             component: FaceSelect
         },
         {
-            path: "/faceFinal/:userId",
+            path: "/faceFinal",
             name: "FaceFinal", 
-            component: FaceFinal
+            component: FaceFinal,
+            props: true
         },
         {
             path: "/mindQuestion",
@@ -36,9 +37,10 @@ export default new VueRouter({
             component: MindQuestion
         },
         {
-            path: "/matchDetail/:userId",
+            path: "/matchDetail",
             name: "MatchDetail",
-            component: MatchDetail
+            component: MatchDetail,
+            props: true
         },
         {
             path: "/mindMatchingList",

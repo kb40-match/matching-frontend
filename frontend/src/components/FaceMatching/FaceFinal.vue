@@ -2,12 +2,12 @@
 <v-container>
 <div>
     <div id="user">
-        <div id="user-img"><img src="../../assets/logo.png"/></div>
+        <div id="user-img"><img :src=getProfile(user.profile_filename) /></div>
         <div id="user-info">
             <div style="display:flex; align-items:center;">
                 <div style="width:180px;">
-                <div style="font-size:20px;">{{user.name}}, {{user.age}}세</div>
-                <div style="font-size:15px;"><v-icon small style="color:black;">mdi-map-marker</v-icon>{{user.addr}}</div>
+                <div style="font-size:20px;">{{user.nickname}}, {{mydata.age}}세</div>
+                <div style="font-size:15px;"><v-icon small style="color:black;">mdi-map-marker</v-icon>{{mydata.address}}</div>
                 </div>
                 <div id="chat" @click="goChat">
                     <v-icon large style="color:white">mdi-chat-outline</v-icon>
@@ -28,20 +28,40 @@
 export default {
     data(){
         return{
-            userId : this.$route.params.userId,
-            user : {name:"이재인", age:20, addr:"서울시 여의도"}
+            mydata:{}
+        }
+    },
+    props:{
+        user:{
+            type:Object
         }
     },
     methods: {
+        getMydata(){
+            this.$axios
+                .get(`/user/mydata/${this.user.user_id}`)
+                .then((response) => {
+                    this.mydata =  response.data
+                })
+                .catch((err) => {
+                    console.log(err.response);
+                });
+        },
         displayDetail() {
-            this.$router.push(`/matchDetail/${this.userId}`);
+            this.$router.push({name: 'MatchDetail', params: {user: this.user, mydata : this.mydata}})
         },
         reMatching() {
             this.$router.push("/faceSelect").catch(() => {});
         },
         goChat(){
             console.log("goChat")
+        },
+        getProfile(i){
+            return require("@/assets/" + i)
         }
+    },
+    mounted() { 
+        this.getMydata()
     }
 }
 </script>

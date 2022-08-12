@@ -15,11 +15,11 @@
               <v-btn
                 v-if="isAgreed"
                 id="agreeBtn"
-                color="#FEBC0E"
+                color="#7048e8"
                 v-on:click="selectAgree"
                 fab
                 x-small
-                ><v-icon dark> mdi-check </v-icon></v-btn
+                ><v-icon color="white"> mdi-check </v-icon></v-btn
               >
               <v-btn
                 v-else
@@ -30,7 +30,7 @@
                 v-bind="attrs"
                 v-on:click="selectAgree"
                 v-on="on"
-                ><v-icon dark> mdi-check </v-icon></v-btn
+                ><v-icon color="white"> mdi-check </v-icon></v-btn
               >
             </template>
 
@@ -104,8 +104,8 @@
       <v-btn
         class="white--text"
         block
-        color="#F9BE1F"
-        v-on:click="goNextPage"
+        color="#7048e8"
+        v-on:click="store.setUser(user)"
         style="height: 60px; font-size: 18px"
         >동의하고 시작</v-btn
       >
@@ -114,10 +114,20 @@
 </template>
 
 <script>
+
+import { useAppStore } from '../../store/userState'
+import { loadUser } from '../../worker/user';
+
+
 export default {
+  setup() {
+        const store = useAppStore();
+        return { store }
+  },
   data() {
     return {
       dialog: false,
+      user: null,
       isAgreed: 0,
     };
   },
@@ -128,14 +138,14 @@ export default {
     displayAgreeText() {
       this.dialog = !this.dialog;
     },
-    updateAgreeFlag() {
-        // TODO: update user agree flag in DB
-    },
     goNextPage() {
         this.updateAgreeFlag()
         this.$router.push("/").catch(() => {});
     }
   },
+  mounted() {
+    loadUser("user1")
+  }
 };
 </script>
 
