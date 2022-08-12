@@ -21,21 +21,6 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ANT_PATH_MATCHER
-  # Kafka
-  kafka:
-    bootstrap-servers: ${KAFKA_BROKER:169.56.100.104}:${KAFKA_BROKER_PORT:30011}
-    listener:
-      ack-mode: MANUAL_IMMEDIATE
-    producer:
-      acks: 1
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: org.apache.kafka.common.serialization.StringSerializer
-    consumer:
-      group-id: ${CONSUMER_GROUP:chatting}
-      auto-offset-reset: latest
-      enable-auto-commit: false
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
 
 mybatis:
   mapper-locations: classpath:mapper/**/*Mapper.xml
@@ -46,28 +31,5 @@ mybatis:
   type-aliases-package: com.matching.kb40.backend
 
 #Parameter
-param:
-  kafka:
-    topic:
-        total:
-          insert: chat_insert
-          update: chat_update
-
-# 추후에 변경할 것
-# kafka-headless.default
-
-## Old Version
-#kafka:
-#  bootstap-servers: localhost:9002
-#  username: username
-#  password: qwer!@#
-#  enable:
-#    auto:
-#      commit: false
-#  ackmode: MANUAL
-#  offset:
-#    reset: latest
-#  concurrency: 3
-
 
 

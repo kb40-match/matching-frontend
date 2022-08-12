@@ -124,7 +124,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@use '../../styles/constants/colors.scss';
 
 #progressBar {
     margin-top: 80px;

@@ -28,14 +28,12 @@
              , mbti_recog = #{mbtiRecog}
              , mbti_judge = #{mbtiJudge}
              , mbti_tactics = #{mbtiTactics}
-             , profile_oriname = #{profileOriname}
-             , profile_filename = #{profileFilename}
-             , profile_url = #{profileUrl}
              , user_point = #{userPoint}
              , pet_prefer = #{petPrefer}
              , nickname = #{nickname}
              , agree_flag = #{agreeFlag}
              , hobby = #{hobby}
+             , profile_filename = #{profileFilename}
          WHERE user_id = #{userId}
     </update>
 
