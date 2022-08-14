@@ -81,14 +81,14 @@
     </update>
 
     <select id="selectReceiverBySenderId" resultType="com.matching.kb40.backend.model.UserDataOfMatching">
-        SELECT u.*, m.active_flag
+        SELECT u.*, m.active_flag, m.created_date
           FROM matching.tb_user u LEFT JOIN matching.tb_match m ON u.user_id = m.receiver
          WHERE m.sender = #{userId}
          ORDER BY m.created_date
     </select>
 
     <select id="selectSenderByReceiverId" resultType="com.matching.kb40.backend.model.UserDataOfMatching">
-        SELECT u.*, m.active_flag
+        SELECT u.*, m.active_flag, m.created_date
           FROM matching.tb_user u LEFT JOIN matching.tb_match m ON u.user_id = m.sender
          WHERE m.receiver = #{userId}
          ORDER BY m.created_date

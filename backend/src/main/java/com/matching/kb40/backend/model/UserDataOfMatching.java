@@ -24,4 +24,5 @@ public class UserDataOfMatching {
     private String hobby;
     private String profileFilename;
     private String activeFlag;
+    private String createdDate;
 }
