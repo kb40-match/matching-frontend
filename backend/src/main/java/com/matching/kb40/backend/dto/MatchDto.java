@@ -14,4 +14,5 @@ public class MatchDto {
     private String sender;
     private String receiver;
     private String activeFlag;
+    private String createdDate;
 }

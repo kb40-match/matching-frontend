@@ -12,8 +12,8 @@
     </select>
 
     <insert id="insertForRequest" parameterType="com.matching.kb40.backend.dto.MatchDto" useGeneratedKeys="true" keyProperty="matchId">
-        INSERT INTO matching.tb_match(sender, receiver, active_flag)
-        VALUES(#{sender}, #{receiver}, #{activeFlag})
+        INSERT INTO matching.tb_match(sender, receiver, active_flag, created_date)
+        VALUES(#{sender}, #{receiver}, #{activeFlag}, #{createdDate})
     </insert>
 
     <select id="selectCheckForUpdate" parameterType="com.matching.kb40.backend.dto.MatchDto" resultType="int">
@@ -27,6 +27,7 @@
     <update id="updateForAccept" parameterType="com.matching.kb40.backend.dto.MatchDto">
         UPDATE matching.tb_match
            SET active_flag = '1'
+             , created_date = #{createdDate}
          WHERE match_id = (SELECT sub_match.match_id
                              FROM (SELECT match_id
                                      FROM matching.tb_match
@@ -47,12 +48,14 @@
                                              ) sub_match
                                      ) m2
            SET m1.active_flag = '2'
+             , m1.created_date = #{createdDate}
          WHERE m1.match_id = m2.match_id
     </update>
 
     <update id="updateForReject" parameterType="com.matching.kb40.backend.dto.MatchDto">
         UPDATE matching.tb_match
            SET active_flag = '2'
+             , created_date = #{createdDate}
          WHERE match_id = (SELECT sub_match.match_id
                              FROM (SELECT match_id
                                      FROM matching.tb_match
@@ -66,6 +69,7 @@
     <update id="updateForFinish" parameterType="com.matching.kb40.backend.dto.MatchDto">
         UPDATE matching.tb_match
            SET active_flag = '2'
+             , created_date = #{createdDate}
          WHERE match_id = (SELECT sub_match.match_id
                              FROM (SELECT match_id
                                      FROM matching.tb_match
@@ -80,13 +84,13 @@
         SELECT u.*, m.active_flag
           FROM matching.tb_user u LEFT JOIN matching.tb_match m ON u.user_id = m.receiver
          WHERE m.sender = #{userId}
-         ORDER BY m.match_id
+         ORDER BY m.created_date
     </select>
 
     <select id="selectSenderByReceiverId" resultType="com.matching.kb40.backend.model.UserDataOfMatching">
         SELECT u.*, m.active_flag
           FROM matching.tb_user u LEFT JOIN matching.tb_match m ON u.user_id = m.sender
          WHERE m.receiver = #{userId}
-         ORDER BY m.match_id
+         ORDER BY m.created_date
     </select>
 </mapper>  
