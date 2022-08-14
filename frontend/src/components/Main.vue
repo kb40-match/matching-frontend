@@ -1,122 +1,215 @@
 <template>
   <v-container>
-    
     <v-col>
       <v-row id="match" @click="goFaceMatching">
-        <div style="width:35%"><img src="../assets/logo.png" /></div>
-        <div style="width:65%;text-align: center; font-size: 30px;font-weight:bold">외모로 연결</div>
+        <div style="width: 35%"><img src="../assets/logo.png" /></div>
+        <div
+          style="
+            width: 65%;
+            text-align: center;
+            font-size: 30px;
+            font-weight: bold;
+          "
+        >
+          외모로 연결
+        </div>
       </v-row>
-    
+
       <v-row id="match" @click="goMindMatching">
-        <div style="width:65%;text-align: center; font-size: 30px;font-weight:bold">마음으로 연결</div>
-        <div style="width:35%"><img src="../assets/logo.png"/></div>
+        <div
+          style="
+            width: 65%;
+            text-align: center;
+            font-size: 30px;
+            font-weight: bold;
+          "
+        >
+          마음으로 연결
+        </div>
+        <div style="width: 35%"><img src="../assets/logo.png" /></div>
       </v-row>
 
       <v-row id="sub">
         <v-col id="chat">
-          <div class="d-flex mb-2" style="justify-content: center;">
-          <div style="width:25px;height:25px;"></div><img id="img2" src="../assets/logo.png"/><div id="chat-count">5</div>
+          <div class="d-flex mb-2" style="justify-content: center">
+            <div style="width: 25px; height: 25px"></div>
+            <img id="img2" src="../assets/logo.png" />
+            <div id="chat-count">5</div>
           </div>
-          <div style="font-size:25px;font-weight:bold">대화하기</div>
+          <div style="font-size: 25px; font-weight: bold">대화하기</div>
         </v-col>
         <v-col id="service">
-          <div class="d-flex mb-2" style="justify-content: center;">
-          <img id="img2" src="../assets/logo.png"/>
+          <div class="d-flex mb-2" style="justify-content: center">
+            <img id="img2" src="../assets/logo.png" />
           </div>
-          <div style="font-size:25px;font-weight:bold">사후서비스</div>
+          <div style="font-size: 25px; font-weight: bold">사후서비스</div>
         </v-col>
       </v-row>
     </v-col>
     <div class="bottom_menu">
-		<div>
-      <v-icon large>mdi-home-variant</v-icon>
-		</div>
-		<div>
-			<v-icon large>mdi-chat</v-icon>
-		</div>
-		<div>
-			<v-icon large>mdi-list-box</v-icon>
-		</div>
-		<div>
-			<v-icon large>mdi-account</v-icon>
-		</div>
-		
-	</div>
+      <div>
+        <v-icon large>mdi-home-variant</v-icon>
+      </div>
+      <div>
+        <v-icon large>mdi-chat</v-icon>
+      </div>
+      <div>
+        <v-icon large>mdi-list-box</v-icon>
+      </div>
+      <div>
+        <v-icon large>mdi-account</v-icon>
+      </div>
+    </div>
   </v-container>
 </template>
 
 <script>
+import SockJS from "sockjs-client";
+import Stomp from "webstomp-client";
+
 export default {
-  name: 'Main',
-  data: () => ({
-    
-  }),
+  name: "Main",
+  data: () => ({}),
   methods: {
-        goFaceMatching() {
-            this.$router.push("/faceSelect").catch(() => {});
+    goFaceMatching() {
+      this.$router.push("/faceSelect").catch(() => {});
+    },
+    goMindMatching() {
+      this.$router.push("/mindQuestion").catch(() => {});
+    },
+    testSocket() {
+      // const sock = new SockJS("http://10.214.3.43:8081/match/chatWebSocket");
+      // sock.onopen = () => {
+      //   console.log("open");
+      //   sock.send("test");
+      // };
+      // const socket = io("/chatSocket", {
+      //   withCredentials: false,
+      //   // extraHeaders: {
+      //   //   "Access-Control-Allow-Origin": "*",
+      //   // },
+      // });
+
+      const socket = new SockJS("http://10.214.3.43:8082/chat/chatWebSocket");
+
+      console.log("constructed socket");
+
+      this.stompClient = Stomp.over(socket);
+
+      this.stompClient.connect(
+        {},
+        () => {
+          // 소켓 연결 성공
+          this.connected = true;
+          // console.log('소켓 연결 성공', frame);
+          // 서버의 메시지 전송 endpoint를 구독합니다.
+          // 이런형태를 pub sub 구조라고 합니다.
+          // console.log(this.teamId)
+          this.stompClient.subscribe("/chatSocket/" + this.teamId, (res) => {
+            // console.log('구독으로 받은 메시지 입니다.', res.body);
+            // 받은 데이터를 json으로 파싱하고 리스트에 넣어줍니다.
+            // console.log(JSON.parse(res.body));
+            this.recvList.push(JSON.parse(res.body));
+            this.scrolltoBottom();
+          });
+          console.log("success");
         },
-        goMindMatching() {
-            this.$router.push("/mindQuestion").catch(() => {});
-        }
-    }
+        // on error
+        () => {
+          console.log("failed");
+          // 소켓 연결 실패
+          // console.log('소켓 연결 실패', error);
+          this.connected = false;
+        },
+      );
+
+      console.log("success");
+
+      // socket.on("connect", () => {
+      //   console.log("connecting");
+      //   console.log(socket.id); // x8WIv7-mJelg7on_ALbx
+      // });
+
+      // socket.on("disconnect", () => {
+      //   console.log(socket.id); // undefined
+      // });
+    },
+  },
+  created() {
+    this.testSocket();
+  },
 };
 </script>
 
 <style>
-#match{
-  border-radius : 10px;
-  border : 1px solid;
+#match {
+  border-radius: 10px;
+  border: 1px solid;
   padding: 13px;
-  margin : 10px;
-  display : flex;
-  align-items:center;
+  margin: 10px;
+  display: flex;
+  align-items: center;
 }
-#sub{
-  margin : 10px;
-  display : flex;
-  align-items:center;
-  margin-top:30px;
+#sub {
+  margin: 10px;
+  display: flex;
+  align-items: center;
+  margin-top: 30px;
 }
 
-#chat{
-  border-radius : 10px;
-  border : 1px solid;
+#chat {
+  border-radius: 10px;
+  border: 1px solid;
   margin-right: 10px;
   text-align: center;
-  padding-top:20px;
-  padding-bottom:20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
-#service{
-  border-radius : 10px;
-  border : 1px solid;
+#service {
+  border-radius: 10px;
+  border: 1px solid;
   text-align: center;
-  padding-top:20px;
-  padding-bottom:20px;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
-img{
-  width:90px;
-  height:90px;
+img {
+  width: 90px;
+  height: 90px;
 }
 
-#img2{
-  width:70px;
-  height:70px;
+#img2 {
+  width: 70px;
+  height: 70px;
 }
-#chat-count{
+#chat-count {
   font-weight: bold;
-  display:flex;
-  align-items:center;
-  justify-content:center; 
-  border:1px solid; 
-  border-radius:100%;
-  width:25px;
-  height:25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid;
+  border-radius: 100%;
+  width: 25px;
+  height: 25px;
 }
 
-.bottom_menu { position: fixed; bottom: 0px; left: 0px; width: 100%; height: 80px; z-index:100; border-top: 1px solid gray; background-color: white }
-.bottom_menu > div { float: left; width: 25%; height: 100%; display:flex; text-align: center; justify-content: center;
-/* padding-top: 13px;  */
+.bottom_menu {
+  position: fixed;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
+  height: 80px;
+  z-index: 100;
+  border-top: 1px solid gray;
+  background-color: white;
 }
-	
+.bottom_menu > div {
+  float: left;
+  width: 25%;
+  height: 100%;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  /* padding-top: 13px;  */
+}
 </style>

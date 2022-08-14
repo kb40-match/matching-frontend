@@ -1,5 +1,7 @@
 package com.matching.kb40.chatting.kafkaserver.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.Acknowledgment;
@@ -10,6 +12,8 @@ import com.google.gson.Gson;
 import com.matching.kb40.chatting.kafkaserver.dao.ChattingDao;
 import com.matching.kb40.chatting.kafkaserver.dto.ChatDto;
 import com.matching.kb40.chatting.kafkaserver.model.NewChat;
+import com.matching.kb40.chatting.kafkaserver.model.PrevChatReq;
+import com.matching.kb40.chatting.kafkaserver.model.PrevChatRes;
 import com.matching.kb40.chatting.kafkaserver.model.ReadChat;
 
 import lombok.extern.slf4j.Slf4j;
@@ -68,5 +72,10 @@ public class ChattingServiceImpl implements ChattingService{
 			log.error("ERROR", e);
 			throw new RuntimeException(e);
 		}
+	}
+
+	@Override
+	public List<PrevChatRes> findPrevChat(PrevChatReq prevChatReq) throws Exception {
+		return chattingDao.findPrevChat(prevChatReq);
 	}
 }
