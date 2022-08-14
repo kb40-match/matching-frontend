@@ -1,8 +1,10 @@
 package com.matching.kb40.backend.dao;
 
 import com.matching.kb40.backend.dto.MatchDto;
+import com.matching.kb40.backend.model.UserDataOfMatching;
 
 import java.sql.SQLException;
+import java.util.List;
 
 public interface MatchingDao {
     public Integer checkForInsert(MatchDto match) throws SQLException;
@@ -18,4 +20,8 @@ public interface MatchingDao {
     public void updateForReject(MatchDto match) throws SQLException;
 
     public void updateForFinish(MatchDto match) throws SQLException;
+
+    public List<UserDataOfMatching> retrieveReceiver(String senderId) throws SQLException;
+
+    public List<UserDataOfMatching> retrieveSender(String receiverId) throws SQLException;
 }

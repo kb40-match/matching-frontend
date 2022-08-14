@@ -137,7 +137,7 @@ export default {
       this.dialog = !this.dialog
     },
     goNextPage() {
-      this.store.user.agreeFlag = "F"
+      this.store.user.agreeFlag = "Y"
       // this.$router.push("/basicInfoList").catch(() => {});
       this.$router.push("/preferenceQuestion").catch(() => {}); // TODO: change path into "/basicInfoList"
     }

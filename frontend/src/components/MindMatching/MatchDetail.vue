@@ -33,17 +33,17 @@
                     </div>
                     <div>
                         <p>{{user.job}}</p> 
-                        <p>{{user.mbti_mind}}{{user.mbti_recog}}{{user.mbti_judge}}{{user.mbti_tactics}}</p> 
-                        <p v-if="user.pet_prefer=='Y'">선호</p> <p v-else>비선호</p>
-                        <p>1.{{mydata.consume_ptn1}} 2.{{mydata.consume_ptn2}} 3.{{mydata.consume_ptn3}}</p> 
+                        <p>{{user.mbtiMind}}{{user.mbtiRecog}}{{user.mbtiJudge}}{{user.mbtiTactics}}</p> 
+                        <p v-if="user.petPrefer=='Y'">선호</p> <p v-else>비선호</p>
+                        <p>1.{{mydata.consumePtn1}} 2.{{mydata.consumePtn2}} 3.{{mydata.consumePtn3}}</p> 
                         <p>{{addComma(mydata.assets)}} 원</p> 
-                        <p>{{mydata.invest_prop}}</p>
+                        <p>{{mydata.investProp}}</p>
                     </div>
                 </div>
                 <div style="margin-top:20px;">
                     <h3><v-icon class="mr-2" color=black>mdi-heart-box-outline</v-icon>Interest</h3>
                     <div style="margin-top:5px; display:flex;" >
-                        <v-chip class="mr-2" small color="#7950f2" dark v-for="(value, index) in user.hobby" :key="value">{{user.hobby[index]}}</v-chip>
+                        <v-chip class="mr-2" small color="#7950f2" dark v-for="(value, index) in hobbies" :key="value">{{hobbies[index]}}</v-chip>
                     </div>
                 </div>
              </div>
@@ -55,7 +55,7 @@
 export default {
     data() {
         return{
-            
+            hobbies:[]
         }
     },
     props:{
@@ -75,6 +75,9 @@ export default {
             var regexp = /\B(?=(\d{3})+(?!\d))/g
             return price.toString().replace(regexp, ',')
         },
+    },
+    mounted(){
+        this.hobbies = this.user.hobby.split('/')
     }
 }
 </script>

@@ -1,78 +1,53 @@
 package com.matching.kb40.chatting.chattingserver.controller;
 
-
-import io.swagger.annotations.ApiOperation;
-
-import java.io.IOException;
-
-import javax.websocket.EncodeException;
-
-import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.matching.kb40.chatting.chattingserver.model.NewChat;
+import com.matching.kb40.chatting.chattingserver.model.ReadChat;
 
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import com.google.gson.Gson;
 
 @Slf4j
 @RestController
-@RequestMapping("/chatting")
 public class ChattingController {
 	
-/* 	@Autowired
-	private ChattingService chattingService;
-
-	private final KafkaTemplate kafkaTemplate;
-	private final int messagesPerRequest;
-
 	@Autowired
-	KafkaConsumer<String, String> consumer = new KafkaConsumer<String, String>(null);
+	private KafkaTemplate<String, String> kafkaTemplate;
 
-	public ChattingController(KafkaTemplate kafkaTemplate, @Value("${kafka.message-per-request}") final int messagesPerRequest){
-		this.kafkaTemplate = kafkaTemplate;
-		this.messagesPerRequest = messagesPerRequest;
+	@Value("${param.kafka.topic.total.insert}")
+	private String insertTopic;
 
-	}
-	
-	@ApiOperation(value = "match_id의 값에 따라 topic 설정")	
-    @PostMapping("/partition/{match_id}")
-    public ResponseEntity<ChatDto> recieveChat(@PathVariable(value="match_id") String topic, @RequestBody String message, @RequestBody String userId) {
+	@Value("${param.kafka.topic.total.update}")
+	private String updateTopic;
 
-		log.info("---------------------------------------");
-		log.info("Receiving message to kafka START!");
-		log.debug("Topic: %s",topic);
-		log.debug("Message: %s",message);
+	@MessageMapping("/chat.sendMessage/{matchId}")
+    @SendTo("/topic/{matchId}")
+    public NewChat sendMessage(@Payload NewChat newChat, @DestinationVariable Long matchId) {
+		log.info("sendMessage로 들어옴!!!!");
+		log.info(newChat.toString());
+		Gson gson = new Gson();
+		String chat = gson.toJson(newChat);
+		kafkaTemplate.send(insertTopic,chat);
+        return newChat;
+    }
 
-
-		log.info("Receiving message to kafka END Successfully!");
-
-
-		if(!StringUtils.isEmpty(topic) && !StringUtils.isEmpty(message)){
-			//kafkaTemplate.re
-
-		}
-		//kafkaTemplate.re
-		//ChatDto ChatDto = new ChatDto();
-//		ChatDto.setSampleData(chatting.getSampleData());
-
-
-
-
-    	
-    	return new ResponseEntity<>(ChatDto, HttpStatus.OK);
-    } */
+    @MessageMapping("/chat.updateReadMessage/{matchId}")
+    @SendTo("/topic/{matchId}")
+    public ReadChat updateReadMessage(@Payload ReadChat readChat, @DestinationVariable Long matchId){
+		log.info("updateReadMessage로 들어옴!!!!");
+		log.info(readChat.toString());
+		Gson gson = new Gson();
+		String chat = gson.toJson(readChat);
+		kafkaTemplate.send(updateTopic,chat);
+        return readChat;
+    }
 }

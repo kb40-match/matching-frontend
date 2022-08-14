@@ -10,8 +10,8 @@
                 <h1 id="questionText"> {{ element.question }}</h1>
             </div>
             <div id="box-answers" style="padding-bottom: 50px;">
-                <v-btn id="box-answer" v-on:click="selectLeftAnswer(element)" v-bind:color="clickedLeft ? '#666666' : '#F3F4F6'" > {{ element.suggestions[0].suggestion }} </v-btn>
-                <v-btn id="box-answer" v-on:click="selectRightAnswer(element)" v-bind:color="clickedRight ? '#666666' : '#F3F4F6'" > {{ element.suggestions[1].suggestion }} </v-btn>                
+                <v-btn id="box-answer" v-on:click="selectLeftAnswer(element)" v-bind:color="clickedLeft ? '#666666' : '#F3F4F6'" > {{ element.suggestions[0].suggestionContent }} </v-btn>
+                <v-btn id="box-answer" v-on:click="selectRightAnswer(element)" v-bind:color="clickedRight ? '#666666' : '#F3F4F6'" > {{ element.suggestions[1].suggestionContent }} </v-btn>                
             </div>
         </div>
 
@@ -42,40 +42,40 @@ export default {
                 {
                     question: "당신은 당신의 반려동물과 모르는 사람 중 하나만 살릴 수 있다. 당신은 누구를 살릴 것인가? ",
                     suggestions: [
-                        { suggestion: "반려동물"},
-                        { suggestion: "모르는 사람"}
+                        { suggestionContent: "반려동물", answer: "Y"},
+                        { suggestionContent: "모르는 사람", answer: "N"}
                     ],
                     userTableColName: "petPrefer"
                 },
                 {
                     question: "당신은 외향형 입니까? 내향형 입니까?",
                     suggestions: [
-                        { suggestion: "E"},
-                        { suggestion: "I"}
+                        { suggestionContent: "E", answer: "E"},
+                        { suggestionContent: "I", answer: "I"}
                     ],
                     userTableColName: "mbtiMind"
                 },
                 {
                     question: "당신은 외향형 입니까? 내향형 입니까?",
                     suggestions: [
-                        { suggestion: "S"},
-                        { suggestion: "N"}
+                        { suggestionContent: "S", answer: "S"},
+                        { suggestionContent: "N", answer: "N"}
                     ],
                     userTableColName: "mbtiRecog"
                 },
                 {
                     question: "당신은 외향형 입니까? 내향형 입니까?",
                     suggestions: [
-                        { suggestion: "T"},
-                        { suggestion: "F"}
+                        { suggestionContent: "T", answer: "T"},
+                        { suggestionContent: "F", answer: "F"}
                     ],
                     userTableColName: "mbtiJudge"
                 },
                 {
                     question: "당신은 외향형 입니까? 내향형 입니까?",
                     suggestions: [
-                        { suggestion: "J"},
-                        { suggestion: "P"}
+                        { suggestionContent: "J", answer: "J"},
+                        { suggestionContent: "P", answer: "P"}
                     ],
                     userTableColName: "mbtiTactics"
                 }
@@ -91,7 +91,7 @@ export default {
             }
 
             // update value in user object
-            this.store.user[object.userTableColName] = object.suggestions[0].suggestion
+            this.store.user[object.userTableColName] = object.suggestions[0].answer
         },
         selectRightAnswer(object) {
             // toggle event
@@ -101,14 +101,14 @@ export default {
             }
 
             // update value in user object
-            this.store.user[object.userTableColName] = object.suggestions[1].suggestion
+            this.store.user[object.userTableColName] = object.suggestions[1].answer
         },
         goNextQuestion() {
             this.clickedLeft = false
             this.clickedRight = false
             if(this.b >= this.questions.length) {
-                this.$router.push("/").catch(() => {});
-                setUser("user1")
+                setUser()
+                // this.$router.push("/").catch(() => {});
             } else {
                 this.a++;
                 this.b++;

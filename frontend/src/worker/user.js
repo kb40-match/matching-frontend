@@ -18,12 +18,20 @@ export const loadUser = async (userId) => {
 
 export const loadMydata = async (userId) => {
   const store = useAppStore();
-  store.myData = await fetchMydata(userId);
+  store.myData = await fetchMyData(userId);
 };
 
-export const setUser = (userId) => {
+export const setUser = async () => {
   const store = useAppStore();
-  console.log(userId)
-  console.log(store.user.agreeFlag)
-  console.log(store.user.mbtiMind + store.user.mbtiRecog + store.user.mbtiJudge + store.user.mbtiTactics)
+
+    await axios.put(`/user`, store.user)
+    .then((response) => {
+      console.log("업데이트 완료")
+      console.log(response.data)
+      console.log(store.user)
+    })
+    .catch((err)=>{
+      console.log(err.response);
+    });
+    console.log(this.user)
 };

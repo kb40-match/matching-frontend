@@ -2,10 +2,13 @@ package com.matching.kb40.backend.service;
 
 import com.matching.kb40.backend.dao.MatchingDao;
 import com.matching.kb40.backend.dto.MatchDto;
+import com.matching.kb40.backend.model.UserDataOfMatching;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.List;
 
 @Slf4j
 @Service
@@ -53,5 +56,15 @@ public class MatchingServiceImpl implements MatchingService{
 		matchingDao.updateForFinish(match);
 
 		return true;
+	}
+
+	@Override
+	public List<UserDataOfMatching> findReceiver(String senderId) throws Exception {
+		return matchingDao.retrieveReceiver(senderId);
+	}
+
+	@Override
+	public List<UserDataOfMatching> findSender(String receiverId) throws Exception {
+		return matchingDao.retrieveSender(receiverId);
 	}
 }

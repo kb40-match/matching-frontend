@@ -2,7 +2,7 @@
 <v-container>
 <div>
     <div id="user">
-        <div id="user-img"><img :src=getProfile(user.profile_filename) /></div>
+        <div id="user-img"><img :src=getProfile(user.profileFilename) /></div>
         <div id="user-info">
             <div style="display:flex; align-items:center;">
                 <div style="width:180px;">
@@ -39,9 +39,10 @@ export default {
     methods: {
         getMydata(){
             this.$axios
-                .get(`/user/mydata/${this.user.user_id}`)
+                .get(`/user/mydata/${this.user.userId}`)
                 .then((response) => {
                     this.mydata =  response.data
+                    console.log(this.mydata)
                 })
                 .catch((err) => {
                     console.log(err.response);

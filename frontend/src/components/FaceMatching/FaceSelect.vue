@@ -1,5 +1,5 @@
 <template>
-<v-container>
+<v-container v-if="users.length">
 <div style="text-align:center;">
     <div id = "title">
         <h1 v-if="stage==2">결승</h1>
@@ -7,9 +7,10 @@
         <h3>마음이 가는 사용자를 선택해주세요</h3>
     </div>
     <div id = "face-img">
-    <img :src="getProfile(this.save[this.round])" @click="selectT" :class="{'selected':isTop, 'no-selected':!isTop}" />
+    
+    <img  :src="getProfile(this.save[this.round])" @click="selectT" :class="{'selected':isTop, 'no-selected':!isTop}" />
     <h2>VS</h2>
-    <img :src="getProfile(this.save[this.round+1])" @click="selectB" :class="{'selected':isBottom, 'no-selected':!isBottom}"/>
+    <img  :src="getProfile(this.save[this.round+1])" @click="selectB" :class="{'selected':isBottom, 'no-selected':!isBottom}"/>
     </div>
     <v-btn id="nextBtn" rounded text large dark @click="goNext">{{this.btnText}}</v-btn>
     <v-snackbar v-model="alert" Bottom flat color="black" rounded="pill" :timeout="1500">
@@ -22,26 +23,23 @@
 </template>
 
 <script>
+import { useAppStore } from '../../store/userState'
+
 export default {
+    setup(){
+        const store = useAppStore()
+        return {store}
+    },
     data(){
         return{
+            myDataFlag : false,
             alert: false,
             btnText : "다음",
             stage : 8,
             round : 0,
             isTop : false,
             isBottom : false,
-            // users : [],
-            users : [
-                {user_id:"user1", nickname: "이니이니1", profile_filename : "jaein1.png"},
-                {user_id:"user2", nickname: "이니이니2", profile_filename : "jaein2.png"},
-                {user_id:"user3", nickname: "이니이니3", profile_filename : "jaein3.png"},
-                {user_id:"user4", nickname: "이니이니4", profile_filename : "jaein4.png"},
-                {user_id:"user5", nickname: "이니이니5", profile_filename : "jaein5.png"},
-                {user_id:"user6", nickname: "이니이니6", profile_filename : "jaein6.png"},
-                {user_id:"user7", nickname: "이니이니7", profile_filename : "jaein7.png"},
-                {user_id:"user8", nickname: "이니이니8", profile_filename : "jaein8.png"}
-            ],
+            users : [],
             save : [0,1,2,3,4,5,6,7]
         }
     },
@@ -88,36 +86,28 @@ export default {
                 this.btnText = "결과보기"
             }
 
-            if(this.stage == 1){ // 상세 페이지로
+            if(this.stage == 1){ // 상세 페이지로 화면 이동
                 let finalUser = this.users[this.save[0]]
                 this.$router.push({name: 'FaceFinal', params: {user: finalUser}})
             }
         },
         getProfile(i){
-            return require("@/assets/" + this.users[i].profile_filename)
+            return require("@/assets/" + this.users[i].profileFilename)
         },
         setIdx(){
-            // for(const key in this.users){
-            //     // this.users[key].push()
-            //     console.log(key)
-            // }
             this.users = this.users.map((user, idx) => ({
                 ...user, 
                 idx,
             }))
-            console.log(this.users)
+        },
+        async getRandom(){
+            const response = await this.$axios.get(`/user/findRandom/${this.store.myData.gender}`) // ${this.store.myData.gender}!!!!!
+            this.users = response.data
+            this.setIdx()
         }
     },
-    mounted(){
-        this.setIdx()
-    },
     created(){
-        this.$axios.get(`/user/getsixteen/${this.store.myData.gender}`) // path 수정하기!!!!!
-        .then((response)=>{
-            this.users = response.data
-        }).catch((err)=>{
-            console.log(err.response)
-        })
+        this.getRandom()
     }
 }
 </script>

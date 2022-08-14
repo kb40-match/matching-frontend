@@ -1,6 +1,5 @@
 <template>
-    <v-container style="height: 100%; text-align:center;">
-        <!-- <div style="text-align:center;"> -->
+    <v-container v-if = "this.user && this.myData" style="height: 100%; text-align:center;">
             <div style="height:20%; padding-top:40px; text-align:center; display:flex;justify-content: center;">
                 <v-progress-linear
                     v-model="percent"
@@ -43,7 +42,6 @@
                 <v-btn text rounded dark large @click="goPre" class="mr-7" v-if="num!=0" style="background-color:#8452f7; width:40%; font-size:20px;">이전</v-btn>
                 <v-btn text rounded dark large @click="goNext" style="background-color:#8452f7; width:40%; font-size:20px;" :disabled=check()>{{btnText}}</v-btn>
             </div>
-        <!-- </div> -->
     </v-container>
 </template>
 
@@ -59,21 +57,8 @@ export default {
         return{
             user_id : "user1",
             percent : 0,
-            user:{},
-            myData:{},
-            // user:{
-            //     nickname : "",
-            //     job : "",
-            //     hobby:""
-            // },
-            // myData:{
-            //     age : "20",
-            //     consume_ptn1 : "식비", 
-            //     consume_ptn2 : "월세", 
-            //     consume_ptn3 : "의류비",
-            //     assets : "2000000000",
-            //     invest_prop : "공격적"
-            // },
+            // user:{},
+            // myData:{},
             hobbyItems : ["스포츠/피트니스", "어학", "재테크/투자", "요리/음료/맛집", "교양/전시회", "게임/코딩/프로그래밍", "음악/악기", "사진/영상제작", "패션/뷰티", "공에/DIY", "미술/캘리그라피", "연기/춤", "기타"],
             num : 0,
             items : ["닉네임은", "나이는", "거주지는", "직업은", "소비패턴TOP3는", "총 자산은", "투자성향은", "취미는"],
@@ -89,6 +74,8 @@ export default {
             }
         },
         goNext(){
+            if (!this.store.user) return;
+
             if(this.num == this.items.length-1){ // 등록 완료, 성향 파악으로 이동
                 this.store.user.nickname = this.user.nickname
                 this.store.user.job = this.user.job
@@ -124,9 +111,18 @@ export default {
             return price.toString().replace(regexp, ',')
         },
     },
-    mounted(){
-        this.user = this.store.user
-        this.myData = this.store.myData
+    // created(){
+    //     this.user = this.store.user
+    //     this.myData = this.store.myData
+    // },
+    computed: {
+        user : function() {
+            console.log("zzzzzzzzzzzzzz")
+            return this.store.user
+        },
+        myData : function() {
+            return this.store.myData
+        }
     }
 }
 </script>

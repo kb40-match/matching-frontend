@@ -1,11 +1,13 @@
 package com.matching.kb40.backend.dao;
 
 import com.matching.kb40.backend.dto.MatchDto;
+import com.matching.kb40.backend.model.UserDataOfMatching;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.sql.SQLException;
+import java.util.List;
 
 @Repository
 public class MatchingDaoImpl implements MatchingDao{
@@ -46,5 +48,15 @@ public class MatchingDaoImpl implements MatchingDao{
 	@Override
 	public void updateForFinish(MatchDto match) throws SQLException {
 		sqlSessionTemplate.update(ns.concat("updateForFinish"), match);
+	}
+
+	@Override
+	public List<UserDataOfMatching> retrieveReceiver(String senderId) throws SQLException {
+		return sqlSessionTemplate.selectList(ns.concat("selectReceiverBySenderId"), senderId);
+	}
+
+	@Override
+	public List<UserDataOfMatching> retrieveSender(String receiverId) throws SQLException {
+		return sqlSessionTemplate.selectList(ns.concat("selectSenderByReceiverId"), receiverId);
 	}
 }

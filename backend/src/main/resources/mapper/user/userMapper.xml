@@ -48,7 +48,7 @@
          WHERE u.user_id = #{userId}
     </select>
 
-<!--    <select id="selectUserData" resultType="com.matching.kb40.backend.model.UserData">-->
+<!--    <select id="selectUserData">-->
 <!--        SELECT u.user_id-->
 <!--             , u.mydata_id-->
 <!--             , u.job-->

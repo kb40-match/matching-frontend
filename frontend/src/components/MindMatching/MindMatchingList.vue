@@ -8,7 +8,7 @@
             <v-row dense id="main">
             <v-col v-for="(person, index) in people.slice(0,1)" :key="index" cols="12" xs="12">
                 <v-card id="mainCard" class="pa-3" outlined v-on:click="goDetailPage" style="border:5px solid #7048e8;" color="#C4C4C4">
-                <div id="percentLabel" style="background-color: #7048e8; border-radius: 0px;" >100% match</div>
+                <div id="percentLabel" style="background-color: #7048e8; " >100% match</div>
                 <img id="personImage" src="../../assets/logo.png"/>
                 <v-spacer></v-spacer>
                 {{person.name}}, {{person.age}}세
@@ -19,7 +19,7 @@
             <v-row dense id="sub">
             <v-col v-for="(person, index) in people.slice(1)" :key="index" cols="6" xs="6">
                 <v-card id="subCard" class="pa-3" outlined v-on:click="goDetailPage" style=" border:5px solid #7048e8; " color="#C4C4C4">
-                <div id="percentLabel" style="background-color: #7048e8; border-radius: 0px;">100% match</div>
+                <div id="percentLabel" style="background-color: #7048e8; ">100% match</div>
                 <img id="personImage" src="../../assets/logo.png"/>
                 <v-spacer></v-spacer>
                 {{person.name}}, {{person.age}}세
@@ -38,6 +38,8 @@ export default {
         return {
             a: 0,
             b: 1,
+            finalUser: null,
+            finalMyData: null,
             people: [
                 {
                     name: "김국은1",
@@ -85,7 +87,8 @@ export default {
         },
         goDetailPage() {
             // TODO: implement decrease point
-            this.$router.push("/mindQuestion").catch(() => {}); //FIXME: change path
+            this.$router.push("/matchDetail").catch(() => {});
+            // this.$router.push({name: 'MatchDetail', params: {user: this.finalUser, mydata : this.finalMyData}})
         }
     }
 }
@@ -126,8 +129,12 @@ export default {
 }
 
 #percentLabel {
+    width: 90%;
+    display: flex;
+    align-items: center;
+    justify-content:center; 
     transform: translateY(-50%);
-    border-radius: 25px 25px 0 0;
+    border-radius: 0 0 10px 10px;
 }
 
 #retryBtn {

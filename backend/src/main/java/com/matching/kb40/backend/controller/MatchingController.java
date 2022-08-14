@@ -1,11 +1,14 @@
 package com.matching.kb40.backend.controller;
 
 import com.matching.kb40.backend.dto.MatchDto;
+import com.matching.kb40.backend.model.UserDataOfMatching;
 import com.matching.kb40.backend.service.MatchingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -33,5 +36,15 @@ public class MatchingController {
 	@PutMapping("/finish")
 	public Boolean modifyFinish(@RequestBody MatchDto match) throws Exception {
 		return matchingService.modifyFinish(match);
+	}
+
+	@GetMapping("/receivers/{senderId}")
+	public List<UserDataOfMatching> findReceiver(@PathVariable String senderId) throws Exception {
+		return matchingService.findReceiver(senderId);
+	}
+
+	@GetMapping("/senders/{receiverId}")
+	public List<UserDataOfMatching> findSender(@PathVariable String receiverId) throws Exception {
+		return matchingService.findSender(receiverId);
 	}
 }
