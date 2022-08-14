@@ -6,7 +6,6 @@
       placeholder="메세지를 입력하세요."
       @input="updateText($event)"
       @keyup.enter="confirmText($event)"
-      ref="textInput"
     />
     <SendSVG class="chat-send-icon" @click="sendMessage" />
   </div>
@@ -17,7 +16,7 @@ import AddSVG from "@/assets/icons/add.svg";
 import SendSVG from "@/assets/icons/send.svg";
 
 export default {
-  name: "ChatRoomMessageInput",
+  name: "ChatTestRoomMessageInput",
   data() {
     return {
       text: "",
@@ -30,28 +29,27 @@ export default {
     confirmText() {
       this.$emit("sentMessageContent", this.text);
       this.text = "";
-      this.$refs.textInput.value = "";
+    },
+    sendMessage() {
+      // produceKafkaChat();
     },
   },
   components: {
     AddSVG,
     SendSVG,
   },
-  created() {
-    this.$ref.textInput.focus();
-  }
 };
 </script>
 
 <style lang="scss" scoped>
 .chat-input-wrapper {
+  position: absolute;
   bottom: 0;
-  width: 100%;
+  background-color: violet;
+  height: 100px;
   display: flex;
   justify-content: center;
-  background-color: colors.$GRAY2;
-  z-index: 50;
-  position: absolute;
+  margin-bottom: 0;
 }
 
 svg {
@@ -63,6 +61,10 @@ svg {
   &:hover {
     background-color: colors.$GRAY3;
   }
+}
+
+.chat-send-icon {
+  /* transform: rotate(180deg); */
 }
 
 button {

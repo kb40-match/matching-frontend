@@ -81,8 +81,6 @@ main {
 ul {
   all: unset;
   width: 90%;
-  /* position: relative; */
   margin: 0 auto;
-  background-color: violet;
 }
 </style>

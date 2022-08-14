@@ -16,7 +16,7 @@
 import { colors } from "@/store/constants/colors";
 
 export default {
-  name: "ChatRoomMessageBox",
+  name: "ChatTestRoomMessageBox",
   props: {
     onLeft: {
       type: Boolean,
@@ -33,15 +33,8 @@ export default {
         marginRight: this.onLeft ? "auto" : "0",
         marginLeft: this.onLeft ? "0" : "auto",
         backgroundColor: this.onLeft ? colors.gray[3] : colors.violet[3],
-        textAlignment: this.onLeft ? "left" : "right",
-        // flexDirection: this.onLeft ? "row" : "row-reverse",
+        textAlignment: this.onLeft ? "left" : "right", // TODO
       };
-    },
-    hour() {
-      return this.message.createdDate.slice(8, 10);
-    },
-    minute() {
-      return this.message.createdDate.slice(10, 12);
     },
   },
   created() {},
@@ -51,31 +44,17 @@ export default {
 <style scoped>
 .message-box {
   display: flex;
-  flex-direction: var(flexDirection);
-  align-items: end;
-  position: relative;
   padding: auto 0;
-  margin: 0 20px;
   align-content: center;
   justify-content: center;
-  width: 40vw;
+  width: 50vw;
   border-radius: 20px;
   background-color: var(backgroundColor);
   margin-right: var(marginRight);
   margin-left: var(marginLeft);
   margin-bottom: 15px;
-  animation: show 250ms;
-}
 
-@keyframes show {
-  from {
-    opacity: 0;
-    left: 50px;
-  }
-  to {
-    opacity: 1;
-    left: 0;
-  }
+  /* margin: 100px var(marginRight) 10px var(marginLeft); */
 }
 
 .message-content {
@@ -85,6 +64,5 @@ export default {
   margin: 10px 0;
   text-align: var(textAlignment);
   font-size: 14px;
-  display: flex;
 }
 </style>

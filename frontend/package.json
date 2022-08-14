@@ -51,5 +51,6 @@
     "> 1%",
     "last 2 versions",
     "not dead"
-  ]
+  ],
+  "proxy": "http://10.214.4.235:8083/kafka-server"
 }

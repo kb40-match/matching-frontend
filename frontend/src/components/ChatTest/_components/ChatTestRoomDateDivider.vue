@@ -7,7 +7,7 @@
 
 <script>
 export default {
-  name: "ChatRoomDateDivider",
+  name: "ChatTestRoomDateDivider",
   props: {
     date: {
       type: String, // 'yyyymmdd'
@@ -40,7 +40,7 @@ export default {
   align-items: center;
   width: 100%;
   height: 15px;
-  margin: 30px auto 20px;
+  margin: 20px auto;
 }
 
 .date-divider-decoration {
