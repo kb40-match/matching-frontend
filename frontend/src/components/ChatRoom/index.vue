@@ -35,7 +35,7 @@ import SockJS from "sockjs-client";
 import Stomp from "webstomp-client";
 import dayjs from "dayjs";
 
-import { prevData, user, receiver, fetchPrevList } from "./_worker/api";
+import { prevData, user, receiver } from "./_worker/api";
 import { useUserStore } from "@/store/states/userState";
 import { loadUser } from "@/worker/user";
 import ChatRoomMyProfile from "./_components/ChatRoomMyProfile.vue";
@@ -54,7 +54,8 @@ export default {
     return {
       dummyTurn: 0,
       dummyId: prevData.length,
-      messages: await fetchPrevList(),
+      // messages: await fetchPrevList(),
+      messages: [],
       user,
       receiver,
     };
@@ -91,7 +92,7 @@ export default {
       );
     },
     connectSocket() {
-      const CHAT_TARGET = "http://10.214.4.235:8081/chat/ws";
+      const CHAT_TARGET = "http://10.214.5.187:8082/websocket-server/ws";
       const matchId = 1;
 
       const chatSocket = new SockJS(CHAT_TARGET);
