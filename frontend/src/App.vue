@@ -22,8 +22,8 @@ export default {
     //
   }),
   created() {
-    loadUser("user5");
-    loadMydata("user5");
+    loadUser("user131");
+    loadMydata("user131");
   },
 };
 </script>

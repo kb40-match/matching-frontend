@@ -4,7 +4,7 @@
       <div style="height:200px; background-color:#845ef7;padding:5px 15px 15px 15px;">
         <div style="height:70%; padding:5px;text-align:center;">
           <p style="font-size:30px;font-weight:bold;color:white"> {{addComma(this.store.user.userPoint)}} P</p>
-          <p style="font-size:25px;color:white">총 5회 매칭되었어요 !</p>
+          <p style="font-size:25px;color:white">총 {{this.store.user.matchCount}}회 매칭되었어요 !</p>
         </div>
         <div style="display:flex;justify-content:center;">
           <v-btn id="main-btn" class="mr-5" @click="reInfo()">정보 재등록</v-btn> <v-btn id="main-btn" @click="rePrefernce()">성향 재파악</v-btn>
@@ -102,7 +102,6 @@ export default {
             return price.toString().replace(regexp, ',')
     },
     reInfo(){
-      // this.$router.push("/basicInfoList").catch(() => {});
       this.$router.push({name: 'BasicInfoList', params: {prev: "main"}})
     },
     rePrefernce(){
