@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: matching-frontend
+  labels:
+    app: matching-frontend
+spec:
+  type: NodePort
+  ports:
+  - port: 3030
+    targetPort: 80
+  selector:
+    app: matching-frontend
