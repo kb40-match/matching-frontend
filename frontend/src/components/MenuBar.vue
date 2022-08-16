@@ -5,10 +5,29 @@
         v-model="drawer"
         :clipped="$vuetify.breakpoint.lgAndUp"
         app
-        color="primary"
         dark
+        style="background-color:#f1f3f5;"
     >
-      <v-list color="primary" nav>
+      <div style="padding-top:50px;">
+        <v-col>
+          <p id="top">연결고리</p>
+          <v-btn text id="under" style="margin-top:5px;" @click="goHome()">연결고리 홈</v-btn>
+        </v-col>
+        <hr />
+        <v-col>
+          <p id="top">내 정보</p>
+          <v-btn text id="under" style="margin-top:5px;margin-bottom:5px;" @click="goInfo()">정보 재등록</v-btn>
+          <v-btn text id="under" style="margin-bottom:5px;" @click="goPrefer()">성향 재파악</v-btn>
+          <v-btn text id="under" @click="goRequestList()">요청 목록</v-btn>
+        </v-col>
+        <hr />
+        <v-col>
+          <p id="top">매칭서비스</p>
+          <v-btn text id="under" style="margin-top:5px;margin-bottom:5px;" @click="goFace()">외모로 연결</v-btn>
+          <v-btn text id="under" @click="goMind()">마음으로 연결</v-btn>
+        </v-col>
+      </div>
+      <!-- <v-list nav>
         <v-list-item
             v-for="(item, i) in btnItems"
             :key="`k1-${i}`"
@@ -33,7 +52,7 @@
             <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-      </v-list>
+      </v-list> -->
     </v-navigation-drawer>
 
     <v-app-bar
@@ -162,8 +181,7 @@ export default {
     drawer: null,
     btnItems: [
       {
-        text: "연애조작단",
-        href: "https://github.com/kb40-match",
+        text: "연결고리",
         target: "_black",
         color: "primary",
         icon: "mdi-download",
@@ -171,24 +189,20 @@ export default {
     ],
     barItems: [
       {
-        title: "이니",
+        title: "홈",
         to: "/",
       },
       {
-        title: "우니",
-        to: "/category",
+        title: "외모로 연결",
+        to: "/faceSelect",
       },
       {
-        title: "워니",
-        to: "/detail",
+        title: "마음으로 연결",
+        to: "/mindQuestion",
       },
       {
-        title: "영이",
-        to: "/authors",
-      },
-      {
-        title: "혀니",
-        to: "/login",
+        title: "요청 목록",
+        to: "/requestList",
       },
     ],
   }),
@@ -200,10 +214,22 @@ export default {
       this.$router.push("/requestList").catch(() => {});
     },
     goHome(){
-      this.$router.push("/m").catch(() => {});
+      this.$router.push("/").catch(() => {});
     },
     goBack(){
       this.$router.go(-1)
+    },
+    goInfo(){
+      this.$router.push({name: 'BasicInfoList', params: {prev: "main"}})
+    },
+    goPrefer(){
+      this.$router.push("/preferenceQuestion").catch(() => {});
+    },
+    goFace(){
+      this.$router.push("/faceSelect").catch(() => {});
+    },
+    goMind(){
+      this.$router.push("/mindQuestion").catch(() => {});
     }
   },
   computed: {
@@ -218,4 +244,21 @@ export default {
 .v-toolbar__content{
   padding:0px;
 }
+
+#under{
+  font-size:23px;
+  padding-left:0px;
+  color:black;
+}
+
+#top{
+  font-size:27px;
+  color:#5f3dc4;
+  font-weight:bold;
+}
+
+hr{
+  margin:10px;
+}
+
 </style>

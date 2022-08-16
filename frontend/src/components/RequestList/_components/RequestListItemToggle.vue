@@ -44,7 +44,7 @@ button {
   position: relative;
   width: calc(100% / 2);
   border-radius: 24px;
-  z-index: 100;
+  z-index: 3;
 }
 
 .left-selected {
@@ -80,6 +80,6 @@ button {
 #title {
   font-size: 14px;
   font-weight: 300;
-  z-index: 102;
+  z-index: 5;
 }
 </style>
