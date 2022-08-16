@@ -32,6 +32,7 @@
 <script>
 import dayjs from "dayjs";
 import { useAppStore } from '../../store/userState'
+import { setUser } from '../../worker/user'
 import MenuBar from "../MenuBar.vue";
 
 export default {
@@ -73,7 +74,8 @@ export default {
             this.$router.push({name: 'MatchDetail', params: {user: this.user, mydata : this.mydata}})
         },
         reMatching() {
-            this.store.user.point -= 500 // decrease 500 point
+            this.store.user.userPoint -= 500
+            setUser()
             this.$router.push("/faceSelect").catch(() => {});
         },
         goChat(){
