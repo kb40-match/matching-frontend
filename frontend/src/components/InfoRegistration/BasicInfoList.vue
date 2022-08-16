@@ -63,7 +63,7 @@ export default {
     },
     data() {
         return{
-            user_id : "user1",
+            user_id : this.$userId,
             percent : 0,
             // user:{},
             // myData:{},
