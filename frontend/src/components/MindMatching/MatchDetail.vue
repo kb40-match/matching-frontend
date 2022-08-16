@@ -1,6 +1,6 @@
 <template>
     <v-container>
-        <MenuBar page="FaceSelect" />
+        <MenuBar page="MatchDetail" />
         <div id="user">
             <div id="user-img">
                 <img :src=getProfile(user.profileFilename) style="width:180px; height:180px; border-radius:100%;" />

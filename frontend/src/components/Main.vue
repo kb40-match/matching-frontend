@@ -102,7 +102,8 @@ export default {
             return price.toString().replace(regexp, ',')
     },
     reInfo(){
-      this.$router.push("/basicInfoList").catch(() => {});
+      // this.$router.push("/basicInfoList").catch(() => {});
+      this.$router.push({name: 'BasicInfoList', params: {prev: "main"}})
     },
     rePrefernce(){
       this.$router.push("/preferenceQuestion").catch(() => {});

@@ -60,33 +60,35 @@
         </div>
 
         <div v-if="page=='MyDataAgree'" style="margin-left:5px;display: flex; align-items: center;">
-        <!-- <v-icon dark large>mdi-chevron-left</v-icon> -->
         <div style="color:white; font-size:18px;margin-left:10px;">약관 동의</div>
         </div>
 
         <div v-if="page=='BasicInfoList'" style="margin-left:5px;display: flex; align-items: center;">
-        <!-- <v-icon dark large>mdi-chevron-left</v-icon> -->
         <div style="color:white; font-size:18px;margin-left:10px;">기본정보 등록</div>
         </div>
 
         <div v-if="page=='PreferenceQuestion'" style="margin-left:5px;display: flex; align-items: center;">
-        <!-- <v-icon dark large>mdi-chevron-left</v-icon> -->
         <div style="color:white; font-size:18px; margin-left:10px;">성향 파악</div>
         </div>
 
         <div v-if="page=='RequestList'" style="margin-left:5px;display: flex; align-items: center;">
-        <v-icon dark large>mdi-chevron-left</v-icon>
+        <v-icon dark large @click="goHome()">mdi-home</v-icon>
         <div style="color:white; font-size:18px; margin-left:10px;">매칭 요청목록</div>
         </div>
 
         <div v-if="page=='FaceSelect'" style="margin-left:5px;display: flex; align-items: center;">
-        <v-icon dark large>mdi-chevron-left</v-icon>
+        <v-icon dark large @click="goHome()">mdi-home</v-icon>
         <div style="color:white; font-size:18px; margin-left:10px;">외모로 연결</div>
         </div>
 
         <div v-if="page=='MindQuestion'" style="margin-left:5px;display: flex; align-items: center;">
-        <v-icon dark large>mdi-chevron-left</v-icon>
+        <v-icon dark large @click="goHome()">mdi-home</v-icon>
         <div style="color:white; font-size:18px; margin-left:10px;">마음으로 연결</div>
+        </div>
+
+        <div v-if="page=='MatchDetail'" style="margin-left:5px;display: flex; align-items: center;">
+        <v-icon dark large @click="goBack()">mdi-chevron-left</v-icon>
+        <div style="color:white; font-size:18px; margin-left:10px;">상세 정보</div>
         </div>
 
           <!-- List, Menu -->
@@ -196,6 +198,12 @@ export default {
     },
     goRequestList(){
       this.$router.push("/requestList").catch(() => {});
+    },
+    goHome(){
+      this.$router.push("/m").catch(() => {});
+    },
+    goBack(){
+      this.$router.go(-1)
     }
   },
   computed: {
