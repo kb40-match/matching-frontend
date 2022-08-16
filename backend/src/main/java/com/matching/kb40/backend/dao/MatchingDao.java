@@ -1,6 +1,7 @@
 package com.matching.kb40.backend.dao;
 
 import com.matching.kb40.backend.dto.MatchDto;
+import com.matching.kb40.backend.model.MatchingResult;
 import com.matching.kb40.backend.model.UserDataOfMatching;
 
 import java.sql.SQLException;
@@ -24,4 +25,6 @@ public interface MatchingDao {
     public List<UserDataOfMatching> retrieveReceiver(String senderId) throws SQLException;
 
     public List<UserDataOfMatching> retrieveSender(String receiverId) throws SQLException;
+
+    public MatchingResult retrieveMatchingResult(String userId) throws SQLException;
 }

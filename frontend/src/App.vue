@@ -1,8 +1,7 @@
 <template>
   <v-app>
     <StatusBar />
-    <MenuBar />
-    <div style="margin-top: 50px; padding-top: 20px; height: calc(100% - 73px)">
+    <div style="margin-top: 40px;height: calc(100% - 73px)">
       <router-view></router-view>
     </div>
   </v-app>
@@ -10,14 +9,12 @@
 
 <script>
 import { loadUser, loadMydata } from "./worker/user";
-import MenuBar from "./components/MenuBar";
 import StatusBar from "./components/_common/StatusBar.vue";
 
 export default {
   name: "App",
 
   components: {
-    MenuBar,
     StatusBar,
   },
 
@@ -25,8 +22,8 @@ export default {
     //
   }),
   created() {
-    loadUser("user1");
-    loadMydata("user1");
+    loadUser("user5");
+    loadMydata("user5");
   },
 };
 </script>
@@ -42,6 +39,6 @@ export default {
 
 #app {
   font-family: "S-CoreDream-5Medium";
-  background-color: colors.$GRAY2;
+  // background-color: colors.$GRAY1;
 }
 </style>

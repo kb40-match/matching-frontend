@@ -1,6 +1,7 @@
 package com.matching.kb40.backend.service;
 
 import com.matching.kb40.backend.dto.MatchDto;
+import com.matching.kb40.backend.model.MatchingResult;
 import com.matching.kb40.backend.model.UserDataOfMatching;
 
 import java.util.List;
@@ -18,4 +19,6 @@ public interface MatchingService {
     public List<UserDataOfMatching> findReceiver(String senderId) throws Exception;
 
     public List<UserDataOfMatching> findSender(String receiverId) throws Exception;
+
+    public List<MatchingResult> findResult(String userId) throws Exception;
 }

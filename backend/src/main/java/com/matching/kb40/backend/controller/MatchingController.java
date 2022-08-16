@@ -1,6 +1,7 @@
 package com.matching.kb40.backend.controller;
 
 import com.matching.kb40.backend.dto.MatchDto;
+import com.matching.kb40.backend.model.MatchingResult;
 import com.matching.kb40.backend.model.UserDataOfMatching;
 import com.matching.kb40.backend.service.MatchingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,5 +47,10 @@ public class MatchingController {
 	@GetMapping("/senders/{receiverId}")
 	public List<UserDataOfMatching> findSender(@PathVariable String receiverId) throws Exception {
 		return matchingService.findSender(receiverId);
+	}
+
+	@GetMapping("/result/{userId}")
+	public List<MatchingResult> findResult(@PathVariable String userId) throws Exception {
+		return matchingService.findResult(userId);
 	}
 }

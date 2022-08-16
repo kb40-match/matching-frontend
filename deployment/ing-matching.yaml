@@ -22,3 +22,10 @@ spec:
             name: matching
             port: 
               number: 8081
+      - path: /websocket-server
+        pathType: Prefix
+        backend:
+          service:
+            name: websocket-server
+            port: 
+              number: 8082

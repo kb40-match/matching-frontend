@@ -1,13 +1,15 @@
 <template>
-  <v-container>
+  <div>
+    <MenuBar page="Main" />
+      <div style="height:200px; background-color:#845ef7;"></div>
     <v-col>
       <v-row id="match" @click="goFaceMatching">
-        <div style="width: 35%"><img src="../assets/logo.png" /></div>
+        <!-- <div style="width: 35%; display:flex;align-items: center; justify-content:center;"><img src="../assets/purpleheart.png" /></div> -->
         <div
           style="
-            width: 65%;
+            width: 100%;
             text-align: center;
-            font-size: 30px;
+            font-size: 40px;
             font-weight: bold;
           "
         >
@@ -18,35 +20,35 @@
       <v-row id="match" @click="goMindMatching">
         <div
           style="
-            width: 65%;
+            width: 100%;
             text-align: center;
-            font-size: 30px;
+            font-size: 40px;
             font-weight: bold;
           "
         >
           마음으로 연결
         </div>
-        <div style="width: 35%"><img src="../assets/logo.png" /></div>
+        <!-- <div style="width: 35%; display:flex;align-items: center; justify-content:center;"><img src="../assets/purpleheart.png" /></div> -->
       </v-row>
 
       <v-row id="sub">
         <v-col id="chat">
           <div class="d-flex mb-2" style="justify-content: center">
-            <div style="width: 25px; height: 25px"></div>
-            <img id="img2" src="../assets/logo.png" />
-            <div id="chat-count">5</div>
+            <!-- <div style="width: 25px; height: 25px"></div> -->
+            <img id="img2" src="../assets/icons/chat.png" />
+            <!-- <div id="chat-count">5</div> -->
           </div>
           <div style="font-size: 25px; font-weight: bold">대화하기</div>
         </v-col>
         <v-col id="service">
           <div class="d-flex mb-2" style="justify-content: center">
-            <img id="img2" src="../assets/logo.png" />
+            <img id="img2" src="../assets/icons/service.png" />
           </div>
           <div style="font-size: 25px; font-weight: bold">사후서비스</div>
         </v-col>
       </v-row>
     </v-col>
-    <div class="bottom_menu">
+    <!-- <div class="bottom_menu">
       <div>
         <v-icon large>mdi-home-variant</v-icon>
       </div>
@@ -59,16 +61,20 @@
       <div>
         <v-icon large>mdi-account</v-icon>
       </div>
-    </div>
-  </v-container>
+    </div> -->
+  </div>
 </template>
 
 <script>
 import SockJS from "sockjs-client";
 import Stomp from "webstomp-client";
+import MenuBar from "./MenuBar";
 
 export default {
   name: "Main",
+  components:{
+    MenuBar
+  },
   data: () => ({}),
   methods: {
     goFaceMatching() {
@@ -136,7 +142,7 @@ export default {
     },
   },
   created() {
-    this.testSocket();
+    // this.testSocket();
   },
 };
 </script>
@@ -144,33 +150,41 @@ export default {
 <style>
 #match {
   border-radius: 10px;
-  border: 1px solid;
+  height:150px;
+  /* border: 1px solid; */
   padding: 13px;
-  margin: 10px;
+  margin: 20px;
+  /* margin-top:30px; */
   display: flex;
   align-items: center;
+  box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.2);
+  background-color:white;
+  /* background:linear-gradient(to right bottom, #7950f2, #b197fc); */
 }
 #sub {
-  margin: 10px;
+  margin: 20px;
   display: flex;
   align-items: center;
-  margin-top: 30px;
+  margin-top: 20px;
 }
 
 #chat {
   border-radius: 10px;
-  border: 1px solid;
   margin-right: 10px;
   text-align: center;
   padding-top: 20px;
   padding-bottom: 20px;
+  box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.2);
+  margin-right:30px;
+  background-color:white;
 }
 #service {
   border-radius: 10px;
-  border: 1px solid;
   text-align: center;
   padding-top: 20px;
   padding-bottom: 20px;
+  box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.2);
+  background-color:white;
 }
 
 img {

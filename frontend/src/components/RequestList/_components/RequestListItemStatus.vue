@@ -11,23 +11,23 @@ export default {
   computed: {
     title: function () {
       return {
-        success: "매칭 성공",
-        waiting: "대기중",
-        rejected: "거절",
+        1: "매칭 성공",
+        0: "대기중",
+        2: "종료",
       }[this.type];
     },
     backgroundColor: function () {
       return {
-        success: "#D6E1FF",
-        waiting: "#FFEEB1",
-        rejected: "#F1F3F5",
+        1: "#D6E1FF",
+        0: "#FFEEB1",
+        2: "#F1F3F5",
       }[this.type];
     },
     titleColor: function () {
       return {
-        success: "#3F73F8",
-        waiting: "#B99720",
-        rejected: "#DEE2E6",
+        1: "#3F73F8",
+        0: "#B99720",
+        2: "#DEE2E6",
       }[this.type];
     },
     cssVariables: function () {

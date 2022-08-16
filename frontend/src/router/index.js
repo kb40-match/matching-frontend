@@ -10,6 +10,7 @@ import MindMatchingList from '../components/MindMatching/MindMatchingList'
 import PreferenceQuestion from '../components/InfoRegistration/PreferenceQuestion'
 import BasicInfoList from '../components/InfoRegistration/BasicInfoList'
 import MyDataAgree from '../components/IntroAgree/MyDataAgree'
+import RequestList from '../components/RequestList'
 
 Vue.use(VueRouter);
 
@@ -61,6 +62,11 @@ export default new VueRouter({
             path: "/myDataAgree",
             name: "MyDataAgree",
             component: MyDataAgree
+        },
+        {
+            path: "/requestList",
+            name : "RequestList",
+            component: RequestList
         }
 
     ]

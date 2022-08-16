@@ -1,6 +1,7 @@
 package com.matching.kb40.backend.dao;
 
 import com.matching.kb40.backend.dto.MatchDto;
+import com.matching.kb40.backend.model.MatchingResult;
 import com.matching.kb40.backend.model.UserDataOfMatching;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,5 +59,10 @@ public class MatchingDaoImpl implements MatchingDao{
 	@Override
 	public List<UserDataOfMatching> retrieveSender(String receiverId) throws SQLException {
 		return sqlSessionTemplate.selectList(ns.concat("selectSenderByReceiverId"), receiverId);
+	}
+
+	@Override
+	public MatchingResult retrieveMatchingResult(String userId) throws SQLException {
+		return sqlSessionTemplate.selectOne(ns.concat("selectMatchingResult"), userId);
 	}
 }

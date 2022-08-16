@@ -31,6 +31,7 @@ export default {
   font-weight: 700;
   font-size: 12px;
   padding: 0 20px;
+  background-color:#845ef7
 }
 
 .left,
@@ -43,5 +44,6 @@ export default {
   justify-content: center;
   align-content: center;
   /* border: 1px solid black; */
+  color:white;
 }
 </style>

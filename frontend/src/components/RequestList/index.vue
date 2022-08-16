@@ -1,14 +1,23 @@
 <template>
   <div class="screen">
+    <MenuBar page="RequestList" />
     <main>
-      <h1>매칭 요청 목록</h1>
-      <p>지난 요청 목록을 모두 볼 수 있어요.</p>
-      <RequestListItemToggle />
-      <ul>
+      <!-- <p>지난 요청 목록을 모두 볼 수 있어요.</p> -->
+      <RequestListItemToggle @selectedTab="setTab"/>
+      <ul v-if="this.selectedTab" >
         <RequestListItem
-          v-for="item in this.items"
-          :key="item.id"
+          v-for="item in this.receiverItems"
+          :key="item.userId"
           :item="item"
+          :tab="selectedTab"
+        />
+      </ul>
+      <ul v-if="!this.selectedTab">
+        <RequestListItem
+          v-for="item in this.senderItems"
+          :key="item.userId"
+          :item="item"
+          :tab="selectedTab"
         />
       </ul>
     </main>
@@ -18,44 +27,48 @@
 <script>
 import RequestListItem from "./_components/RequestListItem.vue";
 import RequestListItemToggle from "./_components/RequestListItemToggle.vue";
-
-const dummyItems = [
-  {
-    id: 0,
-    name: "위대한재규어",
-    status: "rejected",
-  },
-  {
-    id: 1,
-    name: "머리좋은루시퍼벌새",
-    status: "success",
-  },
-  {
-    id: 2,
-    name: "호주푸른맷새",
-    status: "rejected",
-  },
-  {
-    id: 3,
-    name: "점박이올빼미",
-    status: "waiting",
-  },
-];
+import MenuBar from '../MenuBar.vue'
+import { useAppStore } from '../../store/userState'
 
 export default {
   name: "RequestList",
+  setup(){
+        const store = useAppStore()
+        return {store}
+  },
   data() {
     return {
-      items: dummyItems,
-      selectedTab: 0,
+      receiverItems: [],
+      senderItems: [],
+      selectedTab: true,
       selectedItem: -1,
     };
   },
   components: {
     RequestListItem,
     RequestListItemToggle,
+    MenuBar
   },
-  created() {},
+  methods:{
+    setTab(val){
+      this.selectedTab = val
+    }
+  },
+  async created() {
+    await this.$axios.get(`/matching/receivers/${this.store.user.userId}`)
+    .then((response)=>{
+      this.receiverItems = response.data
+    }).catch((err)=>{
+      console.log(err.response)
+    })
+
+    await this.$axios.get(`/matching/senders/${this.store.user.userId}`)
+    .then((response)=>{
+      this.senderItems = response.data
+    }).catch((err)=>{
+      console.log(err.response)
+    })
+  },
 };
 </script>
 
@@ -83,6 +96,6 @@ ul {
   width: 90%;
   /* position: relative; */
   margin: 0 auto;
-  background-color: violet;
+  // background-color: violet;
 }
 </style>

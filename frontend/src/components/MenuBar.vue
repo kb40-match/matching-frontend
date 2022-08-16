@@ -37,30 +37,66 @@
     </v-navigation-drawer>
 
     <v-app-bar
+        v-if="user"
         :clipped-left="$vuetify.breakpoint.lgAndUp"
         app
-        color="white"
+        color="#845ef7"
         elevate-on-scroll
         flat
-        style="padding-top:10px;height:73px !important"
-    >
-      <v-container :class="{ 'px-0': !$vuetify.breakpoint.smAndUp }" style="border-bottom:1px solid gray">
+        style="padding-top:10px;height:73px !important;"
+    >    <!-- margin-top:27px; -->
+      <v-container :class="{ 'px-0': !$vuetify.breakpoint.smAndUp }">
         <v-row
             :no-gutters="!$vuetify.breakpoint.smAndUp"
             align="center"
             justify="space-between"
            
         >
-        <div style="margin-left:15px;display: flex; align-items: center;">
-        <img style="width:40px;height:40px;border-radius:100%;border:1px solid; margin-right:10px;" :src=getImg(user.profile) />
-        <div>{{user.name}} 님</div>
+
+        <!-- Header Title -->
+        <div v-if="page=='Main'" style="margin-left:5px;display: flex; align-items: center;">
+        <img style="width:40px;height:40px;border-radius:100%; margin-right:10px;" :src=getImg(this.store.user.profileFilename) />
+        <div style="color:white;font-size:18px;">{{this.store.user.nickname}} 님</div>
         </div>
-          <v-col class="d-flex align-center" style="justify-content: flex-end;">
-          <v-icon style="color:black">mdi-bell</v-icon>
+
+        <div v-if="page=='MyDataAgree'" style="margin-left:5px;display: flex; align-items: center;">
+        <!-- <v-icon dark large>mdi-chevron-left</v-icon> -->
+        <div style="color:white; font-size:18px;margin-left:10px;">약관 동의</div>
+        </div>
+
+        <div v-if="page=='BasicInfoList'" style="margin-left:5px;display: flex; align-items: center;">
+        <!-- <v-icon dark large>mdi-chevron-left</v-icon> -->
+        <div style="color:white; font-size:18px;margin-left:10px;">기본정보 등록</div>
+        </div>
+
+        <div v-if="page=='PreferenceQuestion'" style="margin-left:5px;display: flex; align-items: center;">
+        <!-- <v-icon dark large>mdi-chevron-left</v-icon> -->
+        <div style="color:white; font-size:18px; margin-left:10px;">성향 파악</div>
+        </div>
+
+        <div v-if="page=='RequestList'" style="margin-left:5px;display: flex; align-items: center;">
+        <v-icon dark large>mdi-chevron-left</v-icon>
+        <div style="color:white; font-size:18px; margin-left:10px;">매칭 요청목록</div>
+        </div>
+
+        <div v-if="page=='FaceSelect'" style="margin-left:5px;display: flex; align-items: center;">
+        <v-icon dark large>mdi-chevron-left</v-icon>
+        <div style="color:white; font-size:18px; margin-left:10px;">외모로 연결</div>
+        </div>
+
+        <div v-if="page=='MindQuestion'" style="margin-left:5px;display: flex; align-items: center;">
+        <v-icon dark large>mdi-chevron-left</v-icon>
+        <div style="color:white; font-size:18px; margin-left:10px;">마음으로 연결</div>
+        </div>
+
+          <!-- List, Menu -->
+          <v-col v-if="page=='Main' || page=='RequestList' || page=='FaceSelect' || page=='MindQuestion'"
+            class="d-flex align-center" style="justify-content: flex-end;">
+          <v-icon style="color:white; margin-right:5px;" @click="goRequestList">mdi-bell</v-icon>
             <v-app-bar-nav-icon
                 v-if="!$vuetify.breakpoint.mdAndUp"
                 @click.stop="drawer = !drawer"
-                style="color:black"
+                style="color:white"
             />
             <v-toolbar-title
                 class="font-weight-bold text-h5 primary--text"
@@ -109,10 +145,18 @@
 </template>
 
 <script>
+import { useAppStore } from '../store/userState'
+
 export default {
   name: 'MenuBar',
+  setup(){
+        const store = useAppStore()
+        return {store}
+  },
+  props:{
+    page : String
+  },
   data: () => ({
-    user:{name:"이재인", profile:"logo.png"},
     drawer: null,
     btnItems: [
       {
@@ -149,7 +193,21 @@ export default {
   methods:{
     getImg(filename){
       return require("@/assets/"+filename)
+    },
+    goRequestList(){
+      this.$router.push("/requestList").catch(() => {});
     }
-  }
+  },
+  computed: {
+        user : function() {
+            return this.store.user
+        }
+    }
 };
 </script>
+
+<style>
+.v-toolbar__content{
+  padding:0px;
+}
+</style>

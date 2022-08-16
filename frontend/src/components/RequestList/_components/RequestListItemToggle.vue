@@ -1,8 +1,8 @@
 <template>
   <div class="toggleTab">
-    <button type="button" data-id="0"><span class="title">요청한 내역</span></button>
-    <button type="button" data-id="1"><span class="title">요청 받은 내역</span></button>
-    <div class="selected"></div>
+    <button type="button" @click="selectTab(true)"><span id="title">요청한 내역</span></button>
+    <button type="button" @click="selectTab(false)"><span id="title">요청 받은 내역</span></button>
+    <div :class="{'left-selected':selectedTabIndex, 'right-selected':!selectedTabIndex}"></div>
   </div>
 </template>
 
@@ -11,9 +11,15 @@ export default {
   name: "RequestListItemToggle",
   data: function () {
     return {
-      selectedTabIndex: 0,
+      selectedTabIndex: true,
     };
   },
+  methods:{
+    selectTab(i){
+      this.selectedTabIndex = i
+      this.$emit("selectedTab", this.selectedTabIndex)
+    }
+  }
 };
 </script>
 
@@ -26,7 +32,7 @@ export default {
   margin: 24px auto;
   border-radius: 24px;
   /* border: 0.5px solid #ced4da; */
-  background-color: #fff;
+  background-color: #f3f0ff;
 }
 
 button {
@@ -41,13 +47,24 @@ button {
   z-index: 100;
 }
 
-.selected {
+.left-selected {
   position: absolute;
   width: 156px;
   height: 36px;
   top: 0;
   left: 0;
-  background-color: #dee2e6;
+  background-color: #845ef7;
+  border-radius: 24px;
+  z-index: 0;
+}
+
+.right-selected {
+  position: absolute;
+  width: 156px;
+  height: 36px;
+  top: 0;
+  left: 156px;
+  background-color: #845ef7;
   border-radius: 24px;
   z-index: 0;
 }
@@ -60,10 +77,9 @@ button {
   left: 156px;
 } */
 
-.title {
+#title {
   font-size: 14px;
   font-weight: 300;
-  color: #000;
   z-index: 102;
 }
 </style>

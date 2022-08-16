@@ -11,6 +11,11 @@ export const fetchMyData = async (userId) => {
   return response.data;
 };
 
+export const fetchResultFromAI = async (userId) => {
+  const response = await axios.get(`/user/${userId}`); // FIXME: change path
+  return response.data;
+}
+
 export const loadUser = async (userId) => {
   const store = useAppStore();
   store.user = await fetchUser(userId);
@@ -20,6 +25,11 @@ export const loadMydata = async (userId) => {
   const store = useAppStore();
   store.myData = await fetchMyData(userId);
 };
+
+export const loadResultFromAI = async (userId) => {
+  const store = useAppStore();
+  store.aiResult = await fetchResultFromAI(userId);
+}
 
 export const setUser = async () => {
   const store = useAppStore();

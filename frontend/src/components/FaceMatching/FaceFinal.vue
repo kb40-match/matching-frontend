@@ -1,23 +1,28 @@
 <template>
 <v-container>
-<div>
+    <MenuBar page="FaceSelect" />
+    <div>
+        <div style="font-size:20px;text-align:center;margin-top:30px;">
+            <div>대화를 요청하시려면</div>
+            <div class="d-flex" style="justify-content: center;align-items: center;">아래 <div id="chat-mini"> <v-icon small style="color:white">mdi-chat</v-icon> </div> 를 눌러주세요! </div>
+        </div>
     <div id="user">
-        <div id="user-img"><img :src=getProfile(user.profileFilename) /></div>
+        <div id="user-img"><img :src=getProfile(user.profileFilename) style="height:260px;width:260px;border-radius:100%;" /></div>
         <div id="user-info">
             <div style="display:flex; align-items:center;">
-                <div style="width:180px;">
-                <div style="font-size:20px;">{{user.nickname}}, {{mydata.age}}세</div>
+                <div style="width:220px;">
+                <div style="font-size:21px;">{{user.nickname}}, {{mydata.age}}세</div>
                 <div style="font-size:15px;"><v-icon small style="color:black;">mdi-map-marker</v-icon>{{mydata.address}}</div>
                 </div>
                 <div id="chat" @click="goChat">
-                    <v-icon large style="color:white">mdi-chat-outline</v-icon>
+                    <v-icon style="color:white">mdi-chat</v-icon>
                 </div>
             </div>
         </div>
     </div>
-    <div style="text-align:center">
-        <v-btn text rounded large dark @click="displayDetail" style="font-size:15px;margin-right: 15px;">상세 정보 보기</v-btn>
-        <v-btn rounded text large dark @click="reMatching" style="font-size:15px;margin-left: 15px;">다시하기(500원)</v-btn>
+    <div style="text-align:center; margin-top:20px;">
+        <v-btn text rounded large dark @click="displayDetail" id="btn" >상세정보 보기</v-btn>
+        <v-btn rounded text large dark @click="reMatching" id="btn">다시하기 (-500P)</v-btn>
     </div>
 </div>
 </v-container>
@@ -25,10 +30,27 @@
 </template>
 
 <script>
+import dayjs from "dayjs";
+import { useAppStore } from '../../store/userState'
+import MenuBar from "../MenuBar.vue";
+
 export default {
+    components:{
+        MenuBar
+    },
+    setup(){
+        const store = useAppStore()
+        return {store}
+    },
     data(){
         return{
-            mydata:{}
+            mydata:{},
+            match:{
+                sender:'',
+                receiver:'',
+                activeFlag:'',
+                createdData:''
+            }
         }
     },
     props:{
@@ -42,10 +64,9 @@ export default {
                 .get(`/user/mydata/${this.user.userId}`)
                 .then((response) => {
                     this.mydata =  response.data
-                    console.log(this.mydata)
                 })
                 .catch((err) => {
-                    console.log(err.response);
+                    console.log(err.response)
                 });
         },
         displayDetail() {
@@ -55,7 +76,17 @@ export default {
             this.$router.push("/faceSelect").catch(() => {});
         },
         goChat(){
-            console.log("goChat")
+            this.match.sender=this.store.user.userId
+            this.match.receiver=this.user.userId
+            this.match.activeFlag = '0'
+            this.match.createdDate = dayjs().format("YYYYMMDDHHmmss")
+
+            this.$axios.post(`/matching/request`, this.match)
+            .then(()=>{
+                console.log("요청하였습니다.")
+            }).catch((err)=>{
+                console.log(err.response)
+            })
         },
         getProfile(i){
             return require("@/assets/" + i)
@@ -69,11 +100,13 @@ export default {
 
 
 <style scoped>
-button {
-    /* background:rgb(248, 212, 89); */
+#btn{
+    font-size:18px;
+    /* margin-right: 15px; */
+    margin-top: 8px;
     background: #8452f7;
-    width:40%;
-    font-size:15px;
+    width:88%;
+    height:50px;
 }
 
 #user{
@@ -92,8 +125,8 @@ button {
     /* border : 1px solid; */
     border-radius: 30px;
     height:100px;
-    margin:20px;
-    padding:20px;
+    margin:20px 10px 20px 10px;
+    padding:15px;
     align-items: center;
     display:flex;
     background-color:#f3f0ff;
@@ -107,5 +140,18 @@ button {
     border-radius:100%;
     background-color:#8452f7;
     border:none;
+}
+
+#chat-mini{
+    width:30px; 
+    height:30px; 
+    display:flex; 
+    align-items:center; 
+    justify-content:center; 
+    border-radius:100%;
+    background-color:#8452f7;
+    border:none;
+    margin-right:2px;
+    margin-left:5px;
 }
 </style>

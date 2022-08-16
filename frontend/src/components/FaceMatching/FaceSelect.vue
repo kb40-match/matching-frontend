@@ -1,31 +1,36 @@
 <template>
 <v-container v-if="users.length">
+<MenuBar page="FaceSelect" />
 <div style="text-align:center;">
     <div id = "title">
         <h1 v-if="stage==2">결승</h1>
         <h1 v-else>{{stage}} 강전</h1>
-        <h3>마음이 가는 사용자를 선택해주세요</h3>
+        <span style="font-size:22px;">마음이 가는 사용자를 선택해주세요!</span>
     </div>
     <div id = "face-img">
     
-    <img  :src="getProfile(this.save[this.round])" @click="selectT" :class="{'selected':isTop, 'no-selected':!isTop}" />
-    <h2>VS</h2>
-    <img  :src="getProfile(this.save[this.round+1])" @click="selectB" :class="{'selected':isBottom, 'no-selected':!isBottom}"/>
-    </div>
-    <v-btn id="nextBtn" rounded text large dark @click="goNext">{{this.btnText}}</v-btn>
-    <v-snackbar v-model="alert" Bottom flat color="black" rounded="pill" :timeout="1500">
+        <img :src="getProfile(this.save[this.round])" @click="selectT" :class="{'selected':isTop, 'no-selected':!isTop}" />
+        <p style="font-size:30px;font-weight:bold">VS</p>
+        <img :src="getProfile(this.save[this.round+1])" @click="selectB" :class="{'selected':isBottom, 'no-selected':!isBottom}"/>
+    </div> 
+    <v-btn id="nextBtn" rounded text large dark @click="goNext" :disabled=check()>{{this.btnText}}</v-btn>
+    <!-- <v-snackbar v-model="alert" Bottom flat color="black" rounded="pill" :timeout="1500">
       <span class="snackText">
         한명을 선택해주세요
       </span>
-    </v-snackbar>
+    </v-snackbar> -->
 </div>
 </v-container>
 </template>
 
 <script>
 import { useAppStore } from '../../store/userState'
+import MenuBar from "../MenuBar.vue";
 
 export default {
+    components:{
+        MenuBar
+    },
     setup(){
         const store = useAppStore()
         return {store}
@@ -33,7 +38,7 @@ export default {
     data(){
         return{
             myDataFlag : false,
-            alert: false,
+            // alert: false,
             btnText : "다음",
             stage : 8,
             round : 0,
@@ -49,13 +54,17 @@ export default {
             this.isTop = true;
             this.isBottom = false;
         },
+        check(){
+            if(!this.isTop && !this.isBottom) return true
+            return false
+        },
         selectB() {
             this.isTop = false;
             this.isBottom = true;
         },
         goNext() {
             if(!this.isTop && !this.isBottom){
-                this.alert = true;
+                // this.alert = true;
                 return;
             }
             
@@ -114,6 +123,9 @@ export default {
 
 
 <style scoped>
+h1{
+    font-size:50px;
+}
 #title{
     text-align:center;
     margin-top:10px;
@@ -127,11 +139,12 @@ export default {
 #nextBtn{
     background-color:#8452f7;
     width:70%;
+    font-size:24px;
 }
 
 img {
-    width:160px;
-    height:160px;
+    width:200px;
+    height:200px;
     border: 5px solid #f3f0ff;
     border-radius: 50%;
      /* filter: brightness(50%); */

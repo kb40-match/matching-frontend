@@ -87,10 +87,31 @@
          ORDER BY m.created_date
     </select>
 
-    <select id="selectSenderByReceiverId" resultType="com.matching.kb40.backend.model.UserDataOfMatching">
-        SELECT u.*, m.active_flag, m.created_date
-          FROM matching.tb_user u LEFT JOIN matching.tb_match m ON u.user_id = m.sender
-         WHERE m.receiver = #{userId}
-         ORDER BY m.created_date
+    <select id="selectMatchingResult" resultType="com.matching.kb40.backend.model.MatchingResult">
+        SELECT 1 as num
+             , u.user_id
+             , m.name
+             , m.gender
+             , m.age
+             , m.address
+             , m.assets
+             , m.consume_ptn1
+             , m.consume_ptn2
+             , m.consume_ptn3
+             , m.invest_prop
+             , u.job
+             , u.mbti_mind
+             , u.mbti_recog
+             , u.mbti_judge
+             , u.mbti_tactics
+             , u.profile_filename
+             , u.user_point
+             , u.pet_prefer
+             , u.nickname
+             , u.agree_flag
+             , u.hobby
+             , 0 as fit_percent
+          FROM matching.tb_user u LEFT JOIN matching.tb_mydata m ON u.mydata_id = m.mydata_id
+         WHERE u.user_id = #{userId}
     </select>
 </mapper>  

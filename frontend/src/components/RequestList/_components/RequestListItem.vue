@@ -1,16 +1,15 @@
 <template>
-  <li @click="toggleIsOpen">
+  <li @click="toggleIsOpen" style="text-align:center">
     <div class="baseButton" type="button">
-      <div class="profile"></div>
-      <p class="name">{{ this.item.name }}</p>
-      <RequestListItemStatus :type="this.item.status" />
+      <div class="ml-2"><v-img class="profile" :src=getImg(this.item.profileFilename)  /></div>
+      <p class="name">{{ this.item.nickname }}</p>
+      <RequestListItemStatus :type="this.item.activeFlag" />
     </div>
-    <RequestListItemDetail v-if="this.isOpen" />
+    <RequestListItemDetail v-if="this.isOpen" :contents=this.item :tab="this.tab" />
   </li>
 </template>
 
 <script>
-// import { useRequestListStore } from "../../../store/states/requestList";
 import RequestListItemStatus from "./RequestListItemStatus.vue";
 import RequestListItemDetail from "./RequestListItemDetail.vue";
 
@@ -18,10 +17,12 @@ export default {
   name: "RequestListItem",
   props: {
     item: Object, // id, name, status(success->1/waiting->0/rejected->2), ...detail
-    // TODO rejected -> terminated 변경하기
+    tab: Boolean,
   },
   data: function () {
-    return { isOpen: false };
+    return {
+      isOpen: false,
+    };
   },
   components: {
     RequestListItemStatus,
@@ -31,8 +32,9 @@ export default {
     toggleIsOpen() {
       this.isOpen = !this.isOpen;
     },
-  },
-  created() {
+    getImg(filename){
+      if(filename != undefined) return require("@/assets/"+filename)
+    },
   },
 };
 </script>
@@ -41,7 +43,7 @@ export default {
 
 li {
   position: relative;
-  width: calc(100% - 30px);
+  // width: calc(100% - 30px);
   line-height: 78px;
   margin: 10px 0;
   padding: 0 15px;
@@ -49,14 +51,17 @@ li {
   /* align-items: center; */
   list-style: none;
   border-radius: 15px;
-  background-color: colors.$WHITE;
+  // background-color: #f3f0ff;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  border:1px solid;
   transition: height 1s;
   cursor: pointer;
   transition: background-color 100ms;
+  
 
-  &:hover {
-    background-color: colors.$GRAY0;
-  }
+  // &:hover {
+  //   background-color: colors.$GRAY0;
+  // }
 }
 
 /* li:hover {
@@ -67,6 +72,9 @@ li {
   display: flex;
   align-items: center;
   height: 78px;
+  margin-bottom:10px;
+  // border:1px solid;
+  // border-radius:15px;
 }
 
 .profile {

@@ -1,5 +1,6 @@
 <template>
     <v-container v-if = "this.user && this.myData" style="height: 100%; text-align:center;">
+    <MenuBar page="BasicInfoList" />
             <div style="height:20%; padding-top:40px; text-align:center; display:flex;justify-content: center;">
                 <v-progress-linear
                     v-model="percent"
@@ -10,18 +11,18 @@
                     style="width:90%; border-radius:20px;"
                 >
                     <template v-slot:default="{ value }">
-                        <strong>{{ Math.ceil(value) }}%</strong>
+                        <strong style="color:white">{{ Math.ceil(value) }}%</strong>
                     </template>
                 </v-progress-linear>
             </div>
             <div style="height:60%; padding-top:10%;">
                 <div class="mb-10">
-                    <h1>나의 {{items[num]}} </h1>
+                    <span style="font-size:40px;">나의 {{items[num]}} </span>
                 </div>
                 <div style="display:flex; justify-content: center; align-items: center;">
                     <input v-if="num==0" id="text-form" v-model="user.nickname" placeholder="닉네임을 입력하세요.">
                     <div v-if="num==1" id="disable-form">{{myData.age}} </div> <span v-if="num==1">세</span>
-                    <div v-if="num==2" id="disable-form">{{myData.address}} </div> <span v-if="num==2"></span>
+                    <div v-if="num==2" id="disable-form">{{myData.address}} </div>
                     <input v-if="num==3" id="text-form" v-model="user.job" placeholder="직업을 입력하세요.">
                     <div v-if="num==4" style="display:flex">
                         <v-col>
@@ -39,16 +40,20 @@
                 </div>
             </div>
             <div style="height:20%">
-                <v-btn text rounded dark large @click="goPre" class="mr-7" v-if="num!=0" style="background-color:#8452f7; width:40%; font-size:20px;">이전</v-btn>
-                <v-btn text rounded dark large @click="goNext" style="background-color:#8452f7; width:40%; font-size:20px;" :disabled=check()>{{btnText}}</v-btn>
+                <v-btn text rounded dark large @click="goPre" class="mr-7" v-if="num!=0" style="background-color:#8452f7; width:40%; font-size:20px; height:60px;">이전</v-btn>
+                <v-btn text rounded dark large @click="goNext" style="background-color:#8452f7; width:40%; font-size:20px;height:60px;" :disabled=check()>{{btnText}}</v-btn>
             </div>
     </v-container>
 </template>
 
 <script>
 import { useAppStore } from '../../store/userState'
+import MenuBar from "../MenuBar.vue";
 
 export default {
+    components:{
+        MenuBar
+    },
     setup(){
         const store = useAppStore()
         return {store}
@@ -61,7 +66,7 @@ export default {
             // myData:{},
             hobbyItems : ["스포츠/피트니스", "어학", "재테크/투자", "요리/음료/맛집", "교양/전시회", "게임/코딩/프로그래밍", "음악/악기", "사진/영상제작", "패션/뷰티", "공에/DIY", "미술/캘리그라피", "연기/춤", "기타"],
             num : 0,
-            items : ["닉네임은", "나이는", "거주지는", "직업은", "소비패턴TOP3는", "총 자산은", "투자성향은", "취미는"],
+            items : ["닉네임은", "나이는", "거주지는", "직업은", "소비패턴은", "총 자산은", "투자성향은", "취미는"],
             btnText : "다음"
         }
     },
@@ -159,7 +164,7 @@ span{
     font-weight:bold;
     padding:10px;
     margin-right:10px;
-    width:240px;
+    width:250px;
     background-color: #f3f0ff;
 }
 
