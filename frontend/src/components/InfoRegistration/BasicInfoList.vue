@@ -54,6 +54,9 @@ export default {
     components:{
         MenuBar
     },
+    props:{
+        prev : String
+    },
     setup(){
         const store = useAppStore()
         return {store}
@@ -86,7 +89,10 @@ export default {
                 this.store.user.job = this.user.job
                 this.store.user.hobby = this.user.hobby
                 console.log(this.store.user)
-                this.$router.push("/preferenceQuestion").catch(() => {});
+                if(this.prev=="first")
+                    this.$router.push("/preferenceQuestion").catch(() => {})
+                else
+                    this.$router.push("/m").catch(() => {})
                 return
             }
 

@@ -248,7 +248,8 @@ export default {
       }
       else {
         this.store.user.agreeFlag = "Y"
-        this.$router.push("/basicInfoList").catch(() => {});
+        // this.$router.push("/basicInfoList").catch(() => {});
+        this.$router.push({name: 'BasicInfoList', params: {prev: "first"}})
       }
     },
     check(){
