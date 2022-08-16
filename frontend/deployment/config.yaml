@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: matching-frontend-config
+data:
+  SERVLET_CONTEXT_PATH: "/"
+  HOST: "http://matching"
