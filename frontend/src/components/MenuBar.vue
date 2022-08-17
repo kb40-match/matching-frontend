@@ -27,32 +27,6 @@
           <v-btn text id="under" @click="goMind()">마음으로 연결</v-btn>
         </v-col>
       </div>
-      <!-- <v-list nav>
-        <v-list-item
-            v-for="(item, i) in btnItems"
-            :key="`k1-${i}`"
-            :href="item.href"
-            :target="item.target"
-            :to="item.to"
-            link
-        >
-          <v-list-item-content>
-            <v-list-item-title>{{ item.text }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-        <v-list-item
-            v-for="(item, i) in barItems"
-            :key="`k2-${i}`"
-            :href="item.href"
-            :target="item.target"
-            :to="item.to"
-            link
-        >
-          <v-list-item-content>
-            <v-list-item-title>{{ item.title }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list> -->
     </v-navigation-drawer>
 
     <v-app-bar
@@ -63,13 +37,12 @@
         elevate-on-scroll
         flat
         style="padding-top:10px;height:73px !important;"
-    >    <!-- margin-top:27px; -->
+    > 
       <v-container :class="{ 'px-0': !$vuetify.breakpoint.smAndUp }">
         <v-row
             :no-gutters="!$vuetify.breakpoint.smAndUp"
             align="center"
             justify="space-between"
-           
         >
 
         <!-- Header Title -->
@@ -215,7 +188,7 @@ export default {
       this.$router.push("/requestList").catch(() => {});
     },
     goHome(){
-      this.$router.go("/").catch(() => {});
+      this.$router.push("/").catch(() => {});
     },
     goBack(){
       this.$router.go(-1)
