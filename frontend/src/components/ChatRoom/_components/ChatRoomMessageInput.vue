@@ -1,52 +1,78 @@
 <template>
-  <div class="chat-input-wrapper">
-    <AddSVG class="chat-add-icon" />
-    <input
-      type="textarea"
-      placeholder="메세지를 입력하세요."
-      @input="updateText($event)"
-      @keyup.enter="confirmText($event)"
-    />
-    <SendSVG class="chat-send-icon" @click="sendMessage" />
+  <div class="wrapper" :style="cssVariables">
+    <div class="chat-input-wrapper">
+      <AddSVG class="chat-add-icon" @click="toggleMore" />
+      <input
+        type="textarea"
+        placeholder="메세지를 입력하세요."
+        @input="updateText($event)"
+        @keyup.enter="confirmText($event)"
+        ref="textInput"
+      />
+      <SendSVG class="chat-send-icon" @click="confirmText" />
+    </div>
+    <ChatRoomMoreContent v-if="showMore" />
   </div>
 </template>
 
 <script>
 import AddSVG from "@/assets/icons/add.svg";
 import SendSVG from "@/assets/icons/send.svg";
-import { produceKafkaChat } from "../_worker/kafka";
+import ChatRoomMoreContent from "./ChatRoomMoreContent.vue";
 
 export default {
   name: "ChatRoomMessageInput",
   data() {
     return {
       text: "",
+      showMore: false,
     };
   },
+  computed: {
+    cssVariables() {
+      return {
+        height: this.showMore ? "250px" : "40px",
+      };
+    },
+  },
   methods: {
+    toggleMore() {
+      this.showMore = !this.showMore;
+    },
     updateText(event) {
       this.text = event.target.value;
     },
     confirmText() {
       this.$emit("sentMessageContent", this.text);
       this.text = "";
-    },
-    sendMessage() {
-      produceKafkaChat();
+      this.$refs.textInput.value = "";
     },
   },
   components: {
     AddSVG,
     SendSVG,
+    ChatRoomMoreContent,
+  },
+  mounted() {
+    this.$refs.textInput.focus();
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.wrapper {
+  position: absolute;
+  bottom: 0;
+  height: var(height);
+  transition: height 150ms;
+}
 .chat-input-wrapper {
+  width: 100%;
+  height: 60px;
   display: flex;
   justify-content: center;
-  margin-bottom: 0;
+  background-color: colors.$GRAY2;
+  z-index: 51;
 }
 
 svg {
@@ -84,6 +110,7 @@ input[type="textarea"] {
   padding-left: 10px;
   border-radius: 10px;
   background-color: colors.$GRAY3;
+  font-size: 14px;
 
   &:focus {
     outline: none;
