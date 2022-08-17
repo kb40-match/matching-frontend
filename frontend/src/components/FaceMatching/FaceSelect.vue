@@ -26,6 +26,7 @@
 <script>
 import { useAppStore } from '../../store/userState'
 import MenuBar from "../MenuBar.vue";
+import { loadFaceFinalUser } from '../../worker/user';
 
 export default {
     components:{
@@ -97,7 +98,10 @@ export default {
 
             if(this.stage == 1){ // 상세 페이지로 화면 이동
                 let finalUser = this.users[this.save[0]]
-                this.$router.push({name: 'FaceFinal', params: {user: finalUser}})
+                loadFaceFinalUser(finalUser)
+                // console.log(this.store.faceFinalUser)
+                // this.$router.push({name: 'FaceFinal', params: {user: finalUser}})
+                this.$router.push({name: 'FaceFinal'})
             }
         },
         getProfile(i){

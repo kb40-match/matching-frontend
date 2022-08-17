@@ -50,6 +50,7 @@ export default {
     },
     data(){
         return{
+            user:{},
             mydata:{},
             match:{
                 sender:'',
@@ -61,11 +62,11 @@ export default {
             message:''
         }
     },
-    props:{
-        user:{
-            type:Object
-        }
-    },
+    // props:{
+    //     user:{
+    //         type:Object
+    //     }
+    // },
     methods: {
         getMydata(){
             this.$axios
@@ -109,6 +110,9 @@ export default {
     },
     mounted() { 
         this.getMydata()
+    },
+    created(){
+        this.user = this.store.faceFinalUser
     }
 }
 </script>
