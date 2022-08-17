@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useAppStore } from "../store/userState";
 
-export const API_URL_BASE = "http://matching.169.56.100.104.nip.io/";
+export const API_URL_BASE = "http://matching.169.56.100.104.nip.io";
 
 export const fetchUser = async (userId) => {
   const response = await axios.get(`${API_URL_BASE}/match/user/${userId}`);

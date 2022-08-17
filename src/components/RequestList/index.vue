@@ -33,7 +33,7 @@
 import RequestListItem from "./_components/RequestListItem.vue";
 import RequestListItemToggle from "./_components/RequestListItemToggle.vue";
 import MenuBar from "../_common/MenuBar.vue";
-import { useAppStore } from "../../store/userState";
+import { useAppStore } from "@/store/userState";
 import { loadUser } from "@/worker/user";
 
 export default {

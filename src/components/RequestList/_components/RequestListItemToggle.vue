@@ -1,8 +1,17 @@
 <template>
   <div class="toggleTab">
-    <button type="button" @click="selectTab(true)"><span id="title">요청한 내역</span></button>
-    <button type="button" @click="selectTab(false)"><span id="title">요청 받은 내역</span></button>
-    <div :class="{'left-selected':selectedTabIndex, 'right-selected':!selectedTabIndex}"></div>
+    <button type="button" @click="selectTab(true)">
+      <span id="title">요청한 내역</span>
+    </button>
+    <button type="button" @click="selectTab(false)">
+      <span id="title">요청 받은 내역</span>
+    </button>
+    <div
+      :class="{
+        'left-selected': selectedTabIndex,
+        'right-selected': !selectedTabIndex,
+      }"
+    ></div>
   </div>
 </template>
 
@@ -14,16 +23,16 @@ export default {
       selectedTabIndex: true,
     };
   },
-  methods:{
-    selectTab(i){
-      this.selectedTabIndex = i
-      this.$emit("selectedTab", this.selectedTabIndex)
-    }
-  }
+  methods: {
+    selectTab(i) {
+      this.selectedTabIndex = i;
+      this.$emit("selectedTab", this.selectedTabIndex);
+    },
+  },
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .toggleTab {
   position: relative;
   display: flex;
@@ -45,6 +54,8 @@ button {
   width: calc(100% / 2);
   border-radius: 24px;
   z-index: 3;
+  cursor: pointer;
+  transition: 100ms background-color;
 }
 
 .left-selected {
@@ -53,7 +64,7 @@ button {
   height: 36px;
   top: 0;
   left: 0;
-  background-color: #845ef7;
+  background-color: colors.$VIOLET2;
   border-radius: 24px;
   z-index: 0;
 }
@@ -64,7 +75,7 @@ button {
   height: 36px;
   top: 0;
   left: 156px;
-  background-color: #845ef7;
+  background-color: colors.$VIOLET2;
   border-radius: 24px;
   z-index: 0;
 }
