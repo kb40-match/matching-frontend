@@ -10,6 +10,9 @@ const pinia = createPinia()
 Vue.use(PiniaVuePlugin)
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios
+Vue.prototype.$userId = "user1"
+
+
 
 new Vue({
   vuetify,

@@ -56,6 +56,11 @@
                 <hr />
              </div>
         </div>
+        <v-snackbar v-model="alert" top flat color="#f1f3f5" rounded="pill" :timeout="1500" style="margin-top:70px;font-size:20px;">
+        <span class="snackText">
+            {{message}}
+        </span>
+        </v-snackbar>
     </v-container>
 </template>
 <script>
@@ -79,7 +84,9 @@ export default {
                 receiver:'',
                 activeFlag:'',
                 createdData:''
-            }
+            },
+            alert:false,
+            message:''
         }
     },
     props:{
@@ -98,8 +105,13 @@ export default {
             this.match.createdDate = dayjs().format("YYYYMMDDHHmmss")
 
             this.$axios.post(`/matching/request`, this.match)
-            .then(()=>{
-                console.log("요청하였습니다.")
+            .then((response)=>{
+                if(response.data){
+                    this.message="대화를 요청했습니다."
+                }else{
+                    this.message="이미 진행중입니다."
+                }
+                this.alert=true
             }).catch((err)=>{
                 console.log(err.response)
             })

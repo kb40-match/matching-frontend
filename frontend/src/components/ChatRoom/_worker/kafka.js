@@ -29,7 +29,7 @@ export const produceKafkaChat = async (
     messages: [
       {
         matchId: 1,
-        userId: "user1",
+        userId: this.$userId,
         content,
         createdDate: "20220811033230",
       },

@@ -1,7 +1,7 @@
 <template>
-  <li @click="toggleIsOpen" style="text-align:center">
-    <div class="baseButton" type="button">
-      <div class="ml-2"><v-img class="profile" :src=getImg(this.item.profileFilename)  /></div>
+  <li  style="text-align:center">
+    <div @click="toggleIsOpen" class="baseButton" type="button">
+      <div class="ml-2 mr-5"><v-img class="profile" :src=getImg(this.item.profileFilename)  /></div>
       <p class="name">{{ this.item.nickname }}</p>
       <RequestListItemStatus :type="this.item.activeFlag" />
     </div>

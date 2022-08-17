@@ -1,7 +1,7 @@
 <template>
   <v-app>
-    <StatusBar />
-    <div style="margin-top: 40px;height: calc(100% - 73px)">
+    <!-- <StatusBar /> -->
+    <div style="margin-top: 70px;height: calc(100% - 73px)">
       <router-view></router-view>
     </div>
   </v-app>
@@ -22,8 +22,8 @@ export default {
     //
   }),
   created() {
-    loadUser("user131");
-    loadMydata("user131");
+    loadUser(this.$userId)
+    loadMydata(this.$userId)
   },
 };
 </script>

@@ -25,6 +25,11 @@
         <v-btn rounded text large dark @click="reMatching" id="btn">다시하기 (-500P)</v-btn>
     </div>
 </div>
+<v-snackbar v-model="alert" top flat color="#f1f3f5" rounded="pill" :timeout="1500" style="margin-top:70px;font-size:20px;">
+      <span class="snackText">
+        {{message}}
+      </span>
+    </v-snackbar>
 </v-container>
 
 </template>
@@ -32,6 +37,7 @@
 <script>
 import dayjs from "dayjs";
 import { useAppStore } from '../../store/userState'
+import { setUser } from '../../worker/user'
 import MenuBar from "../MenuBar.vue";
 
 export default {
@@ -44,20 +50,23 @@ export default {
     },
     data(){
         return{
+            user:{},
             mydata:{},
             match:{
                 sender:'',
                 receiver:'',
                 activeFlag:'',
                 createdData:''
-            }
+            },
+            alert:false,
+            message:''
         }
     },
-    props:{
-        user:{
-            type:Object
-        }
-    },
+    // props:{
+    //     user:{
+    //         type:Object
+    //     }
+    // },
     methods: {
         getMydata(){
             this.$axios
@@ -73,7 +82,8 @@ export default {
             this.$router.push({name: 'MatchDetail', params: {user: this.user, mydata : this.mydata}})
         },
         reMatching() {
-            this.store.user.point -= 500 // decrease 500 point
+            this.store.user.userPoint -= 500
+            setUser()
             this.$router.push("/faceSelect").catch(() => {});
         },
         goChat(){
@@ -83,8 +93,13 @@ export default {
             this.match.createdDate = dayjs().format("YYYYMMDDHHmmss")
 
             this.$axios.post(`/matching/request`, this.match)
-            .then(()=>{
-                console.log("요청하였습니다.")
+            .then((response)=>{
+                if(response.data){
+                    this.message="대화를 요청했습니다."
+                }else{
+                    this.message="이미 진행중입니다."
+                }
+                this.alert=true
             }).catch((err)=>{
                 console.log(err.response)
             })
@@ -95,6 +110,9 @@ export default {
     },
     mounted() { 
         this.getMydata()
+    },
+    created(){
+        this.user = this.store.faceFinalUser
     }
 }
 </script>

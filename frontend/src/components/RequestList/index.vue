@@ -11,7 +11,9 @@
           :item="item"
           :tab="selectedTab"
         />
+        <div v-if="receiverItems.length==0">목록이 없습니다.</div>
       </ul>
+
       <ul v-if="!this.selectedTab">
         <RequestListItem
           v-for="item in this.senderItems"
@@ -19,6 +21,7 @@
           :item="item"
           :tab="selectedTab"
         />
+        <div v-if="senderItems.length==0">목록이 없습니다.</div>
       </ul>
     </main>
   </div>
