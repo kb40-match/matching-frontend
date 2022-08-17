@@ -82,7 +82,7 @@ export default {
             this.clickedLeft = false
             this.clickedRight = false
             if(this.b >= 3) {
-                loadResultFromAI(this.$userId)  // get 5 user and myData objects
+                loadResultFromAI(localStorage.getItem("userId"))  // get 5 user and myData objects
                 this.loading = true
 
                 setTimeout(() => {

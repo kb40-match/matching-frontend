@@ -112,7 +112,7 @@ export default {
         this.getMydata()
     },
     created(){
-        loadUser(this.$userId)
+        loadUser(localStorage.getItem("userId"))
         this.user = this.store.faceFinalUser
     }
 }

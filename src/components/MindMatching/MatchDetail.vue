@@ -130,7 +130,7 @@ export default {
         this.hobbies = this.user.hobby.split('/')
     },
     created(){
-        loadUser(this.$userId)
+        loadUser(localStorage.getItem("userId"))
     }
 }
 </script>

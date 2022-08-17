@@ -22,8 +22,8 @@ export default {
     //
   }),
   created() {
-    loadUser(this.$userId)
-    loadMydata(this.$userId)
+    loadUser(localStorage.getItem("userId"))
+    loadMydata(localStorage.getItem("userId"))
   },
 };
 </script>

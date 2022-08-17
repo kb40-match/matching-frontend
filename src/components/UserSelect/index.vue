@@ -58,14 +58,11 @@ export default {
   methods: {
     async onSubmitForm() {
       if (this.check()) {
-        this.userId =
-          this.userId.substring(0, 4) +
-          parseInt(this.userId.substring(4, this.userId.length));
-        this.$userId = this.userId;
-        await loadUser(this.$userId);
-        await loadMydata(this.$userId);
+        this.userId =this.userId.substring(0, 4) + parseInt(this.userId.substring(4, this.userId.length));
+        localStorage.setItem("userId", this.userId);
+        await loadUser(localStorage.getItem("userId"));
+        await loadMydata(localStorage.getItem("userId"));
         this.$router.push("/myDataAgree").catch(() => {});
-        console.log(this.store.user);
       } else {
         this.alert = true;
       }

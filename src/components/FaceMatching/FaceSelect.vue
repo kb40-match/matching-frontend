@@ -120,8 +120,8 @@ export default {
         }
     },
     async created(){
-        await loadUser(this.$userId)
-        await loadMydata(this.$userId)
+        await loadUser(localStorage.getItem("userId"))
+        await loadMydata(localStorage.getItem("userId"))
         await this.getRandom()
     }
 }

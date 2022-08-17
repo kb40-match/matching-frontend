@@ -61,7 +61,7 @@ export default {
     },
   },
   async created() {
-    await loadUser(this.$userId);
+    await loadUser(localStorage.getItem("userId"));
     await this.$axios
       .get(
         `http://matching.169.56.100.104.nip.io/match/matching/receivers/${this.store.user.userId}`,
