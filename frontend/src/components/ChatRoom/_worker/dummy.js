@@ -43,13 +43,13 @@ export const chatDataDummy = [
   },
 ];
 
-export const receiverDummy = {
+export const userDummy = {
   userId: "123",
   nickname: "위대한재규어",
   address: "인천시 송도동",
 };
 
-export const userDummy = {
+export const receiverDummy = {
   userId: "345",
   nickname: "아이유",
   address: "서울시 서초동",

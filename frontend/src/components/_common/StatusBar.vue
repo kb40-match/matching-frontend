@@ -2,14 +2,15 @@
   <div class="statusBar">
     <div class="left">{{ this.currentTime }}</div>
     <div class="right">
-      {{ this.dummyRightText }}
+      
     </div>
   </div>
 </template>
 
 <script>
 import dayjs from "dayjs";
-
+// import BatterySVG from "@/assets/icons/battery.svg";
+//TODO
 export default {
   name: "StatusBar",
   data() {
@@ -31,7 +32,7 @@ export default {
   font-weight: 700;
   font-size: 12px;
   padding: 0 20px;
-  background-color:#845ef7
+  background-color: #845ef7;
 }
 
 .left,
@@ -44,6 +45,6 @@ export default {
   justify-content: center;
   align-content: center;
   /* border: 1px solid black; */
-  color:white;
+  color: white;
 }
 </style>
