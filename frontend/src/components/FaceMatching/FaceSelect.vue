@@ -114,7 +114,7 @@ export default {
             }))
         },
         async getRandom(){
-            const response = await this.$axios.get(`/user/findRandom/${this.store.myData.gender}`) // ${this.store.myData.gender}!!!!!
+            const response = await this.$axios.get(`http://matching.169.56.100.104.nip.io/match/user/findRandom/${this.store.myData.gender}`) // ${this.store.myData.gender}!!!!!
             this.users = response.data
             this.setIdx()
         }

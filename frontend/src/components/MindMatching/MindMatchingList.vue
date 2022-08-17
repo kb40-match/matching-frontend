@@ -99,7 +99,7 @@ export default {
             this.match.receiver=userId
             this.match.activeFlag = '0'
             this.match.createdDate = dayjs().format("YYYYMMDDHHmmss")
-            this.$axios.post(`/matching/request`, this.match)
+            this.$axios.post(`http://matching.169.56.100.104.nip.io/match/matching/request`, this.match)
             .then((response)=>{
                 if(response.data){
                     this.message="대화를 요청했습니다."

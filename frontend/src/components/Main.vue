@@ -126,7 +126,7 @@ export default {
       this.$router.push("/preferenceQuestion").catch(() => {});
     },
     getMatchId(){
-      this.$axios.get(`/matching/matchId/${this.store.user.userId}`)
+      this.$axios.get(`http://matching.169.56.100.104.nip.io/match/matching/matchId/${this.store.user.userId}`)
       .then((response)=>{
         this.matchId = response.data
       })

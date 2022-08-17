@@ -62,14 +62,14 @@ export default {
   },
   async created() {
     await loadUser(this.$userId)
-    await this.$axios.get(`/matching/receivers/${this.store.user.userId}`)
+    await this.$axios.get(`http://matching.169.56.100.104.nip.io/match/matching/receivers/${this.store.user.userId}`)
     .then((response)=>{
       this.receiverItems = response.data
     }).catch((err)=>{
       console.log(err.response)
     })
 
-    await this.$axios.get(`/matching/senders/${this.store.user.userId}`)
+    await this.$axios.get(`http://matching.169.56.100.104.nip.io/match/matching/senders/${this.store.user.userId}`)
     .then((response)=>{
       this.senderItems = response.data
     }).catch((err)=>{

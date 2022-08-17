@@ -59,7 +59,7 @@
 
 <script>
 import dayjs from "dayjs";
-import { useAppStore } from '../../../store/userState'
+import { useAppStore } from '@/store/userState'
 import { loadUser } from '@/worker/user';
 
 export default {
@@ -102,7 +102,7 @@ export default {
     accept(){
       this.dialog = false
       this.match = {activeFlag : "1", createdDate : dayjs().format("YYYYMMDDHHmmss"), sender: this.contents.userId, receiver: this.store.user.userId  }
-      this.$axios.put(`/matching/accept`,this.match)
+      this.$axios.put(`http://matching.169.56.100.104.nip.io/match/matching/accept`,this.match)
       .then(()=>{
           this.getUser()
           this.$router.go()
@@ -111,14 +111,14 @@ export default {
       })
     },
     getUser(){
-      this.$axios.get(`/user/${this.contents.userId}`)
+      this.$axios.get(`http://matching.169.56.100.104.nip.io/match/user/${this.contents.userId}`)
       .then((response)=>{
         let senderUser = response.data
         senderUser.matchCount = senderUser.matchCount+1
         this.setCount(senderUser)
       })
 
-      this.$axios.get(`/user/${this.store.user.userId }`)
+      this.$axios.get(`http://matching.169.56.100.104.nip.io/match/user/${this.store.user.userId }`)
       .then((response)=>{
         let receiverUser = response.data
         receiverUser.matchCount = receiverUser.matchCount+1
@@ -127,7 +127,7 @@ export default {
       
     },
     setCount(user){
-      this.$axios.put(`/user`, user)
+      this.$axios.put(`http://matching.169.56.100.104.nip.io/match/user`, user)
       .then((response)=>{
       })
     },
@@ -138,7 +138,7 @@ export default {
     reject(){
       this.dialog = false
       this.match = {activeFlag : "2", createdDate : dayjs().format("YYYYMMDDHHmmss"), sender: this.contents.userId, receiver: this.store.user.userId }
-      this.$axios.put(`/matching/reject`,this.match)
+      this.$axios.put(`http://matching.169.56.100.104.nip.io/match/matching/reject`,this.match)
       .then(()=>{
         this.$router.go()
       }).catch((err)=>{
@@ -147,7 +147,7 @@ export default {
     }
   },
   mounted(){
-    this.$axios.get(`/user/mydata/${this.contents.userId}`)
+    this.$axios.get(`http://matching.169.56.100.104.nip.io/match/user/mydata/${this.contents.userId}`)
     .then((response)=>{
       this.myData = response.data
       this.items = {

@@ -21,7 +21,8 @@
     "vue-router": "^3.5.3",
     "vue-template-compiler": "^2.6.14",
     "vuetify": "^2.6.0",
-    "webstomp-client": "^1.2.6"
+    "webstomp-client": "^1.2.6",
+    "vuetify-loader": "^1.7.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.15",
@@ -32,9 +33,7 @@
     "eslint-plugin-vue": "^6.2.2",
     "sass": "~1.32.0",
     "vue-cli-plugin-vuetify": "~2.5.1",
-    "vue-svg-loader": "^0.16.0",
-    "vue-template-compiler": "^2.6.11",
-    "vuetify-loader": "^1.7.0"
+    "vue-svg-loader": "^0.16.0"
   },
   "eslintConfig": {
     "root": true,
@@ -54,6 +53,5 @@
     "> 1%",
     "last 2 versions",
     "not dead"
-  ],
-  "proxy": "http://matching.169.56.100.104.nip.io"
+  ]
 }

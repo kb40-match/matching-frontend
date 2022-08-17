@@ -33,7 +33,7 @@ module.exports = {
       },
     },
   },
-  devServer: {
-    proxy: "http://matching.169.56.100.104.nip.io/match",
-  },
+  // devServer: {
+  //   proxy: "http://matching.169.56.100.104.nip.io/match",
+  // },
 };
