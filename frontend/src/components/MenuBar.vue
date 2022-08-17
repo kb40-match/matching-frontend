@@ -18,7 +18,7 @@
           <p id="top">내 정보</p>
           <v-btn text id="under" style="margin-top:5px;margin-bottom:5px;" @click="goInfo()">정보 재등록</v-btn>
           <v-btn text id="under" style="margin-bottom:5px;" @click="goPrefer()">성향 재파악</v-btn>
-          <v-btn text id="under" @click="goRequestList()">요청 목록</v-btn>
+          <v-btn text id="under" @click="goRequestList()">매칭 요청목록</v-btn>
         </v-col>
         <hr />
         <v-col>
@@ -167,6 +167,7 @@
 
 <script>
 import { useAppStore } from '../store/userState'
+import { loadUser } from '@/worker/user';
 
 export default {
   name: 'MenuBar',
@@ -214,7 +215,7 @@ export default {
       this.$router.push("/requestList").catch(() => {});
     },
     goHome(){
-      this.$router.push("/").catch(() => {});
+      this.$router.go("/").catch(() => {});
     },
     goBack(){
       this.$router.go(-1)
@@ -232,11 +233,9 @@ export default {
       this.$router.push("/mindQuestion").catch(() => {});
     }
   },
-  computed: {
-        user : function() {
-            return this.store.user
-        }
-    }
+  created(){
+    loadUser(this.$userId)
+  }
 };
 </script>
 

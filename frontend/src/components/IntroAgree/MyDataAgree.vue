@@ -200,6 +200,7 @@
 
 import { useAppStore } from '../../store/userState'
 import MenuBar from "../MenuBar.vue";
+import { loadMydata, loadUser } from '@/worker/user';
 
 export default {
   components:{
@@ -256,6 +257,9 @@ export default {
       if(!this.isAgreed) return true
       return false
     }
+  },
+  created(){
+    loadUser(this.$userId)
   }
 };
 </script>

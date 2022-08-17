@@ -49,6 +49,7 @@
 <script>
 import { useAppStore } from '../../store/userState'
 import MenuBar from "../MenuBar.vue";
+import { loadMydata, loadUser, setUser } from '@/worker/user';
 
 export default {
     components:{
@@ -88,8 +89,10 @@ export default {
                 this.store.user.nickname = this.user.nickname
                 this.store.user.job = this.user.job
                 this.store.user.hobby = this.user.hobby
-                if(this.prev=="first")
+                if(this.prev=="first"){
+                    setUser()
                     this.$router.push("/preferenceQuestion").catch(() => {})
+                }
                 else
                     this.$router.push("/").catch(() => {})
                 return
@@ -132,6 +135,10 @@ export default {
         myData : function() {
             return this.store.myData
         }
+    },
+    created(){
+        loadUser(this.$userId)
+        loadMydata(this.$userId)
     }
 }
 </script>

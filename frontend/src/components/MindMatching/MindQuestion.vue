@@ -43,7 +43,7 @@
 
 <script>
 import { useAppStore } from '../../store/userState'
-import { loadResultFromAI } from '../../worker/user';
+import { loadResultFromAI } from '@/worker/user';
 import MenuBar from "../MenuBar.vue";
 
 export default {

@@ -60,6 +60,7 @@
 <script>
 import dayjs from "dayjs";
 import { useAppStore } from '../../../store/userState'
+import { loadUser } from '@/worker/user';
 
 export default {
   name: "RequestListItemDetail",
@@ -99,11 +100,12 @@ export default {
       this.dialog = true
     },
     accept(){
+      this.dialog = false
       this.match = {activeFlag : "1", createdDate : dayjs().format("YYYYMMDDHHmmss"), sender: this.contents.userId, receiver: this.store.user.userId  }
       this.$axios.put(`/matching/accept`,this.match)
-      .then((response)=>{
-          // this.$router.go();  // 새로고침
+      .then(()=>{
           this.getUser()
+          this.$router.go()
       }).catch((err)=>{
         console.log(err.response)
       })
@@ -134,10 +136,11 @@ export default {
       this.dialog = true
     },
     reject(){
+      this.dialog = false
       this.match = {activeFlag : "2", createdDate : dayjs().format("YYYYMMDDHHmmss"), sender: this.contents.userId, receiver: this.store.user.userId }
       this.$axios.put(`/matching/reject`,this.match)
-      .then((response)=>{
-        // this.$router.go(); // 새로고침
+      .then(()=>{
+        this.$router.go()
       }).catch((err)=>{
         console.log(err.response)
       })
@@ -156,6 +159,9 @@ export default {
     }).catch((err)=>{
       console.log(err.response)
     })
+  },
+  created(){
+    loadUser(this.$userId)
   }
 };
 </script>

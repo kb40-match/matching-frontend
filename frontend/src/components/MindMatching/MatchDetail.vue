@@ -67,6 +67,7 @@
 import dayjs from "dayjs";
 import { useAppStore } from '../../store/userState'
 import MenuBar from "../MenuBar.vue";
+import { loadUser } from '@/worker/user';
 
 export default {
     components:{
@@ -127,6 +128,9 @@ export default {
     },
     mounted(){
         this.hobbies = this.user.hobby.split('/')
+    },
+    created(){
+        loadUser(this.$userId)
     }
 }
 </script>

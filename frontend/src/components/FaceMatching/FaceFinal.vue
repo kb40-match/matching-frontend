@@ -37,7 +37,7 @@
 <script>
 import dayjs from "dayjs";
 import { useAppStore } from '../../store/userState'
-import { setUser } from '../../worker/user'
+import { setUser, loadUser } from '../../worker/user'
 import MenuBar from "../MenuBar.vue";
 
 export default {
@@ -112,6 +112,7 @@ export default {
         this.getMydata()
     },
     created(){
+        loadUser(this.$userId)
         this.user = this.store.faceFinalUser
     }
 }
