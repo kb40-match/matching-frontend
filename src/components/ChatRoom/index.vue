@@ -1,5 +1,6 @@
 <template>
   <div class="wrapper">
+    <MenuBar page="ChatRoom" />
     <ChatRoomMyProfile :user="receiver" />
     <main>
       <div class="messages">
@@ -37,6 +38,8 @@ import dayjs from "dayjs";
 
 import { fetchPackUserAndMyData } from "./_worker/user";
 import { useAppStore } from "@/store/userState";
+
+import MenuBar from "@/components/_common/MenuBar.vue";
 import ChatRoomMyProfile from "./_components/ChatRoomMyProfile.vue";
 import ChatRoomDateDivider from "./_components/ChatRoomDateDivider.vue";
 import ChatRoomMessageBox from "./_components/ChatRoomMessageBox.vue";
@@ -57,13 +60,15 @@ export default {
     };
   },
   mounted() {
-    this.prepareUser({ userId: "user5", receiverId: "user131" });
+    this.connectSocket();
+    
   },
   created() {
-    this.connectSocket();
+    this.prepareUser({ userId: "user5", receiverId: "user131" });
   },
   watch: {},
   components: {
+    MenuBar,
     ChatRoomMyProfile,
     ChatRoomMessageBox,
     ChatRoomDateDivider,

@@ -145,6 +145,15 @@
               상세 정보
             </div>
           </div>
+          <div
+            v-if="page == 'ChatRoom'"
+            style="margin-left: 5px; display: flex; align-items: center"
+          >
+            <v-icon dark large @click="goBack()">mdi-chevron-left</v-icon>
+            <div style="color: white; font-size: 18px; margin-left: 10px">
+              채팅하기
+            </div>
+          </div>
 
           <!-- List, Menu -->
           <v-col
