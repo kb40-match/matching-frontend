@@ -43,6 +43,7 @@ export default {
 
 <style scoped>
 .message-box {
+  position: relative;
   display: flex;
   padding: auto 0;
   align-content: center;
@@ -53,8 +54,17 @@ export default {
   margin-right: var(marginRight);
   margin-left: var(marginLeft);
   margin-bottom: 15px;
+  animation: 150ms slideIn;
+}
 
-  /* margin: 100px var(marginRight) 10px var(marginLeft); */
+@keyframes slideIn {
+  from {
+    left: 50px;
+  }
+
+  to {
+    left: 0px;
+  }
 }
 
 .message-content {

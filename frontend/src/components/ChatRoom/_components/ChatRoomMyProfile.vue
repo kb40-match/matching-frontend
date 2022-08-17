@@ -2,8 +2,8 @@
   <div class="profile-wrapper">
     <div class="profile-photo-dummy"></div>
     <div class="profile-text">
-      <h1>{{ this.user.nickname }}</h1>
-      <p>{{ this.user.address }}</p>
+      <h1>{{ this.user?.user?.nickname }}</h1>
+      <p>{{ this.user?.mydata?.address }}</p>
     </div>
   </div>
 </template>
@@ -20,6 +20,11 @@ export default {
   created() {
     console.log(this.user);
   },
+  watch: {
+    user() {
+      console.log(this.user)
+    }
+  }
 };
 </script>
 
@@ -43,7 +48,7 @@ export default {
 
 .profile-text {
   h1 {
-    margin-bottom: 7px;
+    margin-bottom: 3px;
     font-weight: 700;
     font-size: 17px;
   }
