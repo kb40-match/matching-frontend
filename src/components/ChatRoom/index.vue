@@ -36,7 +36,7 @@ import SockJS from "sockjs-client";
 import Stomp from "webstomp-client";
 import dayjs from "dayjs";
 
-import { fetchPackUserAndMyData } from "./_worker/user";
+// import { fetchPackUserAndMyData } from "./_worker/user";
 import { useAppStore } from "@/store/userState";
 
 import MenuBar from "@/components/_common/MenuBar.vue";
@@ -44,6 +44,7 @@ import ChatRoomMyProfile from "./_components/ChatRoomMyProfile.vue";
 import ChatRoomDateDivider from "./_components/ChatRoomDateDivider.vue";
 import ChatRoomMessageBox from "./_components/ChatRoomMessageBox.vue";
 import ChatRoomMessageInput from "./_components/ChatRoomMessageInput.vue";
+import { fetchMatchId } from "./_worker/api";
 
 export default {
   name: "ChatRoom",
@@ -61,10 +62,10 @@ export default {
   },
   mounted() {
     this.connectSocket();
-    
   },
   created() {
-    this.prepareUser({ userId: "user5", receiverId: "user131" });
+    console.log("!!!", localStorage.getItem("userId"));
+    this.prepareUser(localStorage.getItem("userId"));
   },
   watch: {},
   components: {
@@ -75,16 +76,21 @@ export default {
     ChatRoomMessageInput,
   },
   methods: {
-    async prepareUser({ userId, receiverId }) {
-      this.user = await fetchPackUserAndMyData(userId);
-      this.receiver = await fetchPackUserAndMyData(receiverId);
-      console.log(this.user.user.userId, this.receiver.user.userId);
+    // async prepareUser({ userId, receiverId }) {
+    //   this.user = await fetchPackUserAndMyData(userId);
+    //   this.receiver = await fetchPackUserAndMyData(receiverId);
+    //   console.log(this.user.user.userId, this.receiver.user.userId);
+    // },
+    async prepareUser(userId) {
+      this.matchId = await fetchMatchId(userId);
+      // this.receiverId = await fetchReceiverId(userId);
+      // this.receiver = await fetchPackUserAndMyData(this.receiverId);
+      console.log(this.matchId);
     },
     addSentMessage(sentMessageContent) {
       const { userId } = this.user.user;
-      const matchId = 15;
       const message = {
-        matchId,
+        matchId: this.matchId,
         userId,
         content: sentMessageContent,
         createdDate: dayjs().format("YYYYMMDDHHmmss"),
@@ -95,7 +101,7 @@ export default {
         messageId: this.messages ? this.messages.length : 0,
       });
       this.stompClient.send(
-        `/app/chat.sendMessage/${matchId}`,
+        `/app/chat.sendMessage/${this.matchId}`,
         JSON.stringify(message),
         {},
       );
@@ -103,7 +109,7 @@ export default {
     connectSocket() {
       const CHAT_TARGET =
         "http://matching.169.56.100.104.nip.io/websocket-server/ws";
-      const matchId = 1;
+      // const matchId = 1;
 
       const chatSocket = new SockJS(CHAT_TARGET);
 
@@ -116,7 +122,37 @@ export default {
         () => {
           this.connected = true;
 
-          this.stompClient.subscribe(`/topic/${matchId}`, (res) => {
+          this.stompClient.subscribe(`/topic/${this.matchId}`, (res) => {
+            const receivedMessage = JSON.parse(res.body);
+            console.log(receivedMessage);
+            if (receivedMessage.userId !== this.store.user.userId) {
+              this.messages.push(receivedMessage);
+            }
+          });
+        },
+        () => {
+          console.log("FAILED");
+          this.connected = false;
+        },
+      );
+    },
+    connectCheckReadSocket(matchId) {
+      const CHAT_TARGET =
+        `http://matching.169.56.100.104.nip.io/chat.updateReadMessage/${matchId}`;
+      // const matchId = 1;
+
+      const chatSocket = new SockJS(CHAT_TARGET);
+
+      this.stompClient = Stomp.over(chatSocket);
+
+      console.log(CHAT_TARGET);
+
+      this.stompClient.connect(
+        {},
+        () => {
+          this.connected = true;
+
+          this.stompClient.subscribe(`/topic/${this.matchId}`, (res) => {
             const receivedMessage = JSON.parse(res.body);
             console.log(receivedMessage);
             if (receivedMessage.userId !== this.store.user.userId) {
