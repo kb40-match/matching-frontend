@@ -88,7 +88,6 @@ export default {
                 this.store.user.nickname = this.user.nickname
                 this.store.user.job = this.user.job
                 this.store.user.hobby = this.user.hobby
-                console.log(this.store.user)
                 if(this.prev=="first")
                     this.$router.push("/preferenceQuestion").catch(() => {})
                 else
@@ -128,7 +127,6 @@ export default {
     // },
     computed: {
         user : function() {
-            console.log("zzzzzzzzzzzzzz")
             return this.store.user
         },
         myData : function() {
