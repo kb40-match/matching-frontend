@@ -66,7 +66,7 @@
 <script>
 import dayjs from "dayjs";
 import { useAppStore } from '../../store/userState'
-import MenuBar from "../MenuBar.vue";
+import MenuBar from "../_common/MenuBar.vue";
 import { loadUser } from '@/worker/user';
 
 export default {

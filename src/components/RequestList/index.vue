@@ -3,9 +3,9 @@
     <MenuBar page="RequestList" />
     <main>
       <!-- <p>지난 요청 목록을 모두 볼 수 있어요.</p> -->
-      <RequestListItemToggle @selectedTab="setTab"/>
-      <ul v-if="this.selectedTab" style="text-align:center;" >
-        <div v-if="receiverItems.length==0">목록이 없습니다.</div>
+      <RequestListItemToggle @selectedTab="setTab" />
+      <ul v-if="this.selectedTab" style="text-align: center">
+        <div v-if="receiverItems.length == 0">목록이 없습니다.</div>
         <RequestListItem
           v-else
           v-for="item in this.receiverItems"
@@ -15,8 +15,8 @@
         />
       </ul>
 
-      <ul v-if="!this.selectedTab" style="text-align:center;">
-        <div v-if="senderItems.length==0">목록이 없습니다.</div>
+      <ul v-if="!this.selectedTab" style="text-align: center">
+        <div v-if="senderItems.length == 0">목록이 없습니다.</div>
         <RequestListItem
           v-else
           v-for="item in this.senderItems"
@@ -32,15 +32,15 @@
 <script>
 import RequestListItem from "./_components/RequestListItem.vue";
 import RequestListItemToggle from "./_components/RequestListItemToggle.vue";
-import MenuBar from '../MenuBar.vue'
-import { useAppStore } from '../../store/userState'
-import { loadUser } from '@/worker/user';
+import MenuBar from "../_common/MenuBar.vue";
+import { useAppStore } from "../../store/userState";
+import { loadUser } from "@/worker/user";
 
 export default {
   name: "RequestList",
-  setup(){
-        const store = useAppStore()
-        return {store}
+  setup() {
+    const store = useAppStore();
+    return { store };
   },
   data() {
     return {
@@ -53,28 +53,36 @@ export default {
   components: {
     RequestListItem,
     RequestListItemToggle,
-    MenuBar
+    MenuBar,
   },
-  methods:{
-    setTab(val){
-      this.selectedTab = val
-    }
+  methods: {
+    setTab(val) {
+      this.selectedTab = val;
+    },
   },
   async created() {
-    await loadUser(this.$userId)
-    await this.$axios.get(`http://matching.169.56.100.104.nip.io/match/matching/receivers/${this.store.user.userId}`)
-    .then((response)=>{
-      this.receiverItems = response.data
-    }).catch((err)=>{
-      console.log(err.response)
-    })
+    await loadUser(this.$userId);
+    await this.$axios
+      .get(
+        `http://matching.169.56.100.104.nip.io/match/matching/receivers/${this.store.user.userId}`,
+      )
+      .then((response) => {
+        this.receiverItems = response.data;
+      })
+      .catch((err) => {
+        console.log(err.response);
+      });
 
-    await this.$axios.get(`http://matching.169.56.100.104.nip.io/match/matching/senders/${this.store.user.userId}`)
-    .then((response)=>{
-      this.senderItems = response.data
-    }).catch((err)=>{
-      console.log(err.response)
-    })
+    await this.$axios
+      .get(
+        `http://matching.169.56.100.104.nip.io/match/matching/senders/${this.store.user.userId}`,
+      )
+      .then((response) => {
+        this.senderItems = response.data;
+      })
+      .catch((err) => {
+        console.log(err.response);
+      });
   },
 };
 </script>

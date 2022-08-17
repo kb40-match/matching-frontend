@@ -13,3 +13,17 @@ export const fetchPrevList = async ({ matchId, startRow, rowNum }) => {
   );
   return response.data;
 };
+
+export const fetchReceiverId = async (userId) => {
+  const response = await axios.get(
+    `${API_URL_BASE}/match/matching/receiverId/${userId}`
+  )
+  return response.data;
+}
+
+export const fetchMatchId = async (userId) => {
+  const response = await axios.get(
+    `${API_URL_BASE}/match/matching/matchId/${userId}`
+  )
+  return response.data;
+}

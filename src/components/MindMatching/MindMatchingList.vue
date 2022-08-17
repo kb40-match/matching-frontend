@@ -47,7 +47,7 @@
 import { useAppStore } from '../../store/userState'
 import { fetchUser, fetchMyData, loadUser } from '../../worker/user';
 import { setUser } from '@/worker/user'
-import MenuBar from "../MenuBar.vue";
+import MenuBar from "../_common/MenuBar.vue";
 import dayjs from "dayjs";
 
 export default {

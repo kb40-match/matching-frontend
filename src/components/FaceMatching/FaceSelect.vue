@@ -25,7 +25,7 @@
 
 <script>
 import { useAppStore } from '@/store/userState'
-import MenuBar from "../MenuBar.vue";
+import MenuBar from "../_common/MenuBar.vue";
 import { loadFaceFinalUser, loadMydata, loadUser } from '@/worker/user'
 
 export default {

@@ -9,13 +9,13 @@
 
 <script>
 import { loadUser, loadMydata } from "./worker/user";
-import StatusBar from "./components/_common/StatusBar.vue";
+// import StatusBar from "./components/_common/StatusBar.vue";
 
 export default {
   name: "App",
 
   components: {
-    StatusBar,
+    // StatusBar,
   },
 
   data: () => ({

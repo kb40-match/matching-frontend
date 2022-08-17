@@ -12,8 +12,6 @@ Vue.config.productionTip = false
 Vue.prototype.$axios = axios
 Vue.prototype.$userId = "user131"
 
-
-
 new Vue({
   vuetify,
   pinia,

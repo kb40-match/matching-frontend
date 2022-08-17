@@ -50,8 +50,6 @@ export default {
   },
   data() {
     return {
-      // dummyTurn: 0,
-      // dummyId: prevData.length,
       messages: [],
       user: {},
       receiver: {},
@@ -64,12 +62,7 @@ export default {
   created() {
     this.connectSocket();
   },
-  watch: {
-    user() {
-      console.log(this.user);
-      return null;
-    },
-  },
+  watch: {},
   components: {
     ChatRoomMyProfile,
     ChatRoomMessageBox,
@@ -121,7 +114,7 @@ export default {
           this.stompClient.subscribe(`/topic/${matchId}`, (res) => {
             const receivedMessage = JSON.parse(res.body);
             console.log(receivedMessage);
-            if (receivedMessage.userId !== user.userId) {
+            if (receivedMessage.userId !== this.store.user.userId) {
               this.messages.push(receivedMessage);
             }
           });

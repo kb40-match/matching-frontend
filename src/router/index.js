@@ -13,7 +13,7 @@ import PreferenceQuestion from "../components/InfoRegistration/PreferenceQuestio
 import BasicInfoList from "../components/InfoRegistration/BasicInfoList";
 import MyDataAgree from "../components/IntroAgree/MyDataAgree";
 import RequestList from "../components/RequestList";
-import UserSelect from '../components/UserSelect/UserSelect'
+import UserSelect from '../components/UserSelect';
 import ChatRoom from "../components/ChatRoom";
 
 Vue.use(VueRouter);

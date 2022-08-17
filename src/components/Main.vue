@@ -104,8 +104,8 @@
 </template>
 
 <script>
-import MenuBar from "./MenuBar";
-import { useAppStore } from "../store/userState";
+import MenuBar from "./_common/MenuBar";
+import { useAppStore } from "@/store/userState";
 import { loadUser } from "@/worker/user";
 
 export default {
