@@ -22,8 +22,8 @@ export default {
     //
   }),
   created() {
-    loadUser("user131");
-    loadMydata("user131");
+    loadUser(this.$userId)
+    loadMydata(this.$userId)
   },
 };
 </script>

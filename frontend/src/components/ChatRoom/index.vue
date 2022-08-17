@@ -80,7 +80,7 @@ export default {
     },
   },
   async mounted() {
-    await loadUser('user1');
+    await loadUser(this.$userId);
   },
 };
 </script>

@@ -46,6 +46,7 @@
 <script>
 import { useAppStore } from '../../store/userState'
 import { fetchUser, fetchMyData } from '../../worker/user';
+import { setUser } from '../../worker/user'
 import MenuBar from "../MenuBar.vue";
 import dayjs from "dayjs";
 
@@ -78,7 +79,8 @@ export default {
     },
     methods: {
         retry() {
-            this.store.user.point -= 500  // decrease 500 point
+            this.store.user.userPoint -= 500
+            setUser()
             this.$router.push("/mindQuestion").catch(() => {});
         },
         async goDetailPage(userId) {
