@@ -92,7 +92,7 @@ export default {
                 if(this.prev=="first")
                     this.$router.push("/preferenceQuestion").catch(() => {})
                 else
-                    this.$router.push("/m").catch(() => {})
+                    this.$router.push("/").catch(() => {})
                 return
             }
 

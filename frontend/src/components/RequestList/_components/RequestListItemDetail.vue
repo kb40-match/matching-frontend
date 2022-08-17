@@ -17,9 +17,14 @@
 
 <script>
 import dayjs from "dayjs";
+import { useAppStore } from '../../../store/userState'
 
 export default {
   name: "RequestListItemDetail",
+  setup(){
+        const store = useAppStore()
+        return {store}
+    },
   data(){
     return{
       items:[],
@@ -47,12 +52,13 @@ export default {
     },
     accept(){
       this.match = {activeFlag : "1", createdDate : dayjs().format("YYYYMMDDHHmmss"), sender: this.store.user.userId, receiver: this.contents.userId }
-      this.$axios.put(`/matching/accept`,this.match)
-      .then((response)=>{
-        console.log("수락하였습니다.")
-      }).catch((err)=>{
-        console.log(err.response)
-      })
+      console.log(this.match)
+      // this.$axios.put(`/matching/accept`,this.match)
+      // .then((response)=>{
+      //   console.log("수락하였습니다.")
+      // }).catch((err)=>{
+      //   console.log(err.response)
+      // })
     },
     reject(){
       this.match = {activeFlag : "2", createdDate : dayjs().format("YYYYMMDDHHmmss"), sender: this.store.user.userId, receiver: this.contents.userId }
