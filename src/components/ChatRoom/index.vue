@@ -35,23 +35,17 @@ import SockJS from "sockjs-client";
 import Stomp from "webstomp-client";
 import dayjs from "dayjs";
 
-// import { prevData, user, receiver } from "./_worker/api";
-import { useUserStore } from "@/store/states/userState";
-// import { loadUserAndMyData } from "@/worker/user";
-// import { fetchPrevList } from "./_worker/api";
-// import { prepareUser } from "./_worker/user";
 import { fetchPackUserAndMyData } from "./_worker/user";
+import { useAppStore } from "@/store/userState";
 import ChatRoomMyProfile from "./_components/ChatRoomMyProfile.vue";
 import ChatRoomDateDivider from "./_components/ChatRoomDateDivider.vue";
 import ChatRoomMessageBox from "./_components/ChatRoomMessageBox.vue";
 import ChatRoomMessageInput from "./_components/ChatRoomMessageInput.vue";
-// import { fetchMyData, fetchUser } from "../../worker/user";
-// import ChatRoomTimeIndicator from "./_components/ChatRoomTimeIndicator.vue";
 
 export default {
   name: "ChatRoom",
   setup() {
-    const store = useUserStore();
+    const store = useAppStore();
     return { store };
   },
   data() {

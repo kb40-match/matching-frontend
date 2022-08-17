@@ -1,7 +1,9 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Main from "../components/Main";
 
+// import { useAppStore } from "@/store/userState";
+
+import Main from "../components/Main";
 import FaceSelect from "../components/FaceMatching/FaceSelect";
 import FaceFinal from "../components/FaceMatching/FaceFinal";
 import MindQuestion from "../components/MindMatching/MindQuestion";
@@ -16,12 +18,16 @@ import ChatRoom from "../components/ChatRoom";
 
 Vue.use(VueRouter);
 
+// const store = useAppStore();
+
 export default new VueRouter({
   mode: "history",
   routes: [
     {
       path: "/",
       component: Main,
+      // redirect: store.user ? '/userSelect' : undefined,
+      redirect: '/userSelect',
     },
     {
       path: "/faceSelect",
@@ -72,9 +78,9 @@ export default new VueRouter({
     },
     {
       path: "/userSelect",
-      name : "UserSelect",
+      name: "UserSelect",
       component: UserSelect
-  },
+    },
     {
       path: "/chat",
       name: "ChatRoom",
