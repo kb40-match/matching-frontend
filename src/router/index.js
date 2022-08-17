@@ -18,16 +18,12 @@ import ChatRoom from "../components/ChatRoom";
 
 Vue.use(VueRouter);
 
-// const store = useAppStore();
-
 export default new VueRouter({
   mode: "history",
   routes: [
     {
       path: "/",
       component: Main,
-      // redirect: store.user ? '/userSelect' : undefined,
-      // redirect: '/userSelect',
     },
     {
       path: "/faceSelect",
