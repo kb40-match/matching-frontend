@@ -32,7 +32,7 @@
 
 <script>
 import { useAppStore } from '../../store/userState'
-import { setUser } from '../../worker/user';
+import { setUser, loadUser  } from '@/worker/user';
 import MenuBar from "../MenuBar.vue";
 
 export default {
@@ -125,7 +125,7 @@ export default {
                 this.clickedRight = false
                 if(this.b >= this.questions.length) {
                     setUser()
-                    this.$router.push("/").catch(() => {});
+                    this.$router.push("/").xcatch(() => {});
                 } else {
                     this.a++;
                     this.b++;
@@ -143,6 +143,9 @@ export default {
         percentage: function () {
             return parseInt(this.a / this.questions.length * 100);
         }
+    },
+    created(){
+        loadUser(this.$userId)
     }
 }
 </script>

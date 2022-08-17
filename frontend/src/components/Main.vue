@@ -48,7 +48,7 @@
           </div>
           <div style="font-size: 25px; font-weight: bold">대화하기</div>
         </v-col>
-        <v-col id="service">
+        <v-col id="service" @click="goService()">
           <div class="d-flex mb-2" style="justify-content: center">
             <img id="img2" src="../assets/icons/service2.png" />
           </div>
@@ -56,6 +56,11 @@
         </v-col>
       </v-row>
     </v-col>
+    <v-snackbar v-model="alert" top flat color="#f1f3f5" rounded="pill" :timeout="1500" style="margin-top:70px;font-size:20px;text-align:center;">
+      <span class="snackText">
+        {{message}}
+      </span>
+    </v-snackbar>
     <!-- <div class="bottom_menu">
       <div>
         <v-icon large>mdi-home-variant</v-icon>
@@ -74,10 +79,9 @@
 </template>
 
 <script>
-import SockJS from "sockjs-client";
-import Stomp from "webstomp-client";
 import MenuBar from "./MenuBar";
 import { useAppStore } from '../store/userState'
+import { loadUser } from '@/worker/user';
 
 export default {
   name: "Main",
@@ -88,13 +92,27 @@ export default {
         const store = useAppStore()
         return {store}
     },
-  data: () => ({}),
+  data: () => ({
+    matchId:'',
+    alert:false,
+    message:''
+  }),
   methods: {
     goFaceMatching() {
-      this.$router.push("/faceSelect").catch(() => {});
+      if(this.matchId!="false"){
+        this.message = "이미 대화중인 상대가 있어요!"
+        this.alert = true
+      }
+      else
+        this.$router.push("/faceSelect").catch(() => {});
     },
     goMindMatching() {
-      this.$router.push("/mindQuestion").catch(() => {});
+      if(this.matchId!="false"){
+        this.message = "이미 대화중인 상대가 있어요!"
+        this.alert = true
+      }
+      else
+        this.$router.push("/mindQuestion").catch(() => {});
     },
     addComma(price) {
             price = price + ""
@@ -107,66 +125,23 @@ export default {
     rePrefernce(){
       this.$router.push("/preferenceQuestion").catch(() => {});
     },
-    testSocket() {
-      // const sock = new SockJS("http://10.214.3.43:8081/match/chatWebSocket");
-      // sock.onopen = () => {
-      //   console.log("open");
-      //   sock.send("test");
-      // };
-      // const socket = io("/chatSocket", {
-      //   withCredentials: false,
-      //   // extraHeaders: {
-      //   //   "Access-Control-Allow-Origin": "*",
-      //   // },
-      // });
-
-      const socket = new SockJS("http://10.214.3.43:8082/chat/chatWebSocket");
-
-      console.log("constructed socket");
-
-      this.stompClient = Stomp.over(socket);
-
-      this.stompClient.connect(
-        {},
-        () => {
-          // 소켓 연결 성공
-          this.connected = true;
-          // console.log('소켓 연결 성공', frame);
-          // 서버의 메시지 전송 endpoint를 구독합니다.
-          // 이런형태를 pub sub 구조라고 합니다.
-          // console.log(this.teamId)
-          this.stompClient.subscribe("/chatSocket/" + this.teamId, (res) => {
-            // console.log('구독으로 받은 메시지 입니다.', res.body);
-            // 받은 데이터를 json으로 파싱하고 리스트에 넣어줍니다.
-            // console.log(JSON.parse(res.body));
-            this.recvList.push(JSON.parse(res.body));
-            this.scrolltoBottom();
-          });
-          console.log("success");
-        },
-        // on error
-        () => {
-          console.log("failed");
-          // 소켓 연결 실패
-          // console.log('소켓 연결 실패', error);
-          this.connected = false;
-        },
-      );
-
-      console.log("success");
-
-      // socket.on("connect", () => {
-      //   console.log("connecting");
-      //   console.log(socket.id); // x8WIv7-mJelg7on_ALbx
-      // });
-
-      // socket.on("disconnect", () => {
-      //   console.log(socket.id); // undefined
-      // });
+    getMatchId(){
+      this.$axios.get(`/matching/matchId/${this.store.user.userId}`)
+      .then((response)=>{
+        this.matchId = response.data
+      })
     },
+    goChat(){
+
+    },
+    goService(){
+      this.message="준비중입니다."
+      this.alert = true
+    }
   },
-  created() {
-    // this.testSocket();
+  async created() {
+    await loadUser(this.$userId)
+    await this.getMatchId()
   },
 };
 </script>
@@ -175,10 +150,8 @@ export default {
 #match {
   border-radius: 10px;
   height:150px;
-  /* border: 1px solid; */
   padding: 13px;
   margin: 20px;
-  /* margin-top:30px; */
   display: flex;
   align-items: center;
   box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.2);
@@ -248,7 +221,6 @@ img {
   display: flex;
   text-align: center;
   justify-content: center;
-  /* padding-top: 13px;  */
 }
 
 #main-btn{

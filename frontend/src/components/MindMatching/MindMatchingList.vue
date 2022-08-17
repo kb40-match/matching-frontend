@@ -45,8 +45,8 @@
 
 <script>
 import { useAppStore } from '../../store/userState'
-import { fetchUser, fetchMyData } from '../../worker/user';
-import { setUser } from '../../worker/user'
+import { fetchUser, fetchMyData, loadUser } from '../../worker/user';
+import { setUser } from '@/worker/user'
 import MenuBar from "../MenuBar.vue";
 import dayjs from "dayjs";
 
@@ -114,6 +114,9 @@ export default {
     },
     async beforeMount() {
         this.people = await this.store.aiResult    // assign reponse to people array
+    },
+    created(){
+        loadUser(this.$userId)
     }
 }
 </script>

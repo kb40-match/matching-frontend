@@ -4,24 +4,26 @@
     <main>
       <!-- <p>지난 요청 목록을 모두 볼 수 있어요.</p> -->
       <RequestListItemToggle @selectedTab="setTab"/>
-      <ul v-if="this.selectedTab" >
+      <ul v-if="this.selectedTab" style="text-align:center;" >
+        <div v-if="receiverItems.length==0">목록이 없습니다.</div>
         <RequestListItem
+          v-else
           v-for="item in this.receiverItems"
           :key="item.userId"
           :item="item"
           :tab="selectedTab"
         />
-        <div v-if="receiverItems.length==0">목록이 없습니다.</div>
       </ul>
 
-      <ul v-if="!this.selectedTab">
+      <ul v-if="!this.selectedTab" style="text-align:center;">
+        <div v-if="senderItems.length==0">목록이 없습니다.</div>
         <RequestListItem
+          v-else
           v-for="item in this.senderItems"
           :key="item.userId"
           :item="item"
           :tab="selectedTab"
         />
-        <div v-if="senderItems.length==0">목록이 없습니다.</div>
       </ul>
     </main>
   </div>
@@ -32,6 +34,7 @@ import RequestListItem from "./_components/RequestListItem.vue";
 import RequestListItemToggle from "./_components/RequestListItemToggle.vue";
 import MenuBar from '../MenuBar.vue'
 import { useAppStore } from '../../store/userState'
+import { loadUser } from '@/worker/user';
 
 export default {
   name: "RequestList",
@@ -58,6 +61,7 @@ export default {
     }
   },
   async created() {
+    await loadUser(this.$userId)
     await this.$axios.get(`/matching/receivers/${this.store.user.userId}`)
     .then((response)=>{
       this.receiverItems = response.data

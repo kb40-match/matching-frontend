@@ -24,9 +24,9 @@
 </template>
 
 <script>
-import { useAppStore } from '../../store/userState'
+import { useAppStore } from '@/store/userState'
 import MenuBar from "../MenuBar.vue";
-import { loadFaceFinalUser } from '../../worker/user';
+import { loadFaceFinalUser, loadMydata, loadUser } from '@/worker/user'
 
 export default {
     components:{
@@ -119,8 +119,10 @@ export default {
             this.setIdx()
         }
     },
-    created(){
-        this.getRandom()
+    async created(){
+        await loadUser(this.$userId)
+        await loadMydata(this.$userId)
+        await this.getRandom()
     }
 }
 </script>
