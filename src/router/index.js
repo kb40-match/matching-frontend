@@ -27,7 +27,7 @@ export default new VueRouter({
       path: "/",
       component: Main,
       // redirect: store.user ? '/userSelect' : undefined,
-      redirect: '/userSelect',
+      // redirect: '/userSelect',
     },
     {
       path: "/faceSelect",
