@@ -1,168 +1,214 @@
 <template>
-  <dl style="border-top:1px solid gray; margin-bottom:10px;">
-    <div
-      class="pair"
-      v-for="(item, key, index) in items"
-      :key="index"
-    > 
-    <div class="ml-5"><span style="font-weight:bold">{{title[index]}}</span> {{item}}</div>
+  <dl style="border-top: 1px solid gray; margin-bottom: 10px">
+    <div class="pair" v-for="(item, key, index) in items" :key="index">
+      <div class="ml-5">
+        <span style="font-weight: bold">{{ title[index] }}</span> {{ item }}
+      </div>
     </div>
-    <v-row class="pair" style="display:flex; justify-content: center;" v-if="this.contents.activeFlag=='0' && tab == false">
-      <v-btn text rounded small dark style="background-color:#8452f7" class="mr-5" @click="beforeAccept()">수락</v-btn>
-      <v-btn text rounded small dark style="background-color:#8452f7" @click="beforeReject()">거절</v-btn>
+    <v-row
+      class="pair"
+      style="display: flex; justify-content: center"
+      v-if="this.contents.activeFlag == '0' && tab == false"
+    >
+      <v-btn
+        text
+        rounded
+        small
+        dark
+        style="background-color: #8452f7"
+        class="mr-5"
+        @click="beforeAccept()"
+        >수락</v-btn
+      >
+      <v-btn
+        text
+        rounded
+        small
+        dark
+        style="background-color: #8452f7"
+        @click="beforeReject()"
+        >거절</v-btn
+      >
     </v-row>
 
-
     <v-row justify="center">
-    <v-dialog
-      v-model="this.dialog"
-      persistent
-      max-width="290"
-    >
-      <v-card>
-        <v-card-title >
-          요청을 {{cardType}}하시겠습니까?
-        </v-card-title>
-        <v-card-text></v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            v-if="cardType=='수락'"
-            color="#5f3dc4"
-            text
-            @click="accept()"
-          >
-            예
-          </v-btn>
-          <v-btn
-           v-if="cardType=='거절'"
-            color="#5f3dc4"
-            text
-            @click="reject()"
-          >
-            예
-          </v-btn>
-          <v-btn
-            color="#5f3dc4"
-            text
-            @click="dialog = false"
-          >
-            아니오
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </v-row>
+      <v-dialog v-model="this.dialog" persistent max-width="290">
+        <v-card>
+          <v-card-title> 요청을 {{ cardType }}하시겠습니까? </v-card-title>
+          <v-card-text></v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn
+              v-if="cardType == '수락'"
+              color="#5f3dc4"
+              text
+              @click="accept()"
+            >
+              예
+            </v-btn>
+            <v-btn
+              v-if="cardType == '거절'"
+              color="#5f3dc4"
+              text
+              @click="reject()"
+            >
+              예
+            </v-btn>
+            <v-btn color="#5f3dc4" text @click="dialog = false"> 아니오 </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-row>
   </dl>
-  
 </template>
 
 <script>
 import dayjs from "dayjs";
-import { useAppStore } from '@/store/userState'
-import { loadUser } from '@/worker/user';
+import { useAppStore } from "@/store/userState";
+import { loadUser } from "@/worker/user";
 
 export default {
   name: "RequestListItemDetail",
-  setup(){
-        const store = useAppStore()
-        return {store}
-    },
-  data(){
-    return{
-      dialog:false,
-      cardType:"수락",
-      items:[],
+  setup() {
+    const store = useAppStore();
+    return { store };
+  },
+  data() {
+    return {
+      dialog: false,
+      cardType: "수락",
+      items: [],
       myData: [],
-      title:[this.getType(this.contents.activeFlag), "나이", "직업", "주소"],
-      match:[]
-    }
+      title: [this.getType(this.contents.activeFlag), "나이", "직업", "주소"],
+      match: [],
+    };
   },
   props: {
     contents: Object,
-    tab: Boolean
+    tab: Boolean,
   },
-  methods:{
-    getType(flag){
-      if(flag=="0"){
-        return "요청 시간"
-      }else if(flag=="1"){
-        return "매칭 시간"
-      }else{
-        return "종료 시간"
+  methods: {
+    getType(flag) {
+      if (flag == "0") {
+        return "요청 시간";
+      } else if (flag == "1") {
+        return "매칭 시간";
+      } else {
+        return "종료 시간";
       }
     },
-    makeDate(date){
-      return date.slice(0,4)+"/"+date.slice(4,6)+"/"+date.slice(6,8)+" "+date.slice(8,10)+":"+date.slice(10,12)+":"+date.slice(12,14)
+    makeDate(date) {
+      return (
+        date.slice(0, 4) +
+        "/" +
+        date.slice(4, 6) +
+        "/" +
+        date.slice(6, 8) +
+        " " +
+        date.slice(8, 10) +
+        ":" +
+        date.slice(10, 12) +
+        ":" +
+        date.slice(12, 14)
+      );
     },
-    beforeAccept(){
-      this.cardType="수락"
-      this.dialog = true
+    beforeAccept() {
+      this.cardType = "수락";
+      this.dialog = true;
     },
-    accept(){
-      this.dialog = false
-      this.match = {activeFlag : "1", createdDate : dayjs().format("YYYYMMDDHHmmss"), sender: this.contents.userId, receiver: this.store.user.userId  }
-      this.$axios.put(`http://matching.169.56.100.104.nip.io/match/matching/accept`,this.match)
-      .then(()=>{
-          this.getUser()
-          this.$router.go()
-      }).catch((err)=>{
-        console.log(err.response)
-      })
+    accept() {
+      this.dialog = false;
+      this.match = {
+        activeFlag: "1",
+        createdDate: dayjs().format("YYYYMMDDHHmmss"),
+        sender: this.contents.userId,
+        receiver: this.store.user.userId,
+      };
+      this.$axios
+        .put(
+          `http://matching.169.56.100.104.nip.io/match/matching/accept`,
+          this.match,
+        )
+        .then(() => {
+          this.getUser();
+          this.$router.go();
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
     },
-    getUser(){
-      this.$axios.get(`http://matching.169.56.100.104.nip.io/match/user/${this.contents.userId}`)
-      .then((response)=>{
-        let senderUser = response.data
-        senderUser.matchCount = senderUser.matchCount+1
-        this.setCount(senderUser)
-      })
+    getUser() {
+      this.$axios
+        .get(
+          `http://matching.169.56.100.104.nip.io/match/user/${this.contents.userId}`,
+        )
+        .then((response) => {
+          let senderUser = response.data;
+          senderUser.matchCount = senderUser.matchCount + 1;
+          this.setCount(senderUser);
+        });
 
-      this.$axios.get(`http://matching.169.56.100.104.nip.io/match/user/${this.store.user.userId }`)
-      .then((response)=>{
-        let receiverUser = response.data
-        receiverUser.matchCount = receiverUser.matchCount+1
-        this.setCount(receiverUser)
-      })
-      
+      this.$axios
+        .get(
+          `http://matching.169.56.100.104.nip.io/match/user/${this.store.user.userId}`,
+        )
+        .then((response) => {
+          let receiverUser = response.data;
+          receiverUser.matchCount = receiverUser.matchCount + 1;
+          this.setCount(receiverUser);
+        });
     },
-    setCount(user){
-      this.$axios.put(`http://matching.169.56.100.104.nip.io/match/user`, user)
-      .then((response)=>{
-      })
+    setCount(user) {
+      this.$axios
+        .put(`http://matching.169.56.100.104.nip.io/match/user`, user)
+        .then(() => {});
     },
-    beforeReject(){
-      this.cardType="거절"
-      this.dialog = true
+    beforeReject() {
+      this.cardType = "거절";
+      this.dialog = true;
     },
-    reject(){
-      this.dialog = false
-      this.match = {activeFlag : "2", createdDate : dayjs().format("YYYYMMDDHHmmss"), sender: this.contents.userId, receiver: this.store.user.userId }
-      this.$axios.put(`http://matching.169.56.100.104.nip.io/match/matching/reject`,this.match)
-      .then(()=>{
-        this.$router.go()
-      }).catch((err)=>{
-        console.log(err.response)
-      })
-    }
+    reject() {
+      this.dialog = false;
+      this.match = {
+        activeFlag: "2",
+        createdDate: dayjs().format("YYYYMMDDHHmmss"),
+        sender: this.contents.userId,
+        receiver: this.store.user.userId,
+      };
+      this.$axios
+        .put(
+          `http://matching.169.56.100.104.nip.io/match/matching/reject`,
+          this.match,
+        )
+        .then(() => {
+          this.$router.go();
+        })
+        .catch((err) => {
+          console.log(err.response);
+        });
+    },
   },
-  mounted(){
-    this.$axios.get(`http://matching.169.56.100.104.nip.io/match/user/mydata/${this.contents.userId}`)
-    .then((response)=>{
-      this.myData = response.data
-      this.items = {
-        createdDate : this.makeDate(this.contents.createdDate),
-        age : this.myData.age + "세",
-        job : this.contents.job,
-        address : this.myData.address
-      }
-    }).catch((err)=>{
-      console.log(err.response)
-    })
+  mounted() {
+    this.$axios
+      .get(
+        `http://matching.169.56.100.104.nip.io/match/user/mydata/${this.contents.userId}`,
+      )
+      .then((response) => {
+        this.myData = response.data;
+        this.items = {
+          createdDate: this.makeDate(this.contents.createdDate),
+          age: this.myData.age + "세",
+          job: this.contents.job,
+          address: this.myData.address,
+        };
+      })
+      .catch((err) => {
+        console.log(err.response);
+      });
   },
-  created(){
-    loadUser(localStorage.getItem("userId"))
-  }
+  created() {
+    loadUser(localStorage.getItem("userId"));
+  },
 };
 </script>
 

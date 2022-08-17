@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div class="menu-bar-wrapper">
     <v-navigation-drawer
       v-if="!$vuetify.breakpoint.smAndUp"
       v-model="drawer"
       :clipped="$vuetify.breakpoint.lgAndUp"
       app
       dark
-      style="background-color: #f1f3f5"
+      style="background-color: #f1f3f5; padding-left: 20px;"
     >
       <div style="padding-top: 50px">
         <v-col>
@@ -292,7 +292,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
 .v-toolbar__content {
   padding: 0px;
 }

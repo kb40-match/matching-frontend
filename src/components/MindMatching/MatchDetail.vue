@@ -240,4 +240,8 @@ h3 {
   font-weight: bold;
   margin-bottom: 10px;
 }
+
+span.v-chip__content {
+  padding: 0 10px !important;
+}
 </style>

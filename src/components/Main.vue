@@ -57,9 +57,7 @@
             <img id="img2" src="../assets/icons/chat2.png" />
             <!-- <div id="chat-count">5</div> -->
           </div>
-          <div
-            style="font-size: 25px; font-weight: bold; cursor: pointer"
-          >
+          <div style="font-size: 25px; font-weight: bold; cursor: pointer">
             대화하기
           </div>
         </v-col>
@@ -80,9 +78,9 @@
       color="#f1f3f5"
       rounded="pill"
       :timeout="1500"
-      style="margin-top: 70px; font-size: 20px; text-align: center"
+      class="snack-bar"
     >
-      <span class="snackText">
+      <span class="snack-text">
         {{ message }}
       </span>
     </v-snackbar>
@@ -249,7 +247,7 @@ img {
 }
 
 #main-btn {
-  width: 47%;
+  width: 44%;
   font-size: 20px;
   height: 50px;
   border-radius: 15px;
@@ -259,5 +257,18 @@ img {
 
 p {
   margin: 0px !important;
+}
+
+.snack-bar {
+  align-items: center; */
+  margin-top: 70px;
+  font-size: 20px;
+  text-align: center;
+}
+
+.snack-text {
+  text-align: center;
+  display: flex;
+  justify-content: center;
 }
 </style>
