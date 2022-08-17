@@ -260,7 +260,7 @@ p {
 }
 
 .snack-bar {
-  align-items: center; */
+  align-items: center;
   margin-top: 70px;
   font-size: 20px;
   text-align: center;
