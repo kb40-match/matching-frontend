@@ -11,7 +11,6 @@ notifySlack("STARTED", "#FFFF00")
 
 
 podTemplate(containers: [
-    containerTemplate(name: 'maven', image: 'maven:3.8.1-jdk-8', command: 'sleep', args: '99d'),
 	containerTemplate(name: "docker", image: "docker:latest", ttyEnabled: true, command: "cat"),
 	containerTemplate(name: "kubectl", image: "lachlanevenson/k8s-kubectl", command: "cat", ttyEnabled: true),
 	containerTemplate(name: "scanner", image: "newtmitch/sonar-scanner", ttyEnabled: true, command: "cat"),
@@ -31,13 +30,13 @@ podTemplate(containers: [
 	 		//git branch: 'main', url: 'https://github.com/happykube/hellonode.git'
 			// Java based on Spring Boot, branch : msa
 			// 여기에 자신의 gitlab repository의 msa branch로 바꾸세요.
-			git branch: 'main', url: 'https://github.com/kb40-match/matching.git'
+			git branch: 'dev', url: 'https://github.com/kb40-match/matching-frontend.git'
 		} 
 
 		//-- 환경변수 파일 읽어서 변수값 셋팅 
 		String stageName = ""
             
-		def props = readProperties  file:"deployment/pipeline.properties"
+		def props = readProperties  file:"frontend/deployment/pipeline.properties"
 		
 		// Docker Hub Info.
 		def tag = props["version"]
@@ -59,24 +58,29 @@ podTemplate(containers: [
 		def namespace = props["namespace"] 
 
 		try {
-
-       			stageName = "Build maven project"
+			// stageName = "Build nodejs project"
 
 			// Build Source from Repository in gitlab
-			stage(stageName) {
-				echo "**** START : " + stageName
-				def _dir = pwd();
-				echo "path : ${_dir}"
-				echo "baseDir : ${baseDir}"
-				echo "baseDeployDir : ${baseDeployDir}"
-				sh "ls -al"
-				container('maven') {
-						sh "mvn -B -f ${baseDir} clean package -Dmaven.testSkips=true "
-						echo "*** RESULT ***"
-						sh "pwd"
-						sh "ls -al ${baseDir}/target"
-				}
-			}
+			// stage(stageName) {
+			// 	echo "**** START : " + stageName
+			// 	def _dir = pwd();
+			// 	echo "path : ${_dir}"
+			// 	echo "baseDir : ${baseDir}"
+			// 	echo "baseDeployDir : ${baseDeployDir}"
+			// 	sh "ls -al"
+				// container('node') {
+// FROM node:lts-alpine as build-stage
+// WORKDIR /app
+// COPY package*.json ./
+// RUN yarn install --production
+// RUN yarn add @vue/cli-service
+// COPY . .
+// RUN yarn build
+						// sh "yarn install --production"
+						// sh "yarn add @vue/cli-service"
+				// sh "yarn build"
+				// }
+			// }
 
 			// Code Inspection
 			stage("Inspection Code") {
@@ -100,13 +104,12 @@ podTemplate(containers: [
 					                   usernameVariable: 'USER',
 					                   passwordVariable: 'PASSWORD'
 					               )]) {
-					  //sh 'echo user "$USER" pasword "$PASSWORD"'
+					  sh 'echo user "$USER" pasword "$PASSWORD"'
 					  sh "podman login --tls-verify=false --username ${USER} --password ${PASSWORD} ${dockerRegistry}"
-						sh "podman build -f ./deployment/Dockerfile -t ${image}:${tag} ${baseDir}"
+						sh "podman build -f ./frontend/deployment/Dockerfile -t ${image}:${tag} ${baseDir} ./frontend"
 						sh "podman push ${image}:${tag}"
 						sh "podman tag ${image}:${tag} ${image}:dev"
 						sh "podman push ${image}:dev"
-
 					}
 				}
 			}
