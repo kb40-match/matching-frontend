@@ -4,6 +4,7 @@
 
         <div id="box-main">
             <input id="text-field-userid" v-model="userId" placeholder="ID를 입력하세요." >
+            <h5 id="textFieldGuide">user1~200 사이의 형태로 입력해주세요. ex) user23</h5>
             <v-btn text rounded large id="loginBtn" @click="onSubmitForm" style="background-color: #845ef7;">로그인</v-btn>
         </div>
 
@@ -35,6 +36,7 @@ export default {
     methods:{
         onSubmitForm() {
             if(this.check()) {
+                this.userId = this.userId.substring(0, 4) + parseInt(this.userId.substring(4, this.userId.length))
                 this.$userId = this.userId
                 loadUser(this.$userId)
                 loadMydata(this.$userId)
@@ -81,8 +83,12 @@ export default {
     background: #dee2e6;
     border-radius: 5px;
     padding-left: 15px;
-    padding-right: 15px;
-    
+    padding-right: 15px;   
+}
+
+#textFieldGuide{
+    font-size: 12px;
+    color: #495057;
 }
 
 #loginBtn {
