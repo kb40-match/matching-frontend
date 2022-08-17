@@ -1,6 +1,6 @@
 <template>
-  <div class="screen">
-    <ChatRoomMyProfile :user="this.user" />
+  <div class="wrapper">
+    <ChatRoomMyProfile :user="receiver" />
     <main>
       <div class="messages">
         <div
@@ -11,36 +11,42 @@
           <ChatRoomDateDivider
             v-if="
               message.messageId === 0 ||
-              messages[message.messageId - 1].date !== message.date
+              messages[message.messageId - 1].createdDate.slice(0, 8) !==
+                message.createdDate.slice(0, 8)
             "
-            :date="message.date"
+            :date="message.createdDate"
           />
-          <ChatRoomMessageBox
-            :message="message"
-            :onLeft="message.userId === receiver.userId"
-          />
+          <div class="box-wrapper">
+            <ChatRoomMessageBox
+              :message="message"
+              :onLeft="message.userId === receiver.userId"
+            />
+            <!-- <ChatRoomTimeIndicator :date="message.createdDate" /> -->
+          </div>
         </div>
       </div>
-      <ChatRoomMessageInput @sentMessageContent="this.addSentMessage" />
+      <ChatRoomMessageInput @sentMessageContent="addSentMessage" />
     </main>
   </div>
 </template>
 
 <script>
-import { prevData, user, receiver } from "./_worker/api";
-import { useUserStore } from "@/store/states/userState";
-import { loadUser } from "@/worker/user";
+import SockJS from "sockjs-client";
+import Stomp from "webstomp-client";
+import dayjs from "dayjs";
 
+// import { prevData, user, receiver } from "./_worker/api";
+import { useUserStore } from "@/store/states/userState";
+// import { loadUserAndMyData } from "@/worker/user";
+// import { fetchPrevList } from "./_worker/api";
+// import { prepareUser } from "./_worker/user";
+import { fetchPackUserAndMyData } from "./_worker/user";
 import ChatRoomMyProfile from "./_components/ChatRoomMyProfile.vue";
 import ChatRoomDateDivider from "./_components/ChatRoomDateDivider.vue";
 import ChatRoomMessageBox from "./_components/ChatRoomMessageBox.vue";
 import ChatRoomMessageInput from "./_components/ChatRoomMessageInput.vue";
-
-// messageId: 1,
-// userId: "345",
-// content: "반가워요.",
-// date: "20220808",
-// time: "12:35",
+// import { fetchMyData, fetchUser } from "../../worker/user";
+// import ChatRoomTimeIndicator from "./_components/ChatRoomTimeIndicator.vue";
 
 export default {
   name: "ChatRoom",
@@ -50,12 +56,25 @@ export default {
   },
   data() {
     return {
-      dummyTurn: 0,
-      dummyId: prevData.length,
-      messages: prevData,
-      user,
-      receiver,
+      // dummyTurn: 0,
+      // dummyId: prevData.length,
+      messages: [],
+      user: {},
+      receiver: {},
+      showMore: false,
     };
+  },
+  mounted() {
+    this.prepareUser({ userId: "user5", receiverId: "user131" });
+  },
+  created() {
+    this.connectSocket();
+  },
+  watch: {
+    user() {
+      console.log(this.user);
+      return null;
+    },
   },
   components: {
     ChatRoomMyProfile,
@@ -64,44 +83,84 @@ export default {
     ChatRoomMessageInput,
   },
   methods: {
-    setDummyInterval() {
-      setInterval(() => {
-        this.dummyId += 1;
-      });
+    async prepareUser({ userId, receiverId }) {
+      this.user = await fetchPackUserAndMyData(userId);
+      this.receiver = await fetchPackUserAndMyData(receiverId);
+      console.log(this.user.user.userId, this.receiver.user.userId);
     },
     addSentMessage(sentMessageContent) {
-      this.messages.push({
-        messageId: this.messages[this.messages.length() - 1] + 1,
-        userId: this.user.userId,
+      const { userId } = this.user.user;
+      const matchId = 15;
+      const message = {
+        matchId,
+        userId,
         content: sentMessageContent,
-        date: "20220809",
-        time: "1234",
+        createdDate: dayjs().format("YYYYMMDDHHmmss"),
+      };
+
+      this.messages.push({
+        ...message,
+        messageId: this.messages ? this.messages.length : 0,
       });
+      this.stompClient.send(
+        `/app/chat.sendMessage/${matchId}`,
+        JSON.stringify(message),
+        {},
+      );
     },
-  },
-  async mounted() {
-    await loadUser(this.$userId);
+    connectSocket() {
+      const CHAT_TARGET =
+        "http://matching.169.56.100.104.nip.io/websocket-server/ws";
+      const matchId = 1;
+
+      const chatSocket = new SockJS(CHAT_TARGET);
+
+      this.stompClient = Stomp.over(chatSocket);
+
+      console.log(CHAT_TARGET);
+
+      this.stompClient.connect(
+        {},
+        () => {
+          this.connected = true;
+
+          this.stompClient.subscribe(`/topic/${matchId}`, (res) => {
+            const receivedMessage = JSON.parse(res.body);
+            console.log(receivedMessage);
+            if (receivedMessage.userId !== user.userId) {
+              this.messages.push(receivedMessage);
+            }
+          });
+        },
+        () => {
+          console.log("FAILED");
+          this.connected = false;
+        },
+      );
+    },
   },
 };
 </script>
 
 <style scoped>
-.screen {
+.wrapper {
   width: 100vw;
-  height: 100vh;
+  height: 100%;
+  overflow: hidden;
 }
 
 main {
   height: calc(100% - 58px);
+  overflow-y: scroll;
 }
 
 .message-wrapper {
-  width: calc(100% - 30px);
+  width: 90%;
   margin: 0 auto;
 }
 
 .messages {
-  height: calc(100% - 156px);
+  height: calc(100% - 126px);
 }
 
 h1 {

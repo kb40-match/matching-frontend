@@ -1,7 +1,7 @@
 <template>
   <v-app>
     <!-- <StatusBar /> -->
-    <div style="margin-top: 70px;height: calc(100% - 73px)">
+    <div class="view-wrapper">
       <router-view></router-view>
     </div>
   </v-app>
@@ -40,5 +40,9 @@ export default {
 #app {
   font-family: "S-CoreDream-5Medium";
   // background-color: colors.$GRAY1;
+}
+
+.view-wrppaer {
+  height: calc(100% - 73px)
 }
 </style>

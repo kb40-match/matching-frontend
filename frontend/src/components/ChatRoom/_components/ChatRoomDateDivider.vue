@@ -56,7 +56,7 @@ p {
   margin: 20px;
   text-align: center;
   color: colors.$GRAY7;
-  background-color: colors.$GRAY2;
+  background-color: colors.$WHITE;
   font-size: 12px;
   position: absolute;
   z-index: 51;
