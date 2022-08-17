@@ -2,6 +2,7 @@ FROM node:lts-alpine as build-stage
 WORKDIR /app
 COPY package*.json ./
 RUN yarn install --production
+# RUN yarn install
 RUN yarn add @vue/cli-service
 COPY . .
 RUN yarn build
