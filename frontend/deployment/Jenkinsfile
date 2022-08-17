@@ -58,16 +58,16 @@ podTemplate(containers: [
 		def namespace = props["namespace"] 
 
 		try {
-			stageName = "Build nodejs project"
+			// stageName = "Build nodejs project"
 
-			Build Source from Repository in gitlab
-			stage(stageName) {
-				echo "**** START : " + stageName
-				def _dir = pwd();
-				echo "path : ${_dir}"
-				echo "baseDir : ${baseDir}"
-				echo "baseDeployDir : ${baseDeployDir}"
-				sh "ls -al"
+			// Build Source from Repository in gitlab
+			// stage(stageName) {
+			// 	echo "**** START : " + stageName
+			// 	def _dir = pwd();
+			// 	echo "path : ${_dir}"
+			// 	echo "baseDir : ${baseDir}"
+			// 	echo "baseDeployDir : ${baseDeployDir}"
+			// 	sh "ls -al"
 				// container('node') {
 // FROM node:lts-alpine as build-stage
 // WORKDIR /app
@@ -78,9 +78,9 @@ podTemplate(containers: [
 // RUN yarn build
 						// sh "yarn install --production"
 						// sh "yarn add @vue/cli-service"
-				sh "yarn build"
+				// sh "yarn build"
 				// }
-			}
+			// }
 
 			// Code Inspection
 			stage("Inspection Code") {
