@@ -132,7 +132,7 @@ export default {
   },
   data() {
     return {
-      user_id: this.$userId,
+      user_id: localStorage.getItem("userId"),
       percent: 0,
       // user:{},
       // myData:{},

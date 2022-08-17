@@ -116,7 +116,7 @@ export default {
         this.people = await this.store.aiResult    // assign reponse to people array
     },
     created(){
-        loadUser(this.$userId)
+        loadUser(localStorage.getItem("userId"))
     }
 }
 </script>

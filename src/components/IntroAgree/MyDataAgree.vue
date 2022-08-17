@@ -266,7 +266,7 @@ export default {
     },
   },
   created() {
-    loadUser(this.$userId);
+    loadUser(localStorage.getItem("userId"));
   },
 };
 </script>
