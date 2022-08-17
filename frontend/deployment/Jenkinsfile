@@ -11,7 +11,6 @@ notifySlack("STARTED", "#FFFF00")
 
 
 podTemplate(containers: [
-    containerTemplate(name: 'maven', image: 'maven:3.8.1-jdk-8', command: 'sleep', args: '99d'),
 	containerTemplate(name: "docker", image: "docker:latest", ttyEnabled: true, command: "cat"),
 	containerTemplate(name: "kubectl", image: "lachlanevenson/k8s-kubectl", command: "cat", ttyEnabled: true),
 	containerTemplate(name: "scanner", image: "newtmitch/sonar-scanner", ttyEnabled: true, command: "cat"),
@@ -31,13 +30,13 @@ podTemplate(containers: [
 	 		//git branch: 'main', url: 'https://github.com/happykube/hellonode.git'
 			// Java based on Spring Boot, branch : msa
 			// 여기에 자신의 gitlab repository의 msa branch로 바꾸세요.
-			git branch: 'main', url: 'https://github.com/kb40-match/matching-frontend.git'
+			git branch: 'dev', url: 'https://github.com/kb40-match/matching-frontend.git'
 		} 
 
 		//-- 환경변수 파일 읽어서 변수값 셋팅 
 		String stageName = ""
             
-		def props = readProperties  file:"deployment/pipeline.properties"
+		def props = readProperties  file:"frontend/deployment/pipeline.properties"
 		
 		// Docker Hub Info.
 		def tag = props["version"]
@@ -100,13 +99,12 @@ podTemplate(containers: [
 					                   usernameVariable: 'USER',
 					                   passwordVariable: 'PASSWORD'
 					               )]) {
-					  //sh 'echo user "$USER" pasword "$PASSWORD"'
+					  sh 'echo user "$USER" pasword "$PASSWORD"'
 					  sh "podman login --tls-verify=false --username ${USER} --password ${PASSWORD} ${dockerRegistry}"
 						sh "podman build -f ./deployment/Dockerfile -t ${image}:${tag} ${baseDir}"
 						sh "podman push ${image}:${tag}"
 						sh "podman tag ${image}:${tag} ${image}:dev"
 						sh "podman push ${image}:dev"
-
 					}
 				}
 			}
