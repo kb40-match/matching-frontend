@@ -99,7 +99,8 @@ export default {
   }),
   methods: {
     goFaceMatching() {
-      if(this.matchId!="false"){
+      console.log(this.matchId)
+      if(this.matchId){
         this.message = "이미 대화중인 상대가 있어요!"
         this.alert = true
       }
@@ -107,7 +108,7 @@ export default {
         this.$router.push("/faceSelect").catch(() => {});
     },
     goMindMatching() {
-      if(this.matchId!="false"){
+      if(this.matchId){
         this.message = "이미 대화중인 상대가 있어요!"
         this.alert = true
       }

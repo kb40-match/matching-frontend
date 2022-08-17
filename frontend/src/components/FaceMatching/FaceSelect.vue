@@ -140,6 +140,7 @@ h1{
 #face-img{
     text-align:center;
     margin : 30px;
+    object-fit:cover;
 }
 
 #nextBtn{

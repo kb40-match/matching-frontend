@@ -42,7 +42,8 @@ export default {
   // background-color: colors.$GRAY1;
 }
 
-.view-wrppaer {
-  height: calc(100% - 73px)
+.view-wrapper {
+  height: calc(100% - 73px);
+  margin-top:70px !important;
 }
 </style>
