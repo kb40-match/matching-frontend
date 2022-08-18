@@ -336,7 +336,7 @@ export default {
     },
     goChat() {
       if (!this.matchId) {
-        this.message = "매칭된 상대가 없어요!";
+        this.message = "매칭된 상대가 없습니다 :(";
         this.alert = true;
       }
       else {
