@@ -168,8 +168,8 @@ export default {
       this.alert = true;
     },
   },
-  created() {
-    loadUser(localStorage.getItem("userId"));
+  async created() {
+    await loadUser(localStorage.getItem("userId"));
     this.getMatchId();
   },
 };
