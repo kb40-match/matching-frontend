@@ -241,6 +241,7 @@ export default {
   text-align: center;
   font-size: 30px;
   background-color: #f3f0ff;
+  width:260px;
 }
 
 #consume-form {

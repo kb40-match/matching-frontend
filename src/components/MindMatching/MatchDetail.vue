@@ -79,7 +79,7 @@
               color="#7950f2"
               v-for="(value, index) in hobbies"
               :key="value"
-              ><span style="color: white">{{ hobbies[index] }}</span></v-chip
+              ><span style="color: white; margin-left: 10px;margin-right: 10px;">{{ hobbies[index] }}</span></v-chip
             >
           </div>
         </div>
