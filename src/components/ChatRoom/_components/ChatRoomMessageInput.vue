@@ -50,6 +50,8 @@ export default {
       this.text = event.target.value;
     },
     confirmText() {
+      if (this.text.length === 0) return;
+
       this.$emit("sentMessageContent", this.text);
       this.text = "";
       this.$refs.textInput.value = "";
