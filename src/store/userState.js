@@ -6,5 +6,6 @@ export const useAppStore = defineStore("userState", {
     myData: null,
     aiResult: null, // 5 user and myData objects
     faceFinalUser: null,
+    match: null,
   }),
 });

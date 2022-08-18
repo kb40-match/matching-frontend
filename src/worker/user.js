@@ -44,6 +44,33 @@ export const loadFaceFinalUser = async (user) => {
   store.faceFinalUser = user;
 }
 
+
+export const fetchMatch = async (userId) => {
+  const response = await axios.get(`${API_URL_BASE}/match/matching/match/${userId}`);
+  return response.data;
+}
+
+export const loadMatchObject = async (userId) => {
+  const store = useAppStore();
+  store.match = await fetchMatch(userId);
+}
+
+export const rejectChat = async () => {
+  const store = useAppStore();
+  console.log("rejectChat activeFlag : " + store.match.activeFlag)
+
+  await axios
+    .put(`${API_URL_BASE}/match/matching/finish`, store.match)
+    .then((response) => {
+      console.log(response.data);
+      console.log(store.match);
+    })
+    .catch((err) => {
+      console.log(err.response);
+    });
+  console.log(this.user);
+}
+
 export const setUser = async () => {
   const store = useAppStore();
 
