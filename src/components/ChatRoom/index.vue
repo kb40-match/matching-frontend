@@ -76,13 +76,12 @@ export default {
   },
   watch: {
     messages() {
-            // 화면에 추가된 후 동작하도록
-            this.$nextTick(() => {
-                let mmm = this.$refs.messages;
-                
-                mmm.scrollTo({ top: mmm.scrollHeight, behavior: 'smooth' });
-            });
-        }
+      // 화면에 추가된 후 동작하도록
+      this.$nextTick(() => {
+        const mmm = this.$refs.messages;
+        mmm.scrollTo({ top: mmm.scrollHeight, behavior: "smooth" });
+      });
+    },
   },
   components: {
     MenuBar,
@@ -124,7 +123,7 @@ export default {
       // console.log(this.$refs.refMain.scrollHeight);
 
       const main = document.querySelector("main");
-      console.dir(main)
+      console.dir(main);
       main.scrollTop = main.scrollHeight;
 
       // const lastChild = document.querySelector('.messages').children;
