@@ -155,7 +155,13 @@ export default {
         });
     },
     goChat() {
-      this.$router.push("/chat").catch(() => {});
+      if (!this.matchId) {
+        this.message = "매칭된 상대가 없어요!";
+        this.alert = true;
+      }
+      else {
+        this.$router.push("/chat").catch(() => {});
+      }
     },
     goService() {
       this.message = "준비중입니다.";

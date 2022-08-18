@@ -10,6 +10,10 @@
     >
       <div style="padding-top: 50px">
         <v-col>
+          <v-icon id="under" style="margin-top: 5px" @click="toggleDrawer()">mdi-close</v-icon>
+        </v-col>
+        <hr />
+        <v-col>
           <p id="top">연결고리</p>
           <v-btn text id="under" style="margin-top: 5px" @click="goHome()"
             >연결고리 홈</v-btn
@@ -41,6 +45,11 @@
             >외모로 연결</v-btn
           >
           <v-btn text id="under" @click="goMind()">마음으로 연결</v-btn>
+        </v-col>
+        <hr />
+        <v-col>
+          <p id="top">채팅</p>
+          <v-btn text id="under" style="margin-top: 5px; margin-bottom: 5px" @click="goChat()">대화하기</v-btn>
         </v-col>
       </div>
     </v-navigation-drawer>
@@ -215,6 +224,20 @@
         </v-row>
       </v-container>
     </v-app-bar>
+
+    <v-snackbar
+      v-model="alert"
+      top
+      flat
+      color="#f1f3f5"
+      rounded="pill"
+      :timeout="1500"
+      class="snack-bar"
+    >
+      <span class="snack-text">
+        {{ message }}
+      </span>
+    </v-snackbar>
   </div>
 </template>
 
@@ -245,6 +268,9 @@ export default {
     },
   },
   data: () => ({
+    matchId: "",
+    alert: false,
+    message: "",
     isMain:false,
     drawer: null,
     btnItems: [
@@ -299,11 +325,33 @@ export default {
     goMind() {
       this.$router.push("/mindQuestion").catch(() => {});
     },
+    getMatchId() {
+      this.$axios
+        .get(
+          `http://matching.169.56.100.104.nip.io/match/matching/matchId/${this.store.user.userId}`,
+        )
+        .then((response) => {
+          this.matchId = response.data;
+        });
+    },
+    goChat() {
+      if (!this.matchId) {
+        this.message = "매칭된 상대가 없어요!";
+        this.alert = true;
+      }
+      else {
+        this.$router.push("/chat").catch(() => {});
+      }
+    },
+    toggleDrawer() {
+      this.drawer = !this.drawer
+    }
   },
-  created() {
-    loadUser(localStorage.getItem("userId"));
+  async created() {
+    await loadUser(localStorage.getItem("userId"));
     if(this.page=="Main") this.isMain=true
     else this.isMain=false
+    await this.getMatchId();
   },
 };
 </script>
@@ -344,5 +392,19 @@ export default {
 
 hr {
   margin: 10px;
+}
+
+
+.snack-bar {
+  align-items: center;
+  margin-top: 70px;
+  font-size: 20px;
+  text-align: center;
+}
+
+.snack-text {
+  text-align: center;
+  display: flex;
+  justify-content: center;
 }
 </style>
