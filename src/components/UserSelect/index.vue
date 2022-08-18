@@ -41,7 +41,7 @@
 
 <script>
 import { useAppStore } from "../../store/userState";
-import { loadUser, loadMydata } from "../../worker/user";
+import { loadUser, loadMydata, loadUserAndMyData } from "../../worker/user";
 
 export default {
   setup() {
@@ -58,10 +58,13 @@ export default {
   methods: {
     async onSubmitForm() {
       if (this.check()) {
-        this.userId =this.userId.substring(0, 4) + parseInt(this.userId.substring(4, this.userId.length));
+        this.userId =
+          this.userId.substring(0, 4) +
+          parseInt(this.userId.substring(4, this.userId.length));
         localStorage.setItem("userId", this.userId);
-        await loadUser(localStorage.getItem("userId"));
-        await loadMydata(localStorage.getItem("userId"));
+        // await loadUser(localStorage.getItem("userId"));
+        // await loadMydata(localStorage.getItem("userId"));
+        await loadUserAndMyData(this.userId);
         this.$router.push("/myDataAgree").catch(() => {});
       } else {
         this.alert = true;

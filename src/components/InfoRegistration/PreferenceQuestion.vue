@@ -3,7 +3,7 @@
         <MenuBar page="PreferenceQuestion" />
         <div class="quiz-main" v-for="(element, index) in questions.slice(a,b)" :key="index" style="margin-left: 20px; margin-right: 20px; height:100%;">
 
-            <v-progress-linear id="progressBar" rounded v-model="percentage" style="width:100%; border-radius:20px;" height="30" color="#8452f7" >
+            <v-progress-linear id="progressBar" rounded :value="percentage" style="width:100%; border-radius:20px;" height="30" color="#8452f7" >
                 <strong style="color: white;"> {{ percentage }}%</strong>
             </v-progress-linear>
                 
