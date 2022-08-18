@@ -20,7 +20,7 @@
           <div class="box-wrapper">
             <ChatRoomMessageBox
               :message="message"
-              :onLeft="message.userId === receiver.userId"
+              :onLeft="message.userId !== userId"
             />
             <!-- <ChatRoomTimeIndicator :date="message.createdDate" /> -->
           </div>
@@ -40,11 +40,12 @@ import dayjs from "dayjs";
 import { useAppStore } from "@/store/userState";
 
 import MenuBar from "@/components/_common/MenuBar.vue";
-import ChatRoomMyProfile from "./_components/ChatRoomMyProfile.vue";
+// import ChatRoomMyProfile from "./_components/ChatRoomMyProfile.vue";
 import ChatRoomDateDivider from "./_components/ChatRoomDateDivider.vue";
 import ChatRoomMessageBox from "./_components/ChatRoomMessageBox.vue";
 import ChatRoomMessageInput from "./_components/ChatRoomMessageInput.vue";
-import { fetchMatchId } from "./_worker/api";
+import { fetchChatCompanionId, fetchMatchId } from "./_worker/api";
+import { fetchPackUserAndMyData } from "./_worker/user";
 
 export default {
   name: "ChatRoom",
@@ -57,6 +58,7 @@ export default {
       messages: [],
       user: {},
       receiver: {},
+      userId: localStorage.getItem("userId"),
       showMore: false,
     };
   },
@@ -64,13 +66,13 @@ export default {
     this.connectSocket();
   },
   created() {
-    console.log("!!!", localStorage.getItem("userId"));
-    this.prepareUser(localStorage.getItem("userId"));
+    // this.userId = this.store.user.userId;
+    this.prepareUser(this.usreId);
   },
   watch: {},
   components: {
     MenuBar,
-    ChatRoomMyProfile,
+    // ChatRoomMyProfile,
     ChatRoomMessageBox,
     ChatRoomDateDivider,
     ChatRoomMessageInput,
@@ -81,17 +83,21 @@ export default {
     //   this.receiver = await fetchPackUserAndMyData(receiverId);
     //   console.log(this.user.user.userId, this.receiver.user.userId);
     // },
-    async prepareUser(userId) {
-      this.matchId = await fetchMatchId(userId);
+    async prepareUser() {
+      this.matchId = await fetchMatchId(this.userId);
+      this.receiverId = await fetchChatCompanionId({
+        matchId: this.matchId,
+        userId: this.userId,
+      });
+      this.receiver = await fetchPackUserAndMyData(this.userId);
+      console.log(this.userId, this.matchId, this.receiverId, this.receiver);
       // this.receiverId = await fetchReceiverId(userId);
       // this.receiver = await fetchPackUserAndMyData(this.receiverId);
-      console.log(this.matchId);
     },
     addSentMessage(sentMessageContent) {
-      const { userId } = this.user.user;
       const message = {
         matchId: this.matchId,
-        userId,
+        userId: this.userId,
         content: sentMessageContent,
         createdDate: dayjs().format("YYYYMMDDHHmmss"),
       };
@@ -100,6 +106,7 @@ export default {
         ...message,
         messageId: this.messages ? this.messages.length : 0,
       });
+
       this.stompClient.send(
         `/app/chat.sendMessage/${this.matchId}`,
         JSON.stringify(message),
@@ -125,7 +132,7 @@ export default {
           this.stompClient.subscribe(`/topic/${this.matchId}`, (res) => {
             const receivedMessage = JSON.parse(res.body);
             console.log(receivedMessage);
-            if (receivedMessage.userId !== this.store.user.userId) {
+            if (receivedMessage.userId !== this.userId) {
               this.messages.push(receivedMessage);
             }
           });
@@ -137,8 +144,7 @@ export default {
       );
     },
     connectCheckReadSocket(matchId) {
-      const CHAT_TARGET =
-        `http://matching.169.56.100.104.nip.io/chat.updateReadMessage/${matchId}`;
+      const CHAT_TARGET = `http://matching.169.56.100.104.nip.io/chat.updateReadMessage/${matchId}`;
       // const matchId = 1;
 
       const chatSocket = new SockJS(CHAT_TARGET);
@@ -155,7 +161,7 @@ export default {
           this.stompClient.subscribe(`/topic/${this.matchId}`, (res) => {
             const receivedMessage = JSON.parse(res.body);
             console.log(receivedMessage);
-            if (receivedMessage.userId !== this.store.user.userId) {
+            if (receivedMessage.userId !== this.userId) {
               this.messages.push(receivedMessage);
             }
           });

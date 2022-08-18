@@ -7,6 +7,8 @@ import router from './router'
 
 import { createPinia, PiniaVuePlugin } from 'pinia'
 
+document.title = '연결고리';
+
 const pinia = createPinia()
 Vue.use(PiniaVuePlugin)
 Vue.config.productionTip = false

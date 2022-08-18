@@ -1,7 +1,10 @@
 <template>
   <div class="wrapper" :style="cssVariables">
     <div class="chat-input-wrapper">
-      <AddSVG class="chat-add-icon" @click="toggleMore" />
+      <v-icon class="add-icon" style="height: 24px" @click="toggleMore"
+        >{{ addIcon }}
+      </v-icon>
+      <!-- <AddSVG class="chat-add-icon" @click="toggleMore" /> -->
       <input
         type="textarea"
         placeholder="메세지를 입력하세요."
@@ -9,16 +12,18 @@
         @keyup.enter="confirmText($event)"
         ref="textInput"
       />
-      <SendSVG class="chat-send-icon" @click="confirmText" />
+      <v-icon class="send-icon" style="height: 24px" @click="confirmText">{{
+        sendIcon
+      }}</v-icon>
+      <!-- <SendSVG class="chat-send-icon" @click="confirmText" /> -->
     </div>
     <ChatRoomMoreContent v-if="showMore" />
   </div>
 </template>
 
 <script>
-import AddSVG from "@/assets/icons/add.svg";
-import SendSVG from "@/assets/icons/send.svg";
 import ChatRoomMoreContent from "./ChatRoomMoreContent.vue";
+import { mdiSend, mdiPlusCircleOutline } from "@mdi/js";
 
 export default {
   name: "ChatRoomMessageInput",
@@ -26,6 +31,8 @@ export default {
     return {
       text: "",
       showMore: false,
+      sendIcon: mdiSend,
+      addIcon: mdiPlusCircleOutline,
     };
   },
   computed: {
@@ -49,8 +56,8 @@ export default {
     },
   },
   components: {
-    AddSVG,
-    SendSVG,
+    // AddSVG,
+    // SendSVG,
     ChatRoomMoreContent,
   },
   mounted() {
@@ -62,28 +69,31 @@ export default {
 <style lang="scss" scoped>
 .wrapper {
   position: absolute;
-  bottom: 0;
+  bottom: 10px;
   height: var(height);
   transition: height 150ms;
 }
+
 .chat-input-wrapper {
   width: 100%;
   height: 60px;
   display: flex;
   justify-content: center;
+  align-items: center;
+  padding: 0 10px;
   background-color: colors.$GRAY2;
   z-index: 51;
 }
 
 svg {
   transform: scale(-50%);
-  border-radius: 50%;
-  transition: background-color 100ms;
+  /* border-radius: 50%; */
+  /* transition: background-color 100ms; */
   cursor: pointer;
 
-  &:hover {
+  /* &:hover {
     background-color: colors.$GRAY3;
-  }
+  } */
 }
 
 button {
@@ -92,22 +102,20 @@ button {
   margin: 10px 0;
   all: unset;
   cursor: pointer;
-  transition: background-color 100ms;
+  /* transition: background-color 100ms; */
 
-  &:hover {
+  /* &:hover {
     background-color: #fefefe;
     border-radius: 50%;
-  }
+  } */
 }
 
 input[type="textarea"] {
   border: none;
   height: 28px;
   width: calc(100% - 70px);
-  margin-bottom: 0;
-  margin-top: 10px;
-  margin-right: 12px;
-  padding-left: 10px;
+  margin: 10px;
+  padding: 0 10px;
   border-radius: 10px;
   background-color: colors.$GRAY3;
   font-size: 14px;
