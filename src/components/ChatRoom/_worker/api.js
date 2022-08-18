@@ -16,7 +16,7 @@ export const fetchPrevList = async ({ matchId, startRow, rowNum }) => {
 
 export const fetchReceiverId = async (userId) => {
   const response = await axios.get(
-    `${API_URL_BASE}/match/matching/receiverId/${userId}`
+    `${API_URL_BASE}/match/matching/receivers/${userId}`
   )
   return response.data;
 }

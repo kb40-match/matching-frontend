@@ -103,7 +103,7 @@ button {
 input[type="textarea"] {
   border: none;
   height: 28px;
-  width: calc(100% - 50px);
+  width: calc(100% - 70px);
   margin-bottom: 0;
   margin-top: 10px;
   margin-right: 12px;

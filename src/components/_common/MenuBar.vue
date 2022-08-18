@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div class="menu-bar-wrapper">
     <v-navigation-drawer
       v-if="!$vuetify.breakpoint.smAndUp"
       v-model="drawer"
       :clipped="$vuetify.breakpoint.lgAndUp"
       app
       dark
-      style="background-color: #f1f3f5"
+      style="background-color: #f1f3f5; padding-left: 20px;"
     >
       <div style="padding-top: 50px">
         <v-col>
@@ -143,6 +143,15 @@
             <v-icon dark large @click="goBack()">mdi-chevron-left</v-icon>
             <div style="color: white; font-size: 18px; margin-left: 10px">
               상세 정보
+            </div>
+          </div>
+          <div
+            v-if="page == 'ChatRoom'"
+            style="margin-left: 5px; display: flex; align-items: center"
+          >
+            <v-icon dark large @click="goBack()">mdi-chevron-left</v-icon>
+            <div style="color: white; font-size: 18px; margin-left: 10px">
+              채팅하기
             </div>
           </div>
 
@@ -299,7 +308,7 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
 .v-toolbar__content {
   padding: 0px;
 }

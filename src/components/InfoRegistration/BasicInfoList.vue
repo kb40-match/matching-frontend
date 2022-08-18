@@ -14,7 +14,7 @@
       "
     >
       <v-progress-linear
-        v-model="percent"
+        :value="percent"
         color="#8452f7"
         height="30"
         rounded
@@ -134,8 +134,6 @@ export default {
     return {
       user_id: localStorage.getItem("userId"),
       percent: 0,
-      // user:{},
-      // myData:{},
       hobbyItems: [
         "스포츠/피트니스",
         "어학",
@@ -213,6 +211,10 @@ export default {
       var regexp = /\B(?=(\d{3})+(?!\d))/g;
       return price.toString().replace(regexp, ",");
     },
+    preventProgressClick(event) {
+      console.log(event);
+      event.preventDeault();
+    },
   },
   created() {
     console.log(this.store.user);
@@ -276,5 +278,6 @@ span {
 
 .v-progress-linear__buffer {
   user-select: none;
+  pointer-events: none;
 }
 </style>
