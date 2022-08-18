@@ -8,8 +8,7 @@
         style="background-color: rgba(255, 255, 255, 0.5)"
       >
         <v-layout justify-center align-center>
-          <v-progress-circular indeterminate color="primary">
-          </v-progress-circular>
+          <img id="loading" src="@/assets/starfriends_gift.gif" alt="Loading" />
         </v-layout>
       </v-container>
     </v-dialog>
@@ -84,6 +83,7 @@
           text
           @click="goNextQuestion"
           rounded
+          :disabled=check()
           dark
           style="
             height: 50px;
@@ -157,6 +157,12 @@ export default {
         this.b++;
       }
     },
+    check(){
+            if(!this.clickedLeft && !this.clickedRight){
+                return true
+            }else
+                return false
+    }
   },
   beforeMount() {
     this.$axios
@@ -235,6 +241,11 @@ export default {
 #nextBtn {
   color: white;
   font-size: 24px;
+}
+
+#loading {
+  height: 300px;
+  width: 300px;
 }
 
 .selected {
