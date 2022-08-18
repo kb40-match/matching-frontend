@@ -84,6 +84,7 @@
           text
           @click="goNextQuestion"
           rounded
+          :disabled=check()
           dark
           style="
             height: 50px;
@@ -157,6 +158,12 @@ export default {
         this.b++;
       }
     },
+    check(){
+            if(!this.clickedLeft && !this.clickedRight){
+                return true
+            }else
+                return false
+    }
   },
   beforeMount() {
     this.$axios
