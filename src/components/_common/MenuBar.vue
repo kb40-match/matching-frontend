@@ -357,6 +357,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.menu-bar-wrapper {
+  position: absolute;
+  z-index: 1000;
+}
+
 .v-toolbar__content {
   padding: 0px;
 }

@@ -44,7 +44,11 @@ import MenuBar from "@/components/_common/MenuBar.vue";
 import ChatRoomDateDivider from "./_components/ChatRoomDateDivider.vue";
 import ChatRoomMessageBox from "./_components/ChatRoomMessageBox.vue";
 import ChatRoomMessageInput from "./_components/ChatRoomMessageInput.vue";
-import { fetchChatCompanionId, fetchMatchId } from "./_worker/api";
+import {
+  fetchChatCompanionId,
+  fetchMatchId,
+  fetchPrevList,
+} from "./_worker/api";
 import { fetchPackUserAndMyData } from "./_worker/user";
 
 export default {
@@ -90,7 +94,16 @@ export default {
         userId: this.userId,
       });
       this.receiver = await fetchPackUserAndMyData(this.userId);
+
+      this.messages = (await fetchPrevList(this.matchId)).map(
+        (message, idx) => ({
+          ...message,
+          messageId: idx,
+        }),
+      );
+
       console.log(this.userId, this.matchId, this.receiverId, this.receiver);
+      console.log(this.messages);
       // this.receiverId = await fetchReceiverId(userId);
       // this.receiver = await fetchPackUserAndMyData(this.receiverId);
     },
@@ -116,7 +129,6 @@ export default {
     connectSocket() {
       const CHAT_TARGET =
         "http://matching.169.56.100.104.nip.io/websocket-server/ws";
-      // const matchId = 1;
 
       const chatSocket = new SockJS(CHAT_TARGET);
 
@@ -133,7 +145,10 @@ export default {
             const receivedMessage = JSON.parse(res.body);
             console.log(receivedMessage);
             if (receivedMessage.userId !== this.userId) {
-              this.messages.push(receivedMessage);
+              this.messages.push({
+                ...receivedMessage,
+                messageId: this.messages.length,
+              });
             }
           });
         },
@@ -145,7 +160,6 @@ export default {
     },
     connectCheckReadSocket(matchId) {
       const CHAT_TARGET = `http://matching.169.56.100.104.nip.io/chat.updateReadMessage/${matchId}`;
-      // const matchId = 1;
 
       const chatSocket = new SockJS(CHAT_TARGET);
 
@@ -179,13 +193,14 @@ export default {
 <style scoped>
 .wrapper {
   width: 100vw;
-  height: 100%;
+  height: 100vh;
   overflow: hidden;
 }
 
 main {
-  height: calc(100% - 58px);
+  height: calc(100vh - 58px);
   overflow-y: scroll;
+  padding: 40px 0;
 }
 
 .message-wrapper {
