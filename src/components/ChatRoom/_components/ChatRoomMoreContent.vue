@@ -1,23 +1,66 @@
 <template>
   <div class="more-wrapper">
     <div class="row-recommendations">
-      <div class="recommendation">관심사 추천</div>
-      <div class="recommendation">장소 추천</div>
+      <div class="recommendation" @click="goRecommend">관심사 추천</div>
+      <div class="recommendation" @click="goRecommend">장소 추천</div>
     </div>
     <button type="button" class="leave" @click="leaveChatRoom">
       대화 종료
     </button>
+
+    <v-snackbar
+      v-model="alert"
+      top
+      flat
+      color="#f1f3f5"
+      rounded="pill"
+      :timeout="1500"
+      class="snack-bar"
+    >
+      <span class="snack-text">
+        {{ message }}
+      </span>
+    </v-snackbar>
   </div>
 </template>
 
 <script>
+import { rejectChat } from "../../../worker/user"
+import { useAppStore } from "@/store/userState";
+import { loadMatchObject } from "../../../worker/user";
+ 
 export default {
-  name: "ChatRoomMoreContent",
+  setup() {
+    const store = useAppStore();
+    return { store };
+  },
+  data() {
+    return {
+      name: "ChatRoomMoreContent",
+      message: "",
+      alert: false,
+    }
+  },  
   methods: {
     leaveChatRoom() {
+
+      // call reject
+      this.store.match.activeFlag = 2
+      rejectChat()
+
       this.$router.push('/');
     },
+    goRecommend() {
+      console.log("goRecommend")
+      this.message = "준비중입니다.";
+      this.alert = true;
+    }
   },
+  async created() {
+    // fetch match object
+      console.log(localStorage.getItem("userId"))
+      await loadMatchObject(localStorage.getItem("userId"))
+  }
 };
 </script>
 
