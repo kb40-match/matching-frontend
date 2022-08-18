@@ -1,7 +1,8 @@
 <template>
   <div v-if="this.store.user">
-    <MenuBar page="Main" :transparent="false"/>
-    <div id = "box-main"
+    <MenuBar page="Main" :transparent="false" />
+    <div
+      id="box-main"
       style="
         height: 200px;
         /* background-color: #845ef7; */
@@ -155,16 +156,21 @@ export default {
         });
     },
     goChat() {
-      this.$router.push("/chat").catch(() => {});
+      if (this.matchId !== "false") {
+        this.$router.push("/chat").catch(() => {});
+      } else {
+        this.message = "매칭된 상대가 없습니다 :(";
+        this.alert = true;
+      }
     },
     goService() {
       this.message = "준비중입니다.";
       this.alert = true;
     },
   },
-  async created() {
-    await loadUser(localStorage.getItem("userId"));
-    await this.getMatchId();
+  created() {
+    loadUser(localStorage.getItem("userId"));
+    this.getMatchId();
   },
 };
 </script>
@@ -227,9 +233,9 @@ img {
   width: 25px;
   height: 25px;
 }
- 
+
 #box-main {
-  background: linear-gradient(-270deg, #5271C4 0%, #B19FFF 48%, #ECA1FE 100%);
+  background: linear-gradient(-270deg, #5271c4 0%, #b19fff 48%, #eca1fe 100%);
 }
 
 .bottom_menu {

@@ -44,7 +44,11 @@ import MenuBar from "@/components/_common/MenuBar.vue";
 import ChatRoomDateDivider from "./_components/ChatRoomDateDivider.vue";
 import ChatRoomMessageBox from "./_components/ChatRoomMessageBox.vue";
 import ChatRoomMessageInput from "./_components/ChatRoomMessageInput.vue";
-import { fetchChatCompanionId, fetchMatchId } from "./_worker/api";
+import {
+  fetchChatCompanionId,
+  fetchMatchId,
+  fetchPrevList,
+} from "./_worker/api";
 import { fetchPackUserAndMyData } from "./_worker/user";
 
 export default {
@@ -90,7 +94,9 @@ export default {
         userId: this.userId,
       });
       this.receiver = await fetchPackUserAndMyData(this.userId);
+      this.messages = await fetchPrevList(this.matchId);
       console.log(this.userId, this.matchId, this.receiverId, this.receiver);
+      console.log(this.messages);
       // this.receiverId = await fetchReceiverId(userId);
       // this.receiver = await fetchPackUserAndMyData(this.receiverId);
     },
