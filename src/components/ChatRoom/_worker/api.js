@@ -30,7 +30,7 @@ export const fetchMatchId = async (userId) => {
 
 export const fetchChatCompanionId = async ({ matchId, userId }) => {
   const response = await axios.get(
-    `${API_URL_BASE}/chatting/${matchId}/${userId}`
+    `${API_URL_BASE}/kafka-server/chatting/${matchId}/${userId}`
   )
   return response.data;
 }
