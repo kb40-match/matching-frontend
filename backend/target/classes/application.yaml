@@ -1,0 +1,35 @@
+server:
+  port: ${SPRINGBOOT_SERVER_PORT:8081}
+  servlet:
+    context-path: ${SERVLET_CONTEXT_PATH:/match}
+
+spring:
+  application:
+    name: matching
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://matching.169.56.100.104.nip.io:30503/matching?useUnicode=true&characterEncoding=utf-8
+    username: ${DB_USERNAME:admin}
+    password: ${DB_PASSWORD:passw0rd}
+    hikari:
+      connection-timeout: 5000
+      validation-timeout: 1000
+      maximum-pool-size: 30
+      minimum-idle: 2
+      connection-test-query: SELECT 1
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
+
+mybatis:
+  mapper-locations: classpath:mapper/**/*Mapper.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    default-fetch-size: 100
+    default-statement-timeout: 30 
+  type-aliases-package: com.matching.kb40.backend
+
+#Parameter
+
+

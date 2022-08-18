@@ -59,6 +59,7 @@ export default new VueRouter({
       path: "/basicInfoList",
       name: "BasicInfoList",
       component: BasicInfoList,
+      props: true,
     },
     {
       path: "/myDataAgree",
