@@ -22,9 +22,9 @@ export default {
   },
   watch: {
     user() {
-      console.log(this.user)
-    }
-  }
+      console.log(this.user);
+    },
+  },
 };
 </script>
 
@@ -52,11 +52,10 @@ export default {
     font-weight: 700;
     font-size: 17px;
   }
-  
+
   p {
     font-weight: 300;
     font-size: 12px;
   }
 }
-
 </style>

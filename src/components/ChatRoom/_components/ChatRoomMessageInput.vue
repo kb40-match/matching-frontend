@@ -50,6 +50,8 @@ export default {
       this.text = event.target.value;
     },
     confirmText() {
+      if (this.text.length === 0) return;
+
       this.$emit("sentMessageContent", this.text);
       this.text = "";
       this.$refs.textInput.value = "";
@@ -69,14 +71,14 @@ export default {
 <style lang="scss" scoped>
 .wrapper {
   position: absolute;
-  bottom: 10px;
+  bottom: 0;
   height: var(height);
   transition: height 150ms;
 }
 
 .chat-input-wrapper {
   width: 100%;
-  height: 60px;
+  height: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -111,8 +113,10 @@ button {
 }
 
 input[type="textarea"] {
+  all: unset;
+  position: relative;
   border: none;
-  height: 28px;
+  height: 30px;
   width: calc(100% - 70px);
   margin: 10px;
   padding: 0 10px;

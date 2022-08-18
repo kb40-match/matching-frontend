@@ -3,7 +3,7 @@
     <MenuBar page="ChatRoom" />
     <ChatRoomMyProfile :user="receiver" />
     <main>
-      <div class="messages">
+      <div class="messages" ref="messages">
         <div
           class="message-wrapper"
           v-for="message in this.messages"
@@ -64,6 +64,7 @@ export default {
       receiver: {},
       userId: localStorage.getItem("userId"),
       showMore: false,
+      lastChatElm: null,
     };
   },
   mounted() {
@@ -73,7 +74,15 @@ export default {
     // this.userId = this.store.user.userId;
     this.prepareUser(this.usreId);
   },
-  watch: {},
+  watch: {
+    messages() {
+      // 화면에 추가된 후 동작하도록
+      this.$nextTick(() => {
+        const mmm = this.$refs.messages;
+        mmm.scrollTo({ top: mmm.scrollHeight, behavior: "smooth" });
+      });
+    },
+  },
   components: {
     MenuBar,
     // ChatRoomMyProfile,
@@ -87,6 +96,10 @@ export default {
     //   this.receiver = await fetchPackUserAndMyData(receiverId);
     //   console.log(this.user.user.userId, this.receiver.user.userId);
     // },
+    scroll() {
+      // const main = document.querySelector("main");
+      // main.scrollTop = main.scrollHeight;
+    },
     async prepareUser() {
       this.matchId = await fetchMatchId(this.userId);
       this.receiverId = await fetchChatCompanionId({
@@ -95,15 +108,27 @@ export default {
       });
       this.receiver = await fetchPackUserAndMyData(this.userId);
 
-      this.messages = (await fetchPrevList(this.matchId)).map(
-        (message, idx) => ({
+      this.messages = (await fetchPrevList(this.matchId))
+        .reverse()
+        .map((message, idx) => ({
           ...message,
           messageId: idx,
-        }),
-      );
+        }));
 
       console.log(this.userId, this.matchId, this.receiverId, this.receiver);
       console.log(this.messages);
+
+      // this.scrollToBottom();
+
+      // console.log(this.$refs.refMain.scrollHeight);
+
+      const main = document.querySelector("main");
+      console.dir(main);
+      main.scrollTop = main.scrollHeight;
+
+      // const lastChild = document.querySelector('.messages').children;
+      // console.log(lastChild);
+
       // this.receiverId = await fetchReceiverId(userId);
       // this.receiver = await fetchPackUserAndMyData(this.receiverId);
     },
@@ -200,7 +225,7 @@ export default {
 main {
   height: calc(100vh - 58px);
   overflow-y: scroll;
-  padding: 40px 0;
+  /* padding: 40px 0; */
 }
 
 .message-wrapper {
@@ -209,7 +234,8 @@ main {
 }
 
 .messages {
-  height: calc(100% - 126px);
+  height: 100%;
+  overflow: auto;
 }
 
 h1 {
