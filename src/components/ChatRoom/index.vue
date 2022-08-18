@@ -2,7 +2,7 @@
   <div class="wrapper">
     <MenuBar page="ChatRoom" />
     <ChatRoomMyProfile :user="receiver" />
-    <main ref="mainRef">
+    <main>
       <div class="messages">
         <div
           class="message-wrapper"
@@ -10,7 +10,11 @@
           :key="message.messageId"
         >
           <ChatRoomDateDivider
-            v-if="message.messageId === 0"
+            v-if="
+              message.messageId === 0 ||
+              messages[message.messageId - 1].createdDate.slice(0, 8) !==
+                message.createdDate.slice(0, 8)
+            "
             :date="message.createdDate"
           />
           <div class="box-wrapper">
@@ -67,7 +71,6 @@ export default {
   },
   created() {
     // this.userId = this.store.user.userId;
-    // this.scrollToBottom();
     this.prepareUser(this.usreId);
   },
   watch: {},
@@ -83,9 +86,6 @@ export default {
     //   this.user = await fetchPackUserAndMyData(userId);
     //   this.receiver = await fetchPackUserAndMyData(receiverId);
     //   console.log(this.user.user.userId, this.receiver.user.userId);
-    // },
-    // scrollToBottom() {
-    //   this.$refs.mainRef.scrollTop(0, this.$refs.mainRef.scrollHeight);
     // },
     async prepareUser() {
       this.matchId = await fetchMatchId(this.userId);
