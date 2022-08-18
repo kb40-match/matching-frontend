@@ -145,7 +145,10 @@ export default {
             const receivedMessage = JSON.parse(res.body);
             console.log(receivedMessage);
             if (receivedMessage.userId !== this.userId) {
-              this.messages.push(receivedMessage);
+              this.messages.push({
+                ...receivedMessage,
+                messageId: this.messages.length,
+              });
             }
           });
         },
