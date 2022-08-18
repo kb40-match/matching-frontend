@@ -208,7 +208,7 @@
 <script>
 import { useAppStore } from "../../store/userState";
 import MenuBar from "../_common/MenuBar.vue";
-import { loadUser } from "@/worker/user";
+import { loadUser, setUser } from "@/worker/user";
 
 export default {
   components: {
@@ -256,6 +256,7 @@ export default {
         return;
       } else {
         this.store.user.agreeFlag = "Y";
+        setUser()
         // this.$router.push("/basicInfoList").catch(() => {});
         this.$router.push({ name: "BasicInfoList", params: { prev: "first" } });
       }
@@ -266,6 +267,7 @@ export default {
     },
   },
   created() {
+    console.log(localStorage.getItem("userId"))
     loadUser(localStorage.getItem("userId"));
   },
 };

@@ -180,6 +180,7 @@ export default {
         this.store.user.job = this.user.job;
         this.store.user.hobby = this.user.hobby;
         if (this.prev == "first") {
+          
           setUser();
           this.$router.push("/preferenceQuestion").catch(() => {});
         } else this.$router.push("/").catch(() => {});
