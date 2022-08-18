@@ -2,13 +2,15 @@
   <v-app>
     <!-- <StatusBar /> -->
     <div class="view-wrapper">
-      <router-view></router-view>
+      <router-view />
     </div>
   </v-app>
 </template>
 
 <script>
-import { loadUser, loadMydata } from "./worker/user";
+// import { loadUser, loadMydata } from "./worker/user";
+import { loadUserAndMyData } from "./worker/user";
+import router from "./router";
 // import StatusBar from "./components/_common/StatusBar.vue";
 
 export default {
@@ -17,13 +19,18 @@ export default {
   components: {
     // StatusBar,
   },
-
   data: () => ({
     //
   }),
   created() {
-    loadUser(localStorage.getItem("userId"))
-    loadMydata(localStorage.getItem("userId"))
+    // loadUser(localStorage.getItem("userId"));
+    // loadMydata(localStorage.getItem("userId"));
+    const userId = localStorage.getItem("userId");
+    console.log(userId);
+    if (!userId) router.push("/userSelect");
+    else {
+      loadUserAndMyData(userId);
+    }
   },
 };
 </script>
@@ -44,6 +51,6 @@ export default {
 
 .view-wrapper {
   height: calc(100% - 73px);
-  margin-top:70px !important;
+  margin-top: 70px !important;
 }
 </style>
