@@ -2,7 +2,7 @@
   <div style="margin-left: 20px; margin-right: 20px">
     <h1 id="guideText">유저 ID를 입력해주세요!</h1>
 
-    <div id="box-main">
+    <div id="box-index-main">
       <input
         id="text-field-userid"
         v-model="userId"
@@ -91,7 +91,7 @@ export default {
   margin-bottom: 30px;
 }
 
-#box-main {
+#box-index-main {
   display: flex;
   flex-direction: column;
   margin-top: 100px;
