@@ -49,10 +49,10 @@
       v-if="this.store.user"
       :clipped-left="$vuetify.breakpoint.lgAndUp"
       app
-      color="#845ef7"
       elevate-on-scroll
       flat
-      style="padding-top: 10px; height: 73px !important"
+      :style="cssVariables"
+      :class="{'app-bar-main':isMain, 'app-bar':!isMain}"
     >
       <v-container :class="{ 'px-0': !$vuetify.breakpoint.smAndUp }">
         <v-row
@@ -221,8 +221,22 @@ export default {
   },
   props: {
     page: String,
+    transparent: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  computed: {
+    cssVariables() {
+      return {
+        backgroundImage: this.transparent
+          ? "none"
+          : "linear-gradient(-225deg, #5271c4 0%, #b19fff 48%, #eca1fe 100%);",
+      };
+    },
   },
   data: () => ({
+    isMain:false,
     drawer: null,
     btnItems: [
       {
@@ -279,6 +293,8 @@ export default {
   },
   created() {
     loadUser(localStorage.getItem("userId"));
+    if(this.page=="Main") this.isMain=true
+    else this.isMain=false
   },
 };
 </script>
@@ -298,6 +314,23 @@ export default {
   font-size: 27px;
   color: #5f3dc4;
   font-weight: bold;
+}
+
+.app-bar-main {
+  padding-top: 10px;
+  height: 73px !important;
+  background-image: linear-gradient(-270deg, #5271c4 0%, #b19fff 48%, #eca1fe 100%);
+}
+.app-bar {
+  padding-top: 10px;
+  height: 73px !important;
+  background-image: linear-gradient(-225deg, #5271c4 0%, #b19fff 48%, #eca1fe 100%);
+}
+
+#app-bar {
+  padding-top: 10px;
+  height: 73px !important;
+  background-image: linear-gradient(-225deg, #5271c4 0%, #b19fff 48%, #eca1fe 100%);
 }
 
 hr {

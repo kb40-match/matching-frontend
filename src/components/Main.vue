@@ -1,10 +1,10 @@
 <template>
   <div v-if="this.store.user">
-    <MenuBar page="Main" />
-    <div
+    <MenuBar page="Main" :transparent="false"/>
+    <div id = "box-main"
       style="
         height: 200px;
-        background-color: #845ef7;
+        /* background-color: #845ef7; */
         padding: 5px 15px 15px 15px;
       "
     >
@@ -182,6 +182,7 @@ export default {
   box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.2);
   background-color: white;
   /* background:linear-gradient(to right bottom, #7950f2, #b197fc); */
+  /* background-image: linear-gradient(-225deg, #5271C4 0%, #B19FFF 48%, #ECA1FE 100%); */
 }
 #sub {
   margin: 20px;
@@ -228,6 +229,10 @@ img {
   width: 25px;
   height: 25px;
 }
+ 
+#box-main {
+  background: linear-gradient(-270deg, #5271C4 0%, #B19FFF 48%, #ECA1FE 100%);
+}
 
 .bottom_menu {
   position: fixed;
@@ -249,7 +254,7 @@ img {
 }
 
 #main-btn {
-  width: 47%;
+  width: 42%;
   font-size: 20px;
   height: 50px;
   border-radius: 15px;
