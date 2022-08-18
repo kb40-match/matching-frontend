@@ -1,8 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 
-// import { useAppStore } from "@/store/userState";
-
 import Main from "../components/Main";
 import FaceSelect from "../components/FaceMatching/FaceSelect";
 import FaceFinal from "../components/FaceMatching/FaceFinal";
