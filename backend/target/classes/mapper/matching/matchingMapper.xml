@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="matching">
+
+    <select id="selectCheckForInsert" parameterType="com.matching.kb40.backend.dto.MatchDto" resultType="int">
+        SELECT COUNT(*)
+          FROM matching.tb_match m
+         WHERE active_flag = '1'
+           AND (m.sender IN (#{receiver})
+                OR m.receiver IN (#{receiver}))
+    </select>
+
+    <insert id="insertForRequest" parameterType="com.matching.kb40.backend.dto.MatchDto" useGeneratedKeys="true" keyProperty="matchId">
+        INSERT INTO matching.tb_match(sender, receiver, active_flag, created_date)
+        VALUES(#{sender}, #{receiver}, #{activeFlag}, #{createdDate})
+    </insert>
+
+    <select id="selectCheckForUpdate" parameterType="com.matching.kb40.backend.dto.MatchDto" resultType="int">
+        SELECT COUNT(*)
+          FROM matching.tb_match m
+         WHERE active_flag = '1'
+           AND (m.sender IN (#{sender})
+                OR m.receiver IN (#{sender}))
+    </select>
+
+    <update id="updateForAccept" parameterType="com.matching.kb40.backend.dto.MatchDto">
+        UPDATE matching.tb_match
+           SET active_flag = '1'
+             , created_date = #{createdDate}
+         WHERE match_id = (SELECT sub_match.match_id
+                             FROM (SELECT match_id
+                                     FROM matching.tb_match
+                                    WHERE sender = #{sender}
+                                      AND receiver = #{receiver}
+                                      AND active_flag = '0'
+                                  ) sub_match
+                          )
+    </update>
+    
+    <update id="updateForOtherQuit" parameterType="com.matching.kb40.backend.dto.MatchDto">
+        UPDATE matching.tb_match m1, (SELECT sub_match.match_id
+                                        FROM (SELECT match_id
+                                                FROM matching.tb_match
+                                               WHERE active_flag = '0'
+                                                 AND (sender = #{sender}
+                                                      OR receiver = #{receiver})
+                                             ) sub_match
+                                     ) m2
+           SET m1.active_flag = '2'
+             , m1.created_date = #{createdDate}
+         WHERE m1.match_id = m2.match_id
+    </update>
+
+    <update id="updateForReject" parameterType="com.matching.kb40.backend.dto.MatchDto">
+        UPDATE matching.tb_match
+           SET active_flag = '2'
+             , created_date = #{createdDate}
+         WHERE match_id = (SELECT sub_match.match_id
+                             FROM (SELECT match_id
+                                     FROM matching.tb_match
+                                    WHERE active_flag = '0'
+                                      AND sender = #{sender}
+                                      AND receiver = #{receiver}
+                                  ) sub_match
+                          )
+    </update>
+
+    <update id="updateForFinish" parameterType="com.matching.kb40.backend.dto.MatchDto">
+        UPDATE matching.tb_match
+           SET active_flag = '2'
+             , created_date = #{createdDate}
+         WHERE match_id = (SELECT sub_match.match_id
+                             FROM (SELECT match_id
+                                     FROM matching.tb_match
+                                    WHERE active_flag = '1'
+                                      AND sender = #{sender}
+                                      AND receiver = #{receiver}
+                                  ) sub_match
+                          )
+    </update>
+
+    <select id="selectReceiverBySenderId" resultType="com.matching.kb40.backend.model.UserDataOfMatching">
+        SELECT u.*, m.active_flag, m.created_date
+          FROM matching.tb_user u LEFT JOIN matching.tb_match m ON u.user_id = m.receiver
+         WHERE m.sender = #{userId}
+         ORDER BY m.created_date
+    </select>
+
+    <select id="selectMatchingResult" resultType="com.matching.kb40.backend.model.MatchingResult">
+        SELECT 1 as num
+             , u.user_id
+             , m.name
+             , m.gender
+             , m.age
+             , m.address
+             , m.assets
+             , m.consume_ptn1
+             , m.consume_ptn2
+             , m.consume_ptn3
+             , m.invest_prop
+             , u.job
+             , u.mbti_mind
+             , u.mbti_recog
+             , u.mbti_judge
+             , u.mbti_tactics
+             , u.profile_filename
+             , u.user_point
+             , u.pet_prefer
+             , u.nickname
+             , u.agree_flag
+             , u.hobby
+             , 0 as fit_percent
+          FROM matching.tb_user u LEFT JOIN matching.tb_mydata m ON u.mydata_id = m.mydata_id
+         WHERE u.user_id = #{userId}
+    </select>
+</mapper>  
