@@ -41,7 +41,7 @@
 
 <script>
 import { useAppStore } from "../../store/userState";
-import { loadUser, loadMydata, loadUserAndMyData } from "../../worker/user";
+import { loadUserAndMyData } from "../../worker/user";
 
 export default {
   setup() {
