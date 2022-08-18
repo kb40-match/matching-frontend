@@ -94,7 +94,14 @@ export default {
         userId: this.userId,
       });
       this.receiver = await fetchPackUserAndMyData(this.userId);
-      this.messages = await fetchPrevList(this.matchId);
+
+      this.messages = (await fetchPrevList(this.matchId)).map(
+        (message, idx) => ({
+          ...message,
+          messageId: idx,
+        }),
+      );
+
       console.log(this.userId, this.matchId, this.receiverId, this.receiver);
       console.log(this.messages);
       // this.receiverId = await fetchReceiverId(userId);
